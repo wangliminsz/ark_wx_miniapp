@@ -3,7 +3,7 @@
     <image class="ark_logo" src="https://bkkschool-1304214433.cos.ap-guangzhou.myqcloud.com/1755274958051-259-ark_logo_trans.png" mode="aspectFit"></image>
   </view>
   
-  <view class="ark_title">Miracleark System</view>
+  <view class="ark_title">Miracleark System~</view>
   
   <view class="ark_links-container">
     <navigator url="/pages/home/home" class="ark_link-item" bindtap="erpTap">
