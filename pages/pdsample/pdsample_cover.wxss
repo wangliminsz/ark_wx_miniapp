@@ -1,0 +1,103 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+.logo-container {
+  margin-bottom: 100rpx;  /* Increased margin below logo */
+}
+
+.logo {
+  width: 220rpx;  /* Slightly larger logo */
+  height: 220rpx;
+}
+
+.nav-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+.nav-button {
+  margin-bottom: 30rpx;  /* Increased margin between buttons */
+  background-color: #007AFF;
+  color: white;
+  border: none;
+  border-radius: 10rpx;
+  padding: 24rpx 0;  /* Slightly taller buttons */
+  font-size: 32rpx;
+}
+
+.nav-button:last-child {
+  margin-bottom: 0;  /* Remove margin from last button */
+}
+
+.nav-button:active {
+  opacity: 0.8;
+}
+
+
+.logout-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.logout-link {
+  color: #007AFF;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+.nav-links-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.nav-link {
+  color: #007AFF;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+
+.checkbox-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  /* flex-direction: row-reverse;  */
+  /* This puts the checkbox on the right */
+}
+
+.checkbox-label {
+  margin-right: 10px; /* Adds some space between the text and the checkbox */
+  font-size: 16px; /* Adjust as needed */
+}
+
+/* Optionally, you can style the checkbox itself */
+.checkbox-wrapper checkbox {
+  transform: scale(1.2); /* Makes the checkbox slightly larger */
+}
+
+
+.switch-label {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  color: #333;
+}
+.switch-label text {
+  margin-left: 16rpx;   /* 文字与开关间距 */
+}

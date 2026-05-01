@@ -1,0 +1,384 @@
+@import "/static/css/mystyle.wxss"; 
+
+.mycontent {
+  flex: 1;
+  text-align: left;
+}
+
+.mycontent_1 {
+  /* flex: 1; */
+  display: flex;
+  flex-direction: row;
+  text-align: left;
+  justify-content: start;
+}
+
+.play-button {
+  position: absolute;
+  width: 50px; /* Adjust the size of the play button */
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+}
+
+.play-button::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 20px solid white; /* Adjust the size of the triangle */
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+}
+
+.absolute {
+  position: absolute;
+}
+.top-2 {
+  top: 0.75rem;
+}
+.left-2 {
+  left: 0.75rem;
+}
+
+.file_container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: start;
+}
+
+.file_icon-container {
+  margin: 10px;
+}
+
+.file_icon {
+  width: 40px;
+  height: 40px;
+}
+
+
+
+.bg-white-detail {
+  background-color: #fff;
+}
+
+.text-red-detail {
+  margin-right: 3px;
+  padding: 2px 5px;
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+}
+
+.text-gray-detail {
+  margin-right: 3px;
+  padding: 2px 5px;
+  background: rgb(80, 80, 80);
+  color: white;
+  border-radius: 5px;
+}
+
+.relative {
+  position: relative;
+}
+
+.w-img-container {
+  width: 100%;
+  position: relative;
+  /* width: 110px; 
+  height: 98px;  */
+}
+
+.w-img {
+  /* width: 110px; 
+  height: 98px;  */
+  width: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.bg-white {
+  background-color: #fff;
+}
+
+.text-red {
+  margin-right: 3px;
+  padding: 2px 5px;
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+}
+
+.myflex_column_01 {
+  display: flex;
+  flex-direction: column;
+  /* margin-top: 10px; */
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  /* padding-bottom: 20px; */
+  /* border-radius: 4px; */
+  /* border: 1px solid rgb(160, 160, 160); */
+  /* justify-content: space-between; */
+}
+
+.myflex_row_01 {
+  display: flex;
+  flex-direction: row;
+  border-radius: 4px;
+  justify-content: space-between;
+}
+
+.myflex_row_02 {
+  display: flex;
+  flex-direction: row;
+  border-radius: 4px;
+  justify-content: start;
+  align-items: baseline;
+}
+
+.myflex_row_02_1 {
+  margin: 15px;
+  display: flex;
+  flex-direction: row;
+  border-radius: 4px;
+  justify-content: start;
+  align-items: center;
+}
+
+.myflex_row_03 {
+  margin: 15px;
+  display: flex;
+  flex-direction: row;
+  border-radius: 4px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.myflex_row_04 {
+  display: flex;
+  flex-direction: row;
+  border-radius: 4px;
+  justify-content: start;
+  align-items: center;
+}
+
+.my_row {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  justify-content: space-between;
+}
+
+.mylabel {
+  min-width: 100px; /* Adjust this width according to your needs */
+  font-weight: normal;
+}
+
+.svg-icon {
+  width: 25px; /* Adjust the size as needed */
+  height: 25px; /* Adjust the size as needed */
+}
+
+
+
+
+
+
+
+.container {
+  padding: 20px;
+}
+
+.property-details {
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.description {
+  margin-top: 10px;
+}
+
+.price, .bedroom, .toilet, .size, .address {
+  margin-top: 5px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.picture-scroll {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+}
+
+.picture {
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+}
+
+.facility, .surrounding {
+  margin-top: 5px;
+}
+
+
+
+
+
+/* ai GPT ~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
+
+/* You can move the styles from the inline styles to your WXSS file for better maintainability */
+.max-w-md {
+  max-width: 28rem;
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.bg-white {
+  background-color: #ffffff;
+}
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.w-full {
+  width: 100%;
+}
+.h-48 {
+  height: 12rem;
+}
+.object-cover {
+  object-fit: cover;
+}
+
+.right-2 {
+  right: 0.75em;
+}
+.text-gray-800 {
+  color: #2d3748;
+}
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+.rounded-full {
+  border-radius: 9999px;
+}
+.p-4 {
+  padding: 0.65rem;
+}
+.flex {
+  display: flex;
+}
+.items-center {
+  align-items: center;
+}
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.ml-5 {
+  margin-left: 0.5rem;
+}
+
+.bg-red-500 {
+  background-color: #f56565;
+}
+.text-white {
+  color: #ffffff;
+}
+.mr-2 {
+  margin-right: 0.5rem;
+}
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.text-lg {
+  font-size: 1.11rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.text-90-percent {
+  font-size: 0.9rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+.bg-blue-50 {
+  background-color: #ebf8ff;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+.text-red-500 {
+  color: #f56565;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.text-gray-500 {
+  color: #a0aec0;
+}

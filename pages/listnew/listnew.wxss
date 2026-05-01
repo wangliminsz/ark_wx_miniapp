@@ -1,0 +1,18 @@
+@import "/static/css/mystyle.wxss"; 
+
+@import "/pages/listpage/listpage.wxss"; 
+
+.myflex_column_01_new {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  /* padding-top: 20px; */
+  /* padding-bottom: 20px; */
+  border-radius: 4px;
+  border: 1px solid rgb(160, 160, 160);
+  /* justify-content: space-between; */
+}

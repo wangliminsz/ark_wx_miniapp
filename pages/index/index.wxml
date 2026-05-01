@@ -1,0 +1,27 @@
+<view class="ark_container">
+  <view class="ark_logo-container">
+    <image class="ark_logo" src="https://bkkschool-1304214433.cos.ap-guangzhou.myqcloud.com/1755274958051-259-ark_logo_trans.png" mode="aspectFit"></image>
+  </view>
+  
+  <view class="ark_title">Miracleark System</view>
+  
+  <view class="ark_links-container">
+    <navigator url="/pages/home/home" class="ark_link-item" bindtap="erpTap">
+      <text>ERP 生产信息沟通</text>
+    </navigator>
+    <view style="margin-top: 30px;"></view>
+    <navigator url="/pages/about/about" class="ark_link-item"  bindtap="sysTap">
+      <text>SYS 打样信息</text>
+    </navigator>
+    <!-- <navigator url="/pages/services/services" class="ark_link-item">
+      <text>Services</text>
+    </navigator> -->
+    <!-- <navigator url="/pages/contact/contact" class="ark_link-item">
+      <text>Contact</text>
+    </navigator> -->
+  </view>
+  
+  <view class="ark_footer">
+    <text>© 2025 Miracleark</text>
+  </view>
+</view>

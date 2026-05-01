@@ -1,0 +1,32 @@
+<view class="container">
+  <!-- Logo -->
+  <view class="logo-container">
+    <image class="logo" src="https://bkkschool-1304214433.cos.ap-guangzhou.myqcloud.com/1755274958051-259-ark_logo_trans.png"></image>
+  </view>
+
+  <!-- Navigation Buttons -->
+  <view class="nav-container">
+    <button class="nav-button" bindtap="onGoingTap">进 行 中</button>
+    <!-- <button class="nav-button" bindtap="pendingApprovalTap">待 批 复</button> -->
+    <button class="nav-button" bindtap="onCompletedTap">已 完 成</button>
+    <!-- <button class="nav-button" bindtap="customerListTap">客户列表</button> -->
+  </view>
+
+
+  <!-- Logout Link -->
+  <!-- <view class="logout-container">
+    <text class="logout-link" bindtap="logoutTap">退出登录</text>
+  </view> -->
+
+  <view style="margin-top:10px;"></view>
+
+  <view class="nav-links-container">
+    <!-- Return to Home Link -->
+    <text class="nav-link" bindtap="returnHomeTap">返回首页</text>
+
+    <view style="margin-top:10px;"></view>
+    <!-- Logout Link -->
+    <text class="nav-link" bindtap="logoutTap">退出登录</text>
+  </view>
+
+</view>

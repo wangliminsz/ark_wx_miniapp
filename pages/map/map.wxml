@@ -1,0 +1,23 @@
+<view class="map-container">
+  <map id="myMap" longitude="{{longitude}}" latitude="{{latitude}}" scale="14" class="map" show-location controls="{{false}}" markers="{{markers}}" bindmarkertap="handleMarkerTap">
+
+    <!-- 使用 cover-view 覆盖自定义控件 -->
+    <cover-view class="custom-control" wx:if="{{customControlVisible}}" style="left:{{controlLeft}}px;top:{{controlTop}}px;">
+      <cover-image src="/img/loc.png" />
+    </cover-view>
+
+    <cover-view class="custom-control" wx:if="{{customControlVisible}}" bindtap="onCustomControlTap" style="left:{{controlLeft_01}}px;top:{{controlTop_01}}px;">
+      <cover-image src="/img/loc_01.png" />
+    </cover-view>
+
+  </map>
+</view>
+
+<!-- <view class="btns">
+  <view class="btn btn-publish">
+    <navigator url="/pages/publish/publish">发布</navigator>
+  </view>
+  <view class="btn">
+    <navigator url="/pages/search/search">搜索</navigator>
+  </view>
+</view> -->

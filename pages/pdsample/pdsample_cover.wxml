@@ -1,0 +1,52 @@
+<view class="container">
+  <!-- Logo -->
+  <view class="logo-container">
+    <image class="logo" src="https://bkkschool-1304214433.cos.ap-guangzhou.myqcloud.com/1755274958051-259-ark_logo_trans.png"></image>
+  </view>
+
+  <!-- Chemist Checkbox -->
+  <!-- bind:change="onChemistChange" -->
+  <!-- <view style="margin-right: 10px;"></view> -->
+  <!-- <checkbox value="{{isChecked}}" checked="{{isChecked}}" bindchange="onCheckboxChange">Enable Feature</checkbox> -->
+
+  <label class="switch-label">
+    <text>by Chemist</text>
+    <view style="margin-right: 12px;"></view>
+    <switch checked="{{chemistSelected}}" bindchange="onSwitchChange" />
+  </label>
+
+  <view style="margin-bottom: 40px;"></view>
+
+  <!-- {{byChem}} -->
+  <!-- <checkbox value="{{byChem}}" bindchange="onChemistChange"></checkbox> -->
+
+  <!-- <view class="checkbox-container">
+    <view class="checkbox-wrapper">
+      <text class="checkbox-label">by Chemist</text>
+      <checkbox checked="{{byChemist}}"></checkbox>
+    </view>
+  </view> -->
+
+  <!-- Navigation Buttons -->
+  <view class="nav-container">
+    <button class="nav-button" bindtap="onGoingTap">进 行 中</button>
+    <button class="nav-button" bindtap="pendingApprovalTap">待 批 复</button>
+    <button class="nav-button" bindtap="completedTap">已 完 成</button>
+    <button class="nav-button" bindtap="customerListTap">客户列表</button>
+  </view>
+
+
+  <!-- Navigation Links Container -->
+
+  <view style="margin-top:10px;"></view>
+
+  <view class="nav-links-container">
+    <!-- Return to Home Link -->
+    <text class="nav-link" bindtap="returnHomeTap">返回首页</text>
+
+    <view style="margin-top:10px;"></view>
+    <!-- Logout Link -->
+    <text class="nav-link" bindtap="logoutTap">退出登录</text>
+  </view>
+
+</view>

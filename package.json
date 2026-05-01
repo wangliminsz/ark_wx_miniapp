@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@vant/weapp": "^1.11.7",
+    "cos-wx-sdk-v5": "^1.7.2",
+    "weui-miniprogram": "^1.5.6"
+  }
+}

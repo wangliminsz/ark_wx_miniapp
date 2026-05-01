@@ -1,0 +1,139 @@
+<wxs module="dateUtil">
+  function formatDate(dateString) {
+    if (!dateString) return '';
+
+    var parts = dateString.split(' ')[0].split('-');
+    var year = parts[0];
+    var month = parts[1];
+    var day = parts[2];
+
+    // Ensure month and day are two digits
+    month = month.length < 2 ? '0' + month : month;
+    day = day.length < 2 ? '0' + day : day;
+
+    return year + '-' + month + '-' + day;
+  }
+  module.exports = {
+    formatDate: formatDate
+  };
+</wxs>
+
+<!-- Sample Search 部分 ~~~~~~~~~~~~~~~~~~~~~~   -->
+
+<view class="school-search-container">
+
+  <view>
+    <input class="school-search-input" type="text" placeholder="Search..." bindinput="onSampleSearchInput" value="{{searchQuery}}" />
+  </view>
+
+
+  <view style="display:flex; flex-direction: row; margin-right: 5px;">
+    <view class="school-icon-container">
+      <icon type="search" size="25" bindtap="onSampleSearchGo"></icon>
+      <view style="margin-right:5px;"></view>
+      <icon type="clear" size="25" bindtap="onSampleSearchReset"></icon>
+    </view>
+
+  </view>
+
+
+</view>
+
+<!-- Sample Search 部分 ~~~~~~~~~~~~~~~~~~~~~~   -->
+
+
+<!-- 回到顶部 -->
+<view wx:if="{{showBackToTop}}" class="back-to-top" bindtap="scrollToTop">
+  <!-- <icon type="download" size="30" class="back-to-top-icon" /> -->
+  <image src="/static/images/up-arrow.svg" class="back-to-top"></image>
+</view>
+
+
+<!-- Tab 0 进行中 List-->
+<!-- class="page-content" -->
+<view>
+
+  <!-- 未完成 列表部分 -->
+  <!-- bindtap="handleClientTap" -->
+
+  <view class="school-list">
+    <view wx:for="{{sampleRecords}}" wx:key="id" wx:for-item="item" class="school-item">
+
+      <view class="school-card">
+
+        <view class="order-info">
+          <view class="order-header">
+            <view class="order-code">{{item.name}}</view>
+            <view class="order-status">{{item.state}}</view>
+          </view>
+
+          <view class="client-name">{{item.partner_id[1]}}</view>
+          <view style="margin-top: 6px;"></view>
+          <view class="order-date">{{dateUtil.formatDate(item.date_order)}}</view>
+
+          <view wx:for="{{item.order_lines}}" wx:for-item="line" wx:key="id" class="order-line-wrapper">
+
+            <view class="order-line-border">
+
+              <view class="order-line-content">
+
+                <view class="product-name" style="color: black; font-weight: 500;" bindtap="handleMyViewTap" data-line-id="{{line.id}}" data-item-id="{{item.id}}" data-if-finish="0">{{line.product_id[1]}}</view>
+                <view style="margin-top: 8px;"></view>
+                <view class="product-quantity">~ 订单数量: {{line.product_uom_qty}}</view>
+
+
+
+                <view style="margin-top: 8px;"></view>
+                <!-- {{line.if_product_finished ? 'Yes' : 'No'}} -->
+                <view class="product-finished {{line.if_product_finished ? 'finished-yes' : 'finished-no'}}">
+                  ~ 订单状态: {{line.order_line_status}}
+                </view>
+
+                <!-- part_finish_qty -->
+                <view style="margin-top: 8px;"></view>
+                <view class="product-quantity">~ 部分完成数量: {{line.part_finish_qty}}</view>
+
+                <view style="margin-top: 8px;"></view>
+                <view class="product-quantity">~ 欠单数量: {{line.product_uom_qty - line.part_finish_qty}}</view>
+
+                <view style="margin-top: 8px;"></view>
+                <view class="es-date-result">~ 预计完成时间：{{ line.localSelectedDate }} {{ line.localSelectedTime }}
+                </view>
+
+
+
+                <view style="margin-top: 8px;"></view>
+                <view class="product-quantity">~ 说明: </view>
+
+                <view style="margin-top: 8px;"></view>
+                <!-- <textarea class="es-memo-input" placeholder="Memo" value="{{line.es_finish_memo}}" bindinput="updateEsMemo" data-line-id="{{line.id}}" data-order-id="{{item.id}}"></textarea> -->
+                <text class="es-memo-text">{{line.es_finish_memo}}</text>
+
+              </view>
+
+
+
+
+
+
+            </view>
+
+
+          </view>
+
+        </view>
+
+      </view>
+
+      <!-- 底部色块 -->
+      <view class="school-card" style="background-color: #87CEEB;  border-radius: 0 0 8px 8px"></view>
+      <!-- 底部色块 -->
+
+    </view>
+  </view>
+
+  <!-- 未完成 列表部分 -->
+
+</view>
+
+<!-- Tab 0 进行中 List-->

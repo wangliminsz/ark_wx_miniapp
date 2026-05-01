@@ -1,0 +1,3 @@
+<!--pages/listnew/listnew_article.wxml-->
+<!-- <text>pages/listnew/listnew_article.wxml</text> -->
+<web-view src="{{articleUrl}}"></web-view>

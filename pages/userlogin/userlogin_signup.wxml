@@ -1,0 +1,61 @@
+<!-- login.wxml -->
+<view class="u_container">
+  <view class="header">
+    <text class="system-name">Sign Up</text>
+  </view>
+  <!-- <view class="illustration">
+      <image src="/assets/placeholder.svg" class="illustration-image" />
+    </view> -->
+  <form bindsubmit="signupUserInfo" class="form">
+
+    <view class="form-item">
+      <label for="userName">请输入名称</label>
+      <view style="margin-right: 15px;">
+        <input id="userName" name="userName" type="text" value="{{username}}" bindinput="userNameInputChange" required />
+      </view>
+    </view>
+
+    <view class="form-item">
+      <label for="userEmail">请输入邮箱</label>
+      <view style="margin-right: 15px;">
+        <input id="userEmail" name="userEmail" type="text" value="{{email}}" bindinput="emailInputChange" required />
+      </view>
+    </view>
+
+    <!-- <view class="form-item">
+      <label for="password">请输入密码</label>
+      <view style="margin-right: 15px;">
+        <input id="password" name="password" type="password" value="{{password1}}" bindinput="pass1InputChange" required />
+      </view>
+    </view> -->
+
+    <view class="form-item">
+      <label for="password">请输入密码</label>
+      <view style="margin-right: 15px;">
+        <input id="password" name="password" type="password" password="true" value="{{password}}" bindinput="pass1InputChange" required />
+      </view>
+    </view>
+
+
+    <!-- <view class="form-item">
+      <label for="password">再次输入密码</label>
+      <view style="margin-right: 15px;">
+        <input id="password" name="password" type="password" value="{{password2}}" bindinput="pass2InputChange" required />
+      </view>
+    </view> -->
+
+    <view class="form-item">
+      <label for="password">再次输入密码</label>
+      <view style="margin-right: 15px;">
+        <input id="password" name="password" type="password" password="true" value="{{password}}" bindinput="pass2InputChange" required />
+      </view>
+    </view>
+
+    <view style="margin-top: 30px;">
+      <button formType="submit" class="login-button">Sign Up</button>
+    </view>
+  </form>
+  <view class="quick-access">
+    <button class="quick-access-button" bindtap="backToLoginPage">返 回</button>
+  </view>
+</view>

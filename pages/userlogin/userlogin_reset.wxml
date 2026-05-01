@@ -1,0 +1,25 @@
+<!-- login.wxml -->
+<view class="u_container">
+  <view class="header">
+    <text class="system-name">Reset Password</text>
+  </view>
+  <!-- <view class="illustration">
+      <image src="/assets/placeholder.svg" class="illustration-image" />
+    </view> -->
+  <!-- bindsubmit="handleLogin"   -->
+  <form class="form">
+    <view class="form-item">
+      <label for="email">请输入邮箱</label>
+      <view style="margin-right: 15px;">
+        <input id="email" name="email" type="text" value="{{email}}" bindinput="handleInputChange" required />
+      </view>
+    </view>
+
+    <view style="margin-top: 30px;">
+      <button formType="submit" class="login-button" bindtap="sendRequestEmail">Send</button>
+    </view>
+  </form>
+  <view class="quick-access">
+    <button class="quick-access-button" bindtap="backToLoginPage">返 回</button>
+  </view>
+</view>

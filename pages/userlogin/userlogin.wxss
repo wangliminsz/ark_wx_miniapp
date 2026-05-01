@@ -1,0 +1,95 @@
+/* @import "/static/css/mystyle.wxss"; */
+/* @import "/static/css/pdsample.wxss"; */
+
+/* @import "/pages/landlist/landlist.wxss";  */
+@import "/pages/index/index.wxss";
+
+.ark_login-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.ark_custom-nav-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 50rpx;
+}
+
+.ark_tab-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20rpx;
+}
+
+.ark_tab-item {
+  padding: 10rpx 20rpx;
+  margin: 0 50rpx;
+  border-bottom: 2px solid transparent;
+}
+
+.ark_tab-item.active {
+  border-bottom-color: #007AFF;
+}
+
+.ark_login-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Change from space-between to flex-start */
+  padding: 20rpx 0; /* Add some padding top and bottom */
+}
+
+.ark_header {
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.ark_system-name {
+  font-size: 50rpx;
+  font-weight: normal;
+}
+
+/* .ark_form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+} */
+
+.ark_form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30rpx; /* Add margin to the bottom of the form */
+}
+
+.ark_form-item {
+  margin-bottom: 20rpx;
+}
+
+.ark_form-item label {
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.ark_form-item input {
+  width: 100%;
+  padding: 10rpx;
+  border: 1px solid #ccc;
+  border-radius: 4rpx;
+}
+
+.ark_login-button {
+  margin-top: 30rpx;
+  background-color: #007AFF;
+  color: white;
+}
+
+.ark_quick-access {
+  margin-top: 20rpx;
+}
+
+.ark_quick-access-button {
+  background-color: #f0f0f0;
+}

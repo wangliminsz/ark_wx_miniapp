@@ -1,0 +1,125 @@
+/* kbquke_house/pages/user/login.wxss */
+/* @import "../user/brokeragent.wxss"; */
+
+.user_container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+  color: #000 !important
+} 
+
+.wdxieyi{
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  font-size: 24rpx;
+  padding-left: 100rpx;
+}
+.avatar-wrapper{
+  padding: 20rpx;
+}
+.avatar-wrapper::after{
+  border: none;
+}
+.section{
+  background: #fff;
+  padding-bottom: 30rpx;
+}
+/*broker 经纪人*/
+.broker{
+  padding-left: 30rpx;
+  margin-top: 0rpx;
+}
+.broker .bd{
+   padding: 30rpx;
+}
+ .broker-head{
+    width:90rpx; height: 90rpx;
+    border-radius: 50%;
+    float: left;   
+    margin-top: 0rpx;
+}
+.broker .name{   
+  margin-left: 150rpx;
+  text-align: left;
+  vertical-align: center;
+}
+ 
+.broker .txt{
+  font-size: 18px;
+  display: inline-block;
+  width: 75%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;  
+  text-align: left;
+  margin-top: 15rpx;
+}
+/*登录方式*/
+.method{
+  padding: 60rpx;
+}
+.method .name{
+  border-bottom: 1rpx solid #dadada;
+  position: relative;
+  height: 30rpx;
+  }
+.method .txt{
+  position: absolute;
+  width: 200rpx;
+  left: 50%;
+  margin-left: -100rpx;
+  background: #fff;
+  bottom:-25rpx;
+  text-align: center;
+  color: #999;
+}
+.method .bd{
+   text-align: center;
+   padding-top: 60rpx;
+   width: 100%;
+}
+/**/
+.cp{
+  margin-top: 15rpx;
+  padding: 10rpx 30rpx 10rpx 60rpx;
+}
+.cp .bd{
+  border-bottom: #dadada 1px solid;
+}
+.line{
+   height: 90rpx;
+   line-height: 90rpx;
+}
+.line .more{
+  float: right;
+  text-align: right;
+  color: #999;
+}
+
+button[size=mini] {
+display:inline-block;
+line-height:2.3;
+font-size:13px;
+padding:0 0.75em;
+
+}
+.loginbtn{
+  background-color: #00B26A;
+  color: #fff;
+}
+
+.returnbtn{
+  background-color: #999999;
+  color: #fff;
+  
+}
+
+.link {
+  color: #007AFF;
+  display: inline;
+}

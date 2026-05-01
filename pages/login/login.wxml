@@ -1,0 +1,67 @@
+<view class='section'>
+
+  <!-- 头像和名称 -->
+  <view class='broker'>
+    <view class='bd'>
+      <image class="broker-head" src="{{userAvatarUrl}}"> </image>
+      <view class='name'>
+        <view wx:if="{{!userNickName}}" class='txt'>
+          <text>点击按钮填写信息 </text>
+        </view>
+        <view wx:else class='txt'>
+          <text>{{userNickName}} </text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- button 按钮 -->
+  <view class='method'>
+    <view class='name'>
+      <view class='txt'><text class='ft24'></text></view>
+    </view>
+
+    <!--之前 新版登录-->
+    <!-- <view class="bd">
+      <button class="loginbtn" bindtap="updateUserInfo2"> 用户授权(新版)</button>
+    </view> -->
+    <!--之前 新版登录-->
+
+    <!--之前 新版登录-->
+    <view class="bd">
+      <!-- wx:if="{{canUserGetUserProfile}}" -->
+      <button class="loginbtn" bindtap="updateUserInfo2"> 用户授权(新版)</button>
+      <view style="margin-top: 20px;"></view>
+      <button class="returnbtn" bindtap="returnToHome">返回</button>
+    </view>
+
+
+
+    <view class="user_container">
+      <navigator url="/pages/userAgreement/userAgreement" class="link">用户服务协议</navigator>
+      <navigator url="/pages/privacyPolicy/privacyPolicy" class="link">隐私政策</navigator>
+      <view style="margin-top:10px;"></view>
+      <view class="link" bindtap="onArticleLinkTap">
+        Article Link
+      </view>
+    </view>
+
+
+
+  </view>
+
+
+
+
+
+</view>
+
+
+
+<!-- <text>
+      {{userInfoExist}} \n
+      {{userOpenId}} \n
+      {{userAvatarUrl}} \n
+      {{userNickName}} \n
+      {{userMobile}}
+    </text> -->

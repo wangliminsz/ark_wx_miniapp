@@ -1,0 +1,206 @@
+<!-- 主体部分 -->
+<view wx:if="{{!isLoading}}">
+
+  <scroll-view style="margin-top: 0px; flex: 1; overflow: auto; z-index: 99;">
+
+    <!-- ~~~~~~~~~ 顶部 Title Subtitle Tags-->
+    <view style="margin: 5px; border: 1px solid #808080; border-radius: 8px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
+
+      <view class="myflex_column_01">
+
+        <!-- 顶部，蓝色类型  -->
+        <view wx:if="{{property.type}}" class="myflex_row_01">
+
+          <view class="text-black py-1 text-xs rounded">{{property.t_code}}</view>
+
+          <view class="bg-blue-600 text-white px-2 py-1 text-xs rounded">{{property.b_type_substr}}</view>
+
+        </view>
+
+        <!-- Title Subtitle-->
+        <view class="text-lg" style="margin-top: 10px; margin-bottom: 0px; color: black; ">
+          <text>{{property.title}}</text>
+        </view>
+        <view class="text-sm" style="margin-top: 5px; margin-bottom: 10px; color: black; letter-spacing:1px;">
+          <text style="letter-spacing:1px;">{{property.subtitle}}</text>
+        </view>
+
+        <!-- 标签部分 -->
+        <view class="tag-container" style="margin-bottom: 10px;">
+          <view class="tag" wx:for="{{property.tags}}" wx:key="id" wx:for-item="tag">
+            {{tag.tg_name}}
+          </view>
+        </view>
+
+      </view>
+
+
+    </view>
+
+    <!-- ~~~~~~~~~ 首页图片-->
+    <view wx:if="{{property.main_image_tencent}}" style="margin-top: 20px; margin-left: 5px; margin-right: 5px; ">
+
+      <view>
+        <!-- w-img-container -->
+        <view class="relative">
+
+          <image class="w-img" mode="widthFix" bindload="onImageLoad" src="{{property.main_image_tencent}}" bindtap="previewMainImage" alt=""></image>
+
+
+        </view>
+      </view>
+
+    </view>
+
+    <!-- ~~~~~~~~~ 分项介绍-->
+    <view style="margin: 5px; border: 1px solid #808080; border-radius: 8px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
+
+      <view wx:if="{{property.t_code}}" class="myflex_row_02_1">
+        <view class="mylabel">代码 Code：</view>
+        <view wx:if="{{property.t_code}}" class="mycontent">{{property.t_code}}.{{property.t_id}}</view>
+      </view>
+
+      <view wx:if="{{property.type}}" class="myflex_row_02_1">
+        <view class="mylabel">租/售类型：</view>
+        <view wx:if="{{property.b_type_substr}}" class="mycontent">{{property.b_type_substr}}</view>
+      </view>
+
+      <view wx:if="{{property.land_type}}" class="myflex_row_02_1">
+        <view class="mylabel">品种类型：</view>
+        <view wx:if="{{property.b_landtype_substr}}" class="mycontent">{{property.b_landtype_substr}}</view>
+      </view>
+
+      <view wx:if="{{property.area}}" class="myflex_row_02_1">
+        <view class="mylabel">土地面积：</view>
+        <view wx:if="{{property.area}}" class="mycontent">{{property.area}}</view>
+      </view>
+
+      <view wx:if="{{property.build_area}}" class="myflex_row_02_1">
+        <view class="mylabel">建筑面积：</view>
+        <view wx:if="{{property.build_area}}" class="mycontent">{{property.build_area}}</view>
+      </view>
+
+      <!-- 1 - rent -->
+      <view wx:if="{{property.type == 1 || property.type == '1'}}">
+        <view wx:if="{{property.rent_price}}" class="myflex_row_02_1">
+          <view class="mylabel">租赁价格：</view>
+          <view wx:if="{{property.rent_price}}" class="mycontent">{{property.rent_price}} 万泰铢</view>
+        </view>
+        <!-- <view wx:if="{{property.price}}" class="myflex_row_02_1">
+          <view class="mylabel">租赁单价：</view>
+          <view wx:if="{{property.price}}" class="mycontent">{{property.price}}</view>
+        </view> -->
+      </view>
+
+      <!-- 2 - sale -->
+      <view wx:if="{{property.type == 2 || property.type == '2'}}">
+        <view wx:if="{{property.sale_price}}" class="myflex_row_02_1">
+          <view class="mylabel">销售价格：</view>
+          <view wx:if="{{property.sale_price}}" class="mycontent">{{property.sale_price}} 万泰铢</view>
+        </view>
+        <view wx:if="{{property.price}}" class="myflex_row_02_1">
+          <view class="mylabel">销售单价：</view>
+          <view wx:if="{{property.price}}" class="mycontent">{{property.price}}</view>
+        </view>
+      </view>
+
+      <!-- {{property.address}} -->
+      <view wx:if="{{property.address}}" class="myflex_row_02_1">
+        <!-- <view class="mylabel">Google Map：</view> -->
+        <view wx:if="{{property.address}}" class="mycontent" bindtap="copyAddress">
+          <text class="google-map-link" bindtap="copyAddress">Google Map</text>
+        </view>
+      </view>
+
+      <view wx:if="{{property.province_name}}" class="myflex_row_02_1">
+        <view class="mylabel">所在省份：</view>
+        <view wx:if="{{property.province_name}}" class="mycontent">{{property.province_name}}</view>
+      </view>
+
+      <view wx:if="{{property.district_name}}" class="myflex_row_02_1">
+        <view class="mylabel">所在地区：</view>
+        <view wx:if="{{property.district_name}}" class="mycontent">{{property.district_name}}</view>
+      </view>
+
+      <view wx:if="{{property.install}}" class="myflex_row_02_1">
+        <view class="mylabel">设施：</view>
+        <view wx:if="{{property.install}}" class="mycontent">{{property.install}}</view>
+      </view>
+
+      <!-- <view wx:if="{{property.is_gongye_area}}" class="myflex_row_02_1"> -->
+      <view class="myflex_row_02_1">
+        <view class="mylabel">工业区：</view>
+        <!-- <view wx:if="{{property.is_gongye_area}}" class="mycontent">{{property.is_gongye_area}}</view> -->
+        <view class="mycontent">{{property.b_gongye_substr}}</view>
+      </view>
+
+      <view wx:if="{{property.color}}" class="myflex_row_02_1">
+        <view class="mylabel">土地颜色：</view>
+        <view wx:if="{{property.color}}" class="mycontent">{{property.color}}</view>
+      </view>
+
+      <view wx:if="{{property.land_status}}" class="myflex_row_02_1">
+        <view class="mylabel">土地状态：</view>
+        <view wx:if="{{property.land_status}}" class="mycontent">{{property.land_status}}</view>
+      </view>
+
+      <view wx:if="{{property.updatetime}}" class="myflex_row_02_1">
+        <view class="mylabel">更新时间：</view>
+        <view wx:if="{{property.updatetime}}" class="mycontent">{{property.updatetime}}</view>
+      </view>
+
+      <!-- <rich-text nodes="{{property.b_desc}}"></rich-text> -->
+
+      <view wx:if="{{property.describe}}" class="myflex_row_02_1">
+        <view class="mylabel">描述：</view>
+      </view>
+      <view wx:if="{{property.describe}}" class="myflex_row_02_1">
+        <view>
+          <rich-text nodes="{{property.describe}}"></rich-text>
+        </view>
+      </view>
+
+      <view wx:if="{{property.remark}}" class="myflex_row_02_1">
+        <view class="mylabel">备注：</view>
+      </view>
+
+      <view wx:if="{{property.remark}}" class="myflex_row_02_1">
+        <view>
+          <rich-text nodes="{{property.remark}}"></rich-text>
+        </view>
+      </view>
+
+    </view>
+
+    <!-- ~~~~~~~~~ 图片-->
+    <view wx:if="{{property.i_tencent_pictures.length > 0}}">
+      <view style="margin: 20px;"> 图片集</view>
+
+      <view style="margin: 5px; border: 1px solid #808080; border-radius: 8px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
+        <view style="padding: 10px">
+          <view wx:for="{{property.i_tencent_pictures}}" wx:key="index" style="width: 100%;">
+            <image style="width: 100%;" mode="widthFix" src="{{item}}" data-index="{{index}}" bindtap="previewImage" alt="">
+            </image>
+          </view>
+        </view>
+      </view>
+
+
+    </view>
+
+    <!-- ~~~~~~~~~ 地图-->
+    <view wx:if="{{property.longitute}} && {{property.latitute}}" class="myflex_row_02_1" style="margin-top:20px;margin-bottom:20px;">
+      <map id="map" longitude="{{property.longitude}}" latitude="{{property.latitude}}" scale="8" show-location style="width: 100%; height: 300px;" markers="{{markers}}">
+      </map>
+    </view>
+
+  </scroll-view>
+
+</view>
+
+
+<!-- 回到顶部 -->
+<view wx:if="{{showBackToTop}}" class="back-to-top" bindtap="scrollToTop">
+  <!-- <icon type="download" size="30" class="back-to-top-icon" /> -->
+  <image src="/static/images/up-arrow.svg" class="back-to-top"></image>
+</view>

@@ -1,0 +1,130 @@
+.month-selector {
+  /* display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20rpx; */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10rpx;
+}
+
+.month-button {
+  font-size: 30rpx;
+  width: 16%;
+  text-align: center;
+  padding: 10rpx 0;
+  margin-bottom: 10rpx;
+  background-color: #f0f0f0;
+  border-radius: 5rpx;
+} 
+
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+}
+
+.month-nav {
+  font-size: 40rpx;
+  color: #A3A3A3;
+  cursor: pointer;
+  padding: 0 20rpx;
+}
+
+.current-month {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+
+.calendar-container {
+  width: 100%;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+.calendar-body {
+  width: 100%;
+}
+
+.weekdays, .days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 100%;
+}
+
+.weekday, .day-cell {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1rpx solid #e0e0e0;
+}
+
+.weekday {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}
+
+.day-cell {
+  position: relative;
+  overflow: hidden;
+}
+
+.day-number {
+  font-size: 28rpx;
+}
+
+.holiday-name {
+  font-size: 20rpx;
+  color: #ff4444;
+  position: absolute;
+  bottom: 4rpx;
+  left: 4rpx;
+  right: 4rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.other-month {
+  color: #ccc;
+}
+
+.holiday {
+  background-color: #ffe0e0;
+}
+
+.today {
+  border: 2rpx solid #4285f4;
+}
+
+
+/* add */
+
+.month-notes {
+  margin-top: 20rpx;
+  padding: 10rpx;
+}
+
+.holiday-note {
+  margin-bottom: 20rpx;
+}
+
+.holiday-date {
+  font-weight: normal;
+}
+
+.holiday-name {
+  color: #ff4444;
+}
+
+.holiday-description {
+  font-size: 32rpx;
+  color: #333;
+}

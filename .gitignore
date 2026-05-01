@@ -1,0 +1,10 @@
+# 忽略 npm 依赖
+node_modules/
+
+config.js
+
+# 小程序工具自动生成的文件
+miniprogram_npm/
+package-lock.json
+*.log
+.DS_Store

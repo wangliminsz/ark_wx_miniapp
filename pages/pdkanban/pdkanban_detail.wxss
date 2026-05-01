@@ -1,0 +1,330 @@
+@import "/static/css/mystyle.wxss";
+@import "/static/css/pdsample.wxss";
+@import "/pages/landlist/landlist.wxss"; 
+
+/* Adjust other styles as needed */
+.product-name, .product-quantity, .product-finished-container,
+.es-memo-input, .es-date-picker, .es-time-picker,
+.memo-button, .datetime-button, .finish-button {
+  /* Remove any margin-top or margin-bottom from these elements */
+  margin-top: 0;
+  /* margin-bottom: 8px; */
+}
+
+
+.order-line-wrapper {
+  margin: 5px -15px; /* Negative margin to counteract parent padding */
+}
+
+.order-line-border {
+  border: 2px solid #87CEEB;
+  border-radius: 2%;
+  margin: 0 10px; /* Add margin to sides to create space between border and parent */
+}
+
+.order-line-content {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 30px; /* Add padding inside the border */
+}
+
+
+.order-info {
+  /* background-color: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px; */
+  margin-top: 0;
+  border-top: none;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-code {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.order-status {
+  font-size: 14px;
+  color: #888;
+}
+
+.client-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.order-date, .order-amount {
+  font-size: 14px;
+  color: #666;
+  /* margin-top: 4px; */
+}
+
+.order-line {
+  /* border-top: 1px solid #eee; */
+  /* padding-top: 6px; */
+  /* margin-top: 8px; */
+  /* border-bottom: 1px solid #eee; */
+  /* padding-bottom: 1px; */
+  /* margin-bottom: 1px; */
+  margin-top: 0;
+  border-top: none;
+}
+
+.order-lines-container {
+  border: 1px solid #ccc; /* You can adjust the color (#ccc) as needed */
+  border-radius: 4px; /* Optional: adds rounded corners */
+  padding: 1px; /* Adds some space inside the border */
+  margin-top: 1px; /* Adds some space above the container */
+}
+
+.order-line:last-child {
+  border-bottom: none; /* Removes the border from the last item */
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+
+
+.product-name {
+  color: black;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.product-quantity {
+  font-size: 14px;
+  color: black;
+  /* margin-top: 4px; */
+}
+
+.product-finished-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  /* margin-top: -60px; */
+}
+
+.product-finished {
+  font-size: 14px;
+}
+
+.finished-no {
+  color: black;
+}
+
+.finished-yes {
+  color: blue;
+}
+
+
+
+/* .memo-container, .datetime-picker-container {
+  margin-top: 8px;
+} */
+
+.es-memo-input {
+  width: 100%;
+  height: 60px;
+  border: 1px solid #666;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 14px;
+  /* margin-right: 15px; */
+}
+
+
+.es-date-result {
+  /* width: 100%; */
+  /* height: 30px; */
+  /* border: 1px solid #ddd; */
+  /* border-radius: 4px; */
+  /* padding: 0 8px; */
+  font-size: 14px;
+  /* line-height: 30px; */
+  color: #000;
+  /* margin-bottom: 8px; */
+}
+
+.es-date-picker, .es-time-picker {
+  width: 100%;
+  height: 30px;
+  border: 1px solid #666;
+  border-radius: 4px;
+  padding: 0 8px;
+  font-size: 14px;
+  line-height: 30px;
+  color: #666;
+  /* margin-bottom: 8px; */
+}
+
+
+
+.memo-button {
+  width: 100%;
+  height: 35px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease; /* Smooth transition for color change */
+}
+
+.memo-button-disabled {
+  background-color: #cccccc; /* Gray color */
+  color: #666666; /* Darker text for better contrast */
+  cursor: not-allowed; /* Changes cursor to indicate button is not clickable */
+}
+
+.dt-button {
+  width: 100%;
+  height: 35px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease; /* Smooth transition for color change */
+}
+
+.dt-button-disabled {
+  background-color: #cccccc; /* Gray color */
+  color: #666666; /* Darker text for better contrast */
+  cursor: not-allowed; /* Changes cursor to indicate button is not clickable */
+}
+
+
+
+
+.finish-button {
+  width: 120px !important;
+  height: 35px;
+  background-color: #007aff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  line-height: 1; /* Set to 1 to reset line height */
+  text-align: center;
+  padding: 0;
+  display: flex; /* Use flexbox for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.finish-button-no {
+  background-color: #007aff;
+  color: #fff;
+}
+
+.finish-button-yes {
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.status-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+  width: 100%;
+}
+
+/* .picker-container {
+  width: 75%;
+  padding-right: 10px;
+} */
+
+.picker-container, .input-container {
+  width: 75%;
+  padding-right: 10px;
+}
+
+.picker {
+  background-color: #f0f0f0;
+  padding: 5px 10px;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.input-box {
+  background-color: #f0f0f0;
+  padding: 5px 10px;
+  border-radius: 5px;
+  width: 100% !important;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.button-container {
+  width: 10%;
+  margin-right: 20px;
+}
+
+.submit-btn {
+  /* width: 100%; */
+  width: 60px !important;
+  padding: 5px 0;
+  font-size: 14px;
+  background-color: #007AFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+
+
+
+.input-row {
+  display: flex;
+  align-items: center;
+  /* margin-bottom: 10px; */
+}
+
+.label {
+  width: 40%;
+  font-size: 14px;
+}
+
+.input-box {
+  width: 30%;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0 5px;
+  font-size: 14px;
+}
+
+
+.small-button {
+  width: 20%;
+  height: 30px;
+  line-height: 30px;
+  font-size: 12px;
+  margin-left: 10px;
+  padding: 0;
+}

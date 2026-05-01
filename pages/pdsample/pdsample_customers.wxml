@@ -1,0 +1,73 @@
+
+<wxs module="dateUtil">
+  function formatDate(dateString) {
+    if (!dateString) return '';
+
+    var parts = dateString.split(' ')[0].split('-');
+    var year = parts[0];
+    var month = parts[1];
+    var day = parts[2];
+
+    // Ensure month and day are two digits
+    month = month.length < 2 ? '0' + month : month;
+    day = day.length < 2 ? '0' + day : day;
+
+    return year + '-' + month + '-' + day;
+  }
+  module.exports = {
+    formatDate: formatDate
+  };
+</wxs>
+
+<!-- Sample Search 部分 ~~~~~~~~~~~~~~~~~~~~~~   -->
+
+<view class="school-search-container">
+
+  <view>
+    <input class="school-search-input" type="text" placeholder="Search..." bindinput="onSampleSearchInput" value="{{searchQuery}}" />
+  </view>
+
+
+  <view style="display:flex; flex-direction: row; margin-right: 5px;">
+    <view class="school-icon-container">
+      <icon type="search" size="25" bindtap="onSampleSearchGo"></icon>
+      <view style="margin-right:5px;"></view>
+      <icon type="clear" size="25" bindtap="onSampleSearchReset"></icon>
+    </view>
+
+  </view>
+
+
+</view>
+
+<!-- Sample Search 部分 ~~~~~~~~~~~~~~~~~~~~~~   -->
+
+<!-- 回到顶部 -->
+<view wx:if="{{showBackToTop}}" class="back-to-top" bindtap="scrollToTop">
+  <image src="/static/images/up-arrow.svg" class="back-to-top"></image>
+</view>
+
+<!-- 回到顶部 -->
+
+
+<!-- Tab 3 客户 List-->
+
+<view class="page-content">
+
+  <!-- 客户列表部分 -->
+
+  <view class="school-list">
+    <view wx:for="{{clientRecords}}" wx:key="id" class="school-item-normal">
+      <view class="school-card">
+        <view class="school-info">
+          <view class="client-code">{{item.c_client_code}}</view>
+          <view class="client-name" style="font-weight: 540;">{{item.c_client_name}}</view>
+          <view class="client-name">{{dateUtil.formatDate(item.create_date)}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+</view>
+<!-- Tab 3 客户 List-->

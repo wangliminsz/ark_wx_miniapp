@@ -1,0 +1,117 @@
+<!-- Search 部分 ~~~~~~~~~~~~~~~~~~~~~~   -->
+
+<view class="event-search-container">
+  <!-- {{searchQuery}} -->
+  <view>
+    <input class="event-search-input" type="text" placeholder="Search..." bindinput="onEventSearchInput" value="{{searchQuery}}" />
+  </view>
+
+  <view style="display:flex; flex-direction: row; margin-right: 5px;">
+    <view class="event-icon-container">
+      <icon type="search" size="25" bindtap="onEventSearchGo"></icon>
+      <view style="margin-right:5px;"></view>
+      <icon type="clear" size="25" bindtap="onEventSearchReset"></icon>
+    </view>
+  </view>
+
+</view>
+
+<!-- Search 部分 ~~~~~~~~~~~~~~~~~~~~~~   -->
+
+
+<!-- 顶部筛选 -->
+<view class="filter-bar">
+  <!-- {{areaIndex}} -->
+  <!-- {{areaOptions[areaIndex].text}} -->
+  <picker bindchange="onAreaChange" value="{{areaIndex}}" range="{{areaOptions}}" range-key="text">
+    <view class="picker">
+      区域: {{areaOptions[areaIndex].text}}
+    </view>
+  </picker>
+
+  <picker bindchange="bindTitleSortChange" value="{{titleSortIndex}}" range="{{titleSortOptions}}">
+    <view class="picker">
+      名称: {{titleSortOptions[titleSortIndex]}}
+    </view>
+  </picker>
+
+  <picker bindchange="bindPriceSortChange" value="{{priceSortIndex}}" range="{{priceSortOptions}}">
+    <view class="picker">
+      价格: {{priceSortOptions[priceSortIndex]}}
+    </view>
+  </picker>
+</view>
+
+
+<!-- 主体部分 -->
+<view>
+
+  <block wx:for="{{propertyRecords}}" wx:key="id">
+    <view bindtap="handleMyViewTap" data-id="{{item.id}}" data-item="{{item}}">
+      <view wx:if="{{item.title}}" class="myflex_column_01">
+
+        <!-- 顶部，蓝色类型 ~~ 价格 -->
+        <view class="myflex_row_01">
+          <view class="bg-blue-600 text-white px-2 py-1 text-xs rounded">{{item.b_type_substr}}</view>
+
+          <!-- 出售 -->
+          <view wx:if="{{item.type == 2 || item.type == '2'}}">
+            <text class="text-red-500 font-normal">{{item.b_price_substr_th}}</text>
+            <text class="myprice_cn">{{item.b_price_substr_cn}}</text>
+          </view>
+
+          <!-- 出租 -->
+          <view wx:if="{{item.type == 1 || item.type == '1'}}">
+            <text class="text-red-500 font-normal">{{item.b_rental_price_substr}}</text>
+            <!-- <text class="myprice_cn">{{item.b_rental_term_substr}}</text> -->
+          </view>
+
+        </view>
+
+        <!-- 中部-底部，图片 ~~ 描述 -->
+        <view wx:if="{{item.title}}" class="myflex_row_02">
+
+          <!-- 图片部分 -->
+          <view class="mytext_01">
+            <view wx:if="{{item.main_image_tencent}}" class="relative w-img-container">
+              <image class="w-img" src="{{item.main_image_tencent}}" alt="{{item.title}}" />
+
+
+              <view wx:if="{{item.t_code}}" class="absolute bottom-2 right-2 bg-gray-900 text-white px-0 py-0 text-xs rounded opacity-70">{{item.t_code}} </view>
+            </view>
+          </view>
+
+          <!-- 文字部分 -->
+          <view class="mytextflex relative">
+
+            <view class="mytext_01">
+              <text class="text-lg mb-2">{{item.title}}</text>
+            </view>
+
+            <view class="mytext_02">
+              {{ item.subtitle }}
+            </view>
+
+          </view>
+        </view>
+
+        <!-- 标签部分 -->
+        <view class="tag-container" style="margin-bottom: 6px;">
+          <view class="tag" wx:for="{{item.tags}}" wx:key="id" wx:for-item="tag">
+            {{tag.tg_name}}
+          </view>
+        </view>
+      </view>
+
+    </view>
+
+  </block>
+
+
+</view>
+
+<!-- 回到顶部 -->
+<view wx:if="{{showBackToTop}}" class="back-to-top" bindtap="scrollToTop">
+  <!-- <icon type="download" size="30" class="back-to-top-icon" /> -->
+  <image src="/static/images/up-arrow.svg" class="back-to-top"></image>
+</view>

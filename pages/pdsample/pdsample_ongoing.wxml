@@ -1,0 +1,107 @@
+<!-- <text>pages/pdsample/pdsample.wxml</text> -->
+
+<wxs module="dateUtil">
+  function formatDate(dateString) {
+    if (!dateString) return '';
+
+    var parts = dateString.split(' ')[0].split('-');
+    var year = parts[0];
+    var month = parts[1];
+    var day = parts[2];
+
+    // Ensure month and day are two digits
+    month = month.length < 2 ? '0' + month : month;
+    day = day.length < 2 ? '0' + day : day;
+
+    return year + '-' + month + '-' + day;
+  }
+  module.exports = {
+    formatDate: formatDate
+  };
+</wxs>
+
+<!-- Sample Search 部分 ~~~~~~~~~~~~~~~~~~~~~~   -->
+
+<view class="school-search-container">
+
+  <view>
+    <input class="school-search-input" type="text" placeholder="Search..." bindinput="onSampleSearchInput" value="{{searchQuery}}" />
+  </view>
+
+
+  <view style="display:flex; flex-direction: row; margin-right: 5px;">
+    <view class="school-icon-container">
+      <icon type="search" size="25" bindtap="onSampleSearchGo"></icon>
+      <view style="margin-right:5px;"></view>
+      <icon type="clear" size="25" bindtap="onSampleSearchReset"></icon>
+    </view>
+
+  </view>
+
+
+</view>
+
+<!-- Sample Search 部分 ~~~~~~~~~~~~~~~~~~~~~~   -->
+
+<!-- 顶部筛选 -->
+<!-- {{groupIndex}} {{groupOptions[groupIndex].id}} -->
+<view class="filter-bar">
+  <picker bindchange="onGroupChange" value="{{groupIndex}}" range="{{groupOptions}}" range-key="value">
+    <view class="picker">
+      选择群组 - {{groupOptions[groupIndex].value}}
+    </view>
+  </picker>
+
+</view>
+
+
+<!-- 顶部筛选 -->
+
+
+
+<!-- 回到顶部 -->
+<view wx:if="{{showBackToTop}}" class="back-to-top" bindtap="scrollToTop">
+  <!-- <icon type="download" size="30" class="back-to-top-icon" /> -->
+  <image src="/static/images/up-arrow.svg" class="back-to-top"></image>
+</view>
+
+
+<!-- Tab 0 进行中 List-->
+
+<view class="page-content">
+
+  <!-- 未完成 列表部分 -->
+  <!-- bindtap="handleClientTap" -->
+
+  <view class="school-list">
+    <view wx:for="{{sampleRecords}}" wx:key="id" class="school-item-normal">
+      <view class="school-card">
+        <view class="school-info">
+
+          <view class="client-code">{{item.y_sample_code}}</view>
+
+          <view style="margin-top: 8px;"></view>
+          <view class="client-name" style="font-weight: 540;">{{item.y_client[1]}}</view>
+          <view class="client-name" style="font-weight: 540;">{{item.y_client_final[1]}}</view>
+
+          <view style="margin-top: 8px;"></view>
+          <view class="client-name" style="color:red; font-weight: 540;">执行与否: {{item.y_if_process}}</view>
+
+          <view style="margin-top: 8px;"></view>
+          <view class="client-name" style="color:blue; font-weight: 540;">{{item.y_other_requirement}}</view>
+          <view style="margin-top: 8px;"></view>
+
+          <view class="client-name" style="color:red; font-weight: 540;">样粉需求数量: {{item.y_powder_to_amount}} kg</view>
+
+          <view style="margin-top: 8px;"></view>
+          <view class="client-name">{{dateUtil.formatDate(item.create_date)}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 未完成 列表部分 -->
+
+</view>
+
+<!-- Tab 0 进行中 List-->

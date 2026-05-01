@@ -1,0 +1,4 @@
+@import "/static/css/mystyle.wxss";
+@import "/static/css/pdsample.wxss";
+
+@import "/pages/landlist/landlist.wxss"; 

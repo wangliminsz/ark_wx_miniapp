@@ -1,0 +1,46 @@
+<view>
+  <!-- <button bindtap="toggleMockDate">切换模拟日期</button> -->
+  <!-- <button bindtap="goToToday">Today</button> -->
+</view>
+
+<view class="calendar-container">
+  <!-- 月份选择器保持不变 -->
+  <view class="month-selector">
+    <view wx:for="{{months}}" wx:key="index" class="month-button" bindtap="changeMonth" data-month="{{index + 1}}">
+      {{item}}
+    </view>
+  </view>
+
+  <view style="margin-bottom: 20px;"></view>
+
+  <view class="calendar-header">
+    <view class="month-nav" bindtap="prevMonth">←</view>
+    <view class="current-month">{{currentYear}}年{{currentMonth}}月</view>
+    <view class="month-nav" bindtap="nextMonth">→</view>
+  </view>
+
+  <view style="margin-bottom: 20px;"></view>
+
+  <view class="calendar-body">
+    <view class="weekdays">
+      <view wx:for="{{['日', '一', '二', '三', '四', '五', '六']}}" wx:key="*this" class="weekday">{{item}}</view>
+    </view>
+    <view class="days-grid">
+      <view wx:for="{{days}}" wx:key="index" class="day-cell {{item.isCurrentMonth ? '' : 'other-month'}} {{item.isHoliday ? 'holiday' : ''}} {{item.isToday ? 'today' : ''}}">
+        <text class="day-number">{{item.day}}</text>
+        <text wx:if="{{item.isHoliday}}" class="holiday-name">{{item.holidayName}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view style="margin-bottom: 20px;"></view>
+
+  <view class="month-notes">
+    <view wx:for="{{currentMonthHolidays}}" wx:key="date" class="holiday-note">
+      <text class="holiday-date">{{item.date}}日：</text>
+      <!-- <text class="holiday-name">{{item.name}}</text> -->
+      <text class="holiday-description">{{item.description}}</text>
+    </view>
+  </view>
+
+</view>

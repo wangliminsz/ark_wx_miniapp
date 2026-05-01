@@ -1,0 +1,160 @@
+<wxs module="dateUtil">
+  function formatDate(dateString) {
+    if (!dateString) return '';
+
+    var parts = dateString.split(' ')[0].split('-');
+    var year = parts[0];
+    var month = parts[1];
+    var day = parts[2];
+
+    // Ensure month and day are two digits
+    month = month.length < 2 ? '0' + month : month;
+    day = day.length < 2 ? '0' + day : day;
+
+    return year + '-' + month + '-' + day;
+  }
+  module.exports = {
+    formatDate: formatDate
+  };
+</wxs>
+
+<!-- 回到顶部 -->
+
+<view wx:if="{{showBackToTop}}" class="back-to-top" bindtap="scrollToTop">
+  <!-- <icon type="download" size="30" class="back-to-top-icon" /> -->
+  <image src="/static/images/up-arrow.svg" class="back-to-top"></image>
+</view>
+
+<!-- 回到顶部 -->
+
+
+<!-- Tab 0 进行中 List-->
+<!-- class="page-content" -->
+<view>
+
+  <!-- bindtap="handleClientTap" -->
+
+  <view class="school-list">
+    <view wx:for="{{detailRecord}}" wx:key="id" wx:for-item="item" class="school-normal-item">
+
+      <view class="school-card">
+
+        <view class="order-info">
+          <view class="order-header">
+            <view class="order-code">{{item.name}}</view>
+            <view class="order-status">{{item.state}}</view>
+          </view>
+
+          <view class="client-name">{{item.partner_id[1]}}</view>
+          <view style="margin-top: 6px;"></view>
+          <view class="order-date">{{dateUtil.formatDate(item.date_order)}}</view>
+
+          <view wx:for="{{item.order_lines}}" wx:for-item="line" wx:key="id" class="order-line-wrapper">
+
+            <view class="order-line-border">
+
+              <view class="order-line-content">
+
+                <view class="product-name" style="color: black; font-weight: 500;">{{line.product_id[1]}}</view>
+
+                <view style="margin-top: 8px;"></view>
+
+                <view class="product-quantity">~ 订单数量: {{line.product_uom_qty}}</view>
+
+                <!-- part_finish_qty -->
+                <view style="margin-top: 8px;"></view>
+                <view class="product-quantity">~ 部分完成数量: {{line.part_finish_qty}}</view>
+
+                <view style="margin-top: 8px;"></view>
+                <!-- New line for input and submit -->
+                <!-- <view class="input-row"> -->
+                <view class="status-container">
+                  <view class="input-container">
+                    <!-- value="{{partQty}}" -->
+                    <!-- bindinput="updatePartQty" -->
+                    <input class="input-box" type="digit" value="{{partQty}}" placeholder="输入部分完成数量" bindinput="updatePartQty" data-line-id="{{line.id}}" data-order-id="{{item.id}}"/>
+                    <!-- <input type="digit" bindinput="onPartialQuantityInput" value="{{newPartialQuantity}}" /> -->
+
+                  </view>
+
+                  <view class="button-container">
+                    <button class="submit-btn" bindtap="confirmSubmitQty" data-line-id="{{line.id}}" data-order-id="{{item.id}}">提交</button>
+                  </view>
+                </view>
+
+                <view style="margin-top: 8px;"></view>
+                <view class="product-quantity">~ 欠单数量: {{line.product_uom_qty - line.part_finish_qty}}</view>
+
+                <view style="margin-top: 8px;"></view>
+
+                <view class="status-container">
+                  <view class="picker-container">
+                    <picker bindchange="onStatusChange" value="{{statusIndex}}" range="{{statusOptions}}">
+                      <view class="picker">
+                        订单状态: {{statusOptions[statusIndex]}}
+                      </view>
+                    </picker>
+                  </view>
+                  <view class="button-container">
+                    <button class="submit-btn" bindtap="onStatusSubmit" data-order-id="{{item.id}}" data-line-id="{{line.id}}" data-the-qty="{{line.product_uom_qty}}">提交</button>
+                  </view>
+                </view>
+
+                <!-- 预计时间 -->
+                <view style="margin-top: 16px;"></view>
+                <view class="datetime-picker-container">
+                  <view class="es-date-result">~ 预计完成时间：{{ line.localSelectedDate }} {{ line.localSelectedTime }}
+                  </view>
+                </view>
+
+                <!-- 预计时间 -->
+
+                <view style="margin-top: 8px;"></view>
+
+                <picker mode="date" value="{{line.es_finish_date}}" start="2025-01-01" end="2030-12-31" bindchange="updateEsDate" data-line-id="{{line.id}}" data-order-id="{{item.id}}">
+                  <view class="es-date-picker">
+                    {{'选择日期 ' + line.pickedDate}}
+                  </view>
+
+                </picker>
+
+                <!-- ~~~~~~~~~~~~~~ -->
+
+                <picker mode="multiSelector" range="{{[hours, minutes]}}" bindchange="updateEsTime" data-order-id="{{item.id}}" data-line-id="{{line.id}}" value="{{[defaultHourIndex, defaultMinuteIndex]}}">
+                  <view class="es-time-picker">
+                    {{'选择时间 ' + line.pickedTime}}
+                  </view>
+                </picker>
+
+                <view style="margin-top: 8px;"></view>
+
+                <button class="dt-button" bindtap="confirmSubmitDateTime" data-line-id="{{line.id}}" data-order-id="{{item.id}}" data-picked-date="{{line.pickedDate}}" data-picked-time="{{line.pickedTime}}">Submit Date/Time</button>
+
+
+
+                <view style="margin-top: 16px;"></view>
+                <textarea class="es-memo-input" placeholder="Enter memo" value="{{line.es_finish_memo}}" bindinput="updateEsMemo" data-line-id="{{line.id}}" data-order-id="{{item.id}}"></textarea>
+
+                <view style="margin-top: 8px;"></view>
+                <button class="memo-button" bindtap="confirmSubmitMemo" data-line-id="{{line.id}}" data-order-id="{{item.id}}" data-es-memo="{{line.es_finish_memo}}">Submit Memo</button>
+
+
+
+
+
+              </view>
+            </view>
+
+
+          </view>
+
+        </view>
+      </view>
+    </view>
+
+  </view>
+
+</view>
+
+
+<!-- Tab 0 进行中 List-->
