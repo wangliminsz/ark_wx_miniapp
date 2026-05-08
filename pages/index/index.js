@@ -1,106 +1,83 @@
-const app = getApp();
 const config = require('../../config.js');
 
 Page({
   data: {
-
-    winWidth: app.globalData.windowWidth,
-    winHeight: app.globalData.windowHeight,
-    circleButtonPos: app.globalData.windowHeight - 130,
-
+    username: '',
+    password: '',
+    showPassword: false
   },
 
-  // Login ~~~~~~~~~~~~~~~~~~~~~~
+  togglePassword() {
+    this.setData({
+      showPassword: !this.data.showPassword
+    });
+  },
 
-  sysTap() {
-    console.log('Here, Odoo Sys Sample Check 2025 07 09--->');
-    const theOdooUserToken_sys = wx.getStorageSync('odoo_user_token')
-    // 如果有 userToken, 跳轉用戶數據頁面； 否則跳轉用戶登錄頁面
-    if (theOdooUserToken_sys) {
-      try {
+  userInputChange(e) {
+    this.setData({
+      username: e.detail.value
+    });
+  },
 
-        wx.navigateTo({
-          url: `/pages/pdsample/pdsample_cover`,
-          success: function (res) {
-            console.log('Navigation to sys pdsample successful');
-          },
-          fail: function (err) {
-            console.error('Navigation to sys pdsample failed', err);
-          }
-        });
-      } catch (error) {
-        console.log('err --->>>', error);
-      }
-    } else {
-      try {
-        // wx.switchTab({
-        // url: '/pages/userlogin/userlogin',
-        wx.navigateTo({
-          url: '/pages/userlogin/userlogin?db=sys',
-          success: function (res) {
-            console.log('Nav from Index to Lgoin successful');
-          },
-          fail: function (err) {
-            console.error('Nav from Index to Login failed', err);
-          }
-        });
+  passInputChange(e) {
+    this.setData({
+      password: e.detail.value
+    });
+  },
 
-      } catch (error) {
-        console.log('err --->>>', error);
-      }
+  handleLogin(e) {
+    const { username, password } = this.data;
+    
+    if (!username || !password) {
+      wx.showToast({
+        title: '请填写用户名和密码',
+        icon: 'none'
+      });
+      return;
     }
 
-  },
+    let loginUrl = `${config.fastapiUrl}/odoo_token_user?dbname=erp&user=${username}&passw=${password}`;
 
-  erpTap() {
-    console.log('Here, Odoo ERP Login 2025 08 18--->');
-    const theOdooUserToken_erp = wx.getStorageSync('odoo_user_erp_token')
-    // 如果有 userToken, 跳轉用戶數據頁面； 否則跳轉用戶登錄頁面
-    if (theOdooUserToken_erp) {
-      try {
-
-        wx.navigateTo({
-          url: `/pages/pdkanban/pdkanban_cover`,
-          success: function (res) {
-            console.log('Navigation to ERP successful');
-          },
-          fail: function (err) {
-            console.error('Navigation to ERP failed', err);
-          }
+    wx.request({
+      url: loginUrl,
+      method: 'POST',
+      success: (res) => {
+        if (res.statusCode === 200) {
+          console.log('ERP Login successful:', res.data);
+          wx.setStorageSync('odoo_user_erp_token', res.data.access_token);
+          wx.navigateTo({
+            url: '/pages/wms/wms',
+            success: function (res) {
+              console.log('Navigation to WMS page successful');
+            },
+            fail: function (err) {
+              console.error('Navigation to WMS page failed', err);
+            }
+          });
+        } else {
+          let title = res.data.detail || '登录失败';
+          console.error('Login failed:', res.data);
+          wx.showToast({
+            title: title,
+            icon: 'none',
+            duration: 3000
+          });
+        }
+      },
+      fail: (err) => {
+        console.error('Request failed:', err);
+        wx.showToast({
+          title: '网络请求失败',
+          icon: 'none'
         });
-      } catch (error) {
-        console.log('err --->>>', error);
       }
-    } else {
-      try {
-        // wx.switchTab({
-        // url: '/pages/userlogin/userlogin',
-        wx.navigateTo({
-          url: '/pages/userlogin/userlogin?db=erp',
-          success: function (res) {
-            console.log('Nav from Index to ERP Login successful');
-          },
-          fail: function (err) {
-            console.error('Nav from Index to ERP Login failed', err);
-          }
-        });
-
-      } catch (error) {
-        console.log('err --->>>', error);
-      }
-    }
-
+    });
   },
-
-  // Login ~~~~~~~~~~~~~~~~~~~~~~
 
   onShareAppMessage: function () {
-    // const thisUrl = this.data.theUrl;
-    console.log('from index Page, Share to others 2025-08--->')
     return {
-      title: 'Miracleark App',
+      title: 'WMS Warehouse System',
       path: '/pages/index/index',
     };
-  },
-
+  }
 });

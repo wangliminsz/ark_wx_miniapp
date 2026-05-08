@@ -3,22 +3,24 @@
     <image class="ark_logo" src="https://bkkschool-1304214433.cos.ap-guangzhou.myqcloud.com/1755274958051-259-ark_logo_trans.png" mode="aspectFit"></image>
   </view>
   
-  <view class="ark_title">Miracleark System</view>
+  <view class="ark_title">WMS Login (ERP)</view>
   
   <view class="ark_links-container">
-    <navigator url="/pages/home/home" class="ark_link-item" bindtap="erpTap">
-      <text>ERP 生产信息沟通</text>
-    </navigator>
-    <view style="margin-top: 30px;"></view>
-    <navigator url="/pages/about/about" class="ark_link-item"  bindtap="sysTap">
-      <text>SYS 打样信息</text>
-    </navigator>
-    <!-- <navigator url="/pages/services/services" class="ark_link-item">
-      <text>Services</text>
-    </navigator> -->
-    <!-- <navigator url="/pages/contact/contact" class="ark_link-item">
-      <text>Contact</text>
-    </navigator> -->
+    <view class="ark_login-box">
+      <!-- <text class="ark_login-label">ERP Login</text> -->
+      <form bindsubmit="handleLogin" class="ark_form">
+        <view class="ark_form-item">
+          <input name="username" type="text" placeholder="请输入邮箱" value="{{username}}" bindinput="userInputChange" />
+        </view>
+        <view class="ark_form-item ark_password-item">
+          <input name="password" type="text" password="{{!showPassword}}" placeholder="请输入密码" value="{{password}}" bindinput="passInputChange" />
+          <text class="ark_password-eye" bindtap="togglePassword">{{showPassword ? '👁️' : '👁️‍🗨️'}}</text>
+        </view>
+        <!-- <view class="ark_button_margin">
+        </view> -->
+        <button formType="submit" class="ark_login-button">登 录</button>
+      </form>
+    </view>
   </view>
   
   <view class="ark_footer">

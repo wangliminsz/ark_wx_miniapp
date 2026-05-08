@@ -1,46 +1,26 @@
 <view class="ark_login-page">
-
   <view style="margin-top:60px;"></view>
-
-
   <view class="ark_custom-nav-container">
-
-    <view class="ark_tab-header">
-      <view class="ark_tab-item {{activeTab == 0 ? 'active' : ''}}" bindtap="onTabChange" data-tab="0">sys</view>
-      <view class="ark_tab-item {{activeTab == 1 ? 'active' : ''}}" bindtap="onTabChange" data-tab="1">erp</view>
-    </view>
-
-    <view style="margin-top:50px;"></view>
-
     <view class="ark_login-content">
       <view class="ark_header">
-        <text class="ark_system-name">{{which_db}} Login</text>
+        <text class="ark_system-name">ERP Login</text>
       </view>
-
       <view style="margin-top:30px;"></view>
-
       <form bindsubmit="handleLogin" class="ark_form">
         <view class="ark_form-item">
           <label for="username">请输入邮箱</label>
           <input id="username" name="username" type="text" value="{{username}}" bindinput="userInputChange" required />
         </view>
-        
         <view class="ark_form-item">
           <label for="password">请输入密码</label>
           <input id="password" name="password" type="password" password="true" value="{{password}}" bindinput="passInputChange" required />
         </view>
-
         <view style="margin-top:30px;"></view>
-        
         <button formType="submit" class="ark_login-button">登 录</button>
       </form>
-
       <view class="ark_quick-access">
         <button class="ark_quick-access-button" bindtap="backToIndexPage">返 回</button>
       </view>
-
     </view>
   </view>
-
-
 </view>

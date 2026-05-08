@@ -44,81 +44,6 @@ App({
     })
     // 登录 openid
 
-    // 获取后端 Token
-    console.log('app Onlaunch--->>', `${config.development.ODOO_Token_URL}`);
-
-    let oToken
-
-    try {
-      oToken = await this.getOdooToken()
-      if (oToken) {
-        // console.log('this token 2024---->>>', oToken.access_token)
-        wx.setStorageSync('odootoken', oToken.access_token)
-
-        // 获取省份
-
-        try {
-          wx.request({
-            url: 'https://bkkapi.favor100.site/provinces', // Replace with your FastAPI endpoint
-            method: 'GET',
-            // header: {
-            //   'Authorization': 'Bearer ' + yourToken // Replace with your actual token
-            // },
-            header: {
-              'Content-Type': 'application/json', // Example header
-              'Authorization': `Bearer ${oToken.access_token}`
-            },
-
-            success(res) {
-              if (res.statusCode === 200) {
-                // Map and sort the areas by pv_name
-                const dbAreas = res.data
-                  .map(area => ({
-                    text: area.pv_name,
-                    value: area.pv_code
-                  }))
-                  .sort((a, b) => a.text.localeCompare(b.text)); // Sort alphabetically by pv_name
-
-                wx.setStorageSync('dbAreas_Storage', dbAreas)
-
-                // // Update the bkkAreas with sorted dbAreas
-                // that.setData({
-                //   bkkAreas: [{
-                //       text: 'All',
-                //       value: '00'
-                //     },
-                //     ...dbAreas,
-                //     {
-                //       text: '其它',
-                //       value: '99'
-                //     }
-                //   ]
-                // });
-              } else {
-                console.error('Failed to fetch data:', res);
-              }
-            },
-            fail(err) {
-              console.error('Error fetching areas:', err);
-            }
-          });
-        } catch (e) {
-          //error
-        }
-
-        // 获取省份
-
-
-      } else {
-        //do Nothing
-      }
-    } catch (error) {
-      console.log('get Odoo Token err --->>>', error);
-      // this.errorMessage = error.errMsg;
-    }
-
-    // 获取后端 Token
-
     // 获取屏幕尺寸
 
     try {
@@ -153,39 +78,10 @@ App({
     }
 
     //云存储初始化
-
     // cloud: null // Initialize cloud as a property of the app
 
-
-
   },
 
-  // ~~~~~~~~~~~~~~~~~~~~~~~
-
-  async getOdooToken() {
-    try {
-      let tokenURL = `${config.development.ODOO_Token_URL}`;
-      return new Promise((resolve, reject) => {
-        wx.request({
-          url: tokenURL,
-          method: 'GET',
-          // header: headers,
-          success: res => {
-            resolve(res.data);
-            // console.log('APP inside WX request Token 2024-->>>', res.data)
-          },
-          fail: err => {
-            reject(err);
-          }
-        });
-      });
-
-    } catch (error) {
-      console.error('Error loading token:', error);
-    }
-  },
-
-  // ~~~~~~~~~~~~~~~~~~~~~~~
 
   globalData: {
     userInfo: null,
@@ -193,3 +89,77 @@ App({
   }
 
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // // 获取后端 Token
+    // console.log('app Onlaunch--->>', `${config.development.ODOO_Token_URL}`);
+
+    // let oToken
+
+    // try {
+    //   oToken = await this.getOdooToken()
+    //   if (oToken) {
+    //     // console.log('this token 2024---->>>', oToken.access_token)
+    //     wx.setStorageSync('odootoken', oToken.access_token)
+
+    //   } else {
+    //     //do Nothing
+    //   }
+    // } catch (error) {
+    //   console.log('get Odoo Token err --->>>', error);
+    //   // this.errorMessage = error.errMsg;
+    // }
+
+
+
+
+
+
+
+    // async getOdooToken() {
+    //   try {
+    //     let tokenURL = `${config.development.ODOO_Token_URL}`;
+    //     return new Promise((resolve, reject) => {
+    //       wx.request({
+    //         url: tokenURL,
+    //         method: 'GET',
+    //         // header: headers,
+    //         success: res => {
+    //           resolve(res.data);
+    //           // console.log('APP inside WX request Token 2024-->>>', res.data)
+    //         },
+    //         fail: err => {
+    //           reject(err);
+    //         }
+    //       });
+    //     });
+  
+    //   } catch (error) {
+    //     console.error('Error loading token:', error);
+    //   }
+    // },

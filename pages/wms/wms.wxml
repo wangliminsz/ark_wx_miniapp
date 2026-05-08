@@ -1,0 +1,47 @@
+<view class="wms_container">
+  <view class="wms_header">
+    <text class="wms_title">WMS Warehouse System</text>
+    <text class="wms_subtitle">仓库管理系统</text>
+  </view>
+  
+  <view class="wms_content">
+    <view class="category-section">
+      <view class="category-header">
+        <text class="category-title">产品类别</text>
+        <text class="category-count">{{categories.length}} 个类别</text>
+      </view>
+      
+      <view class="category-tabs">
+        <view 
+          wx:for="{{categories}}" 
+          wx:key="id"
+          class="category-tab {{activeCategory === item.id ? 'active' : ''}}"
+          bindtap="selectCategory"
+          data-id="{{item.id}}"
+        >
+          <text class="tab-name">{{item.name}}</text>
+        </view>
+      </view>
+      
+      <!-- <view class="category-detail" wx:if="categories.length > 0"> -->
+        <!-- <view class="selected-info">
+          <text class="info-label">已选择:</text>
+          <text class="info-value">{{selectedCategoryName}}</text>
+        </view> -->
+        <!-- <view class="category-desc">
+          <text class="desc-label">完整名称:</text>
+          <text class="desc-value">{{selectedCategoryCompleteName}}</text>
+        </view> -->
+      <!-- </view> -->
+      
+      <!-- <view class="empty-state" wx:else>
+        <text class="empty-icon">📦</text>
+        <text class="empty-text">{{loading ? '加载中...' : '暂无数据'}}</text>
+      </view> -->
+    </view>
+  </view>
+  
+  <view class="wms_footer">
+    <text>© 2025 Miracleark</text>
+  </view>
+</view>

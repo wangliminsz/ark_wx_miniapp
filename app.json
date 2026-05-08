@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/wms/wms",
     "pages/ark_index/ark_index",
     "pages/calendar/calendar",
 

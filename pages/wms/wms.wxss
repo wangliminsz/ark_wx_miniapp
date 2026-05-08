@@ -1,0 +1,154 @@
+.wms_container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #f5f7fa 0%, #e4e8ec 100%);
+}
+
+.wms_header {
+  text-align: center;
+  padding: 60rpx 40rpx 40rpx;
+}
+
+.wms_title {
+  display: block;
+  font-size: 40rpx;
+  /* font-weight: bold; */
+  color: #333;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.wms_subtitle {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.wms_content {
+  flex: 1;
+  padding: 0 40rpx;
+}
+
+.category-section {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50rpx;
+  padding-bottom: 50rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.category-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.category-count {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28rpx;
+  row-gap: 80rpx;
+  margin-bottom: 100rpx;
+}
+
+.category-tab {
+  padding: 28rpx 45rpx;
+  background-color: #f5f7fa;
+  border-radius: 36rpx;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 160rpx;
+  text-align: center;
+}
+
+.category-tab.active {
+  background-color: #007AFF;
+}
+
+.category-tab.active .tab-name {
+  color: #fff;
+}
+
+.tab-name {
+  font-size: 32rpx;
+  color: #666;
+  font-weight: 500;
+}
+
+.category-detail {
+  padding: 25rpx;
+  background-color: #f8f9fa;
+  border-radius: 16rpx;
+}
+
+.selected-info,
+.category-desc {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.selected-info:last-child,
+.category-desc:last-child {
+  margin-bottom: 0;
+}
+
+.info-label,
+.desc-label {
+  font-size: 26rpx;
+  color: #999;
+  margin-right: 15rpx;
+  min-width: 100rpx;
+}
+
+.info-value {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #007AFF;
+}
+
+.desc-value {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.wms_footer {
+  text-align: center;
+  padding: 40rpx;
+  font-size: 24rpx;
+  color: #999;
+}
