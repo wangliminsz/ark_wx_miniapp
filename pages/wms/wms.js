@@ -1,11 +1,9 @@
 const config = require('../../config.js');
 
 Page({
+
   data: {
     categories: [],
-    activeCategory: null,
-    selectedCategoryName: '',
-    selectedCategoryCompleteName: '',
     loading: true
   },
 
@@ -52,12 +50,6 @@ Page({
           categories: categories,
           loading: false
         });
-        
-        if (categories.length > 0) {
-          const defaultCategory = categories.find(cat => cat.name === config.wmsDefaultCategory);
-          const defaultId = defaultCategory ? defaultCategory.id : categories[0].id;
-          this.selectCategory({ currentTarget: { dataset: { id: defaultId } } });
-        }
       } else {
         console.error('Failed to fetch categories:', data);
         this.setData({ loading: false });
@@ -106,10 +98,14 @@ Page({
     const category = this.data.categories.find(cat => cat.id === categoryId);
     
     if (category) {
-      this.setData({
-        activeCategory: categoryId,
-        selectedCategoryName: category.name,
-        selectedCategoryCompleteName: category.complete_name
+      wx.navigateTo({
+        url: `/pages/wms/products/products?category_id=${categoryId}&category_name=${encodeURIComponent(category.name)}`,
+        success: function (res) {
+          console.log('Navigation to products page successful');
+        },
+        fail: function (err) {
+          console.error('Navigation to products page failed', err);
+        }
       });
     }
   },

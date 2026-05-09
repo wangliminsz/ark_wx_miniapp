@@ -1,0 +1,342 @@
+
+
+const config = require('../../../config.js');
+
+Page({
+  data: {
+    categoryId: null,
+    categoryName: '',
+    products: [],
+    showBackToTop: false,
+    
+    theUrl: '',
+    oriUrl: '',
+    filterUrl: '',
+    
+    d_current_page: 0,
+    d_total_pages: 0,
+    
+    searchQuery: '',
+    
+    loading: false
+  },
+
+  async onLoad(options) {
+    console.log('Products page options:', options);
+    if (options && options.category_id && options.category_name) {
+      const categoryId = parseInt(options.category_id);
+      const categoryName = decodeURIComponent(options.category_name);
+      
+      this.setData({
+        categoryId: categoryId,
+        categoryName: categoryName,
+        oriUrl: `${config.fastapiUrl}/products/by_category/${options.category_id}`,
+        theUrl: `${config.fastapiUrl}/products/by_category/${options.category_id}`
+      });
+      this.loadData(this.data.theUrl, this.data.d_current_page);
+    }
+  },
+
+  onReady() {
+    console.log('onReady - d_total_pages:', this.data.d_total_pages, 'd_current_page:', this.data.d_current_page);
+  },
+
+  onShow() {
+    console.log('onShow triggered - d_total_pages:', this.data.d_total_pages, 'd_current_page:', this.data.d_current_page);
+  },
+
+  async loadData(loadUrl, current_page) {
+    this.setData({ loading: true });
+    wx.showLoading({ title: 'Loading...' });
+
+    let gRecords_data;
+    let gRecords;
+
+    try {
+      gRecords_data = await this.getMoreRecords(loadUrl, current_page);
+      gRecords = gRecords_data.records;
+      
+      if (gRecords) {
+        console.log('API Response - total_pages:', gRecords_data.total_pages, 'no_more_pages:', gRecords_data.no_more_pages, 'total_records:', gRecords_data.total_records);
+        this.setData({
+          d_total_pages: gRecords_data.total_pages || 0,
+          d_no_more_pages: gRecords_data.no_more_pages || false
+        });
+        console.log('After setData - d_total_pages:', this.data.d_total_pages);
+      }
+
+    } catch (error) {
+      console.error('Error loading records:', error);
+      wx.hideLoading();
+      this.setData({ loading: false });
+      return;
+    }
+
+    if (gRecords) {
+      const productsWithInventory = await this.fetchInventoryForProducts(gRecords);
+      
+      let updatedRecords = current_page === 0 ? productsWithInventory : [...this.data.products, ...productsWithInventory];
+      
+      this.setData({
+        products: updatedRecords,
+        loading: false
+      });
+      wx.hideLoading();
+      
+    } else {
+      console.log('No records found');
+      wx.hideLoading();
+      this.setData({ loading: false });
+    }
+  },
+
+  async getMoreRecords(listUrl, page) {
+    const odoo_user_token = wx.getStorageSync('odoo_user_erp_token');
+    
+    if (!odoo_user_token) {
+      throw new Error('No token found');
+    }
+
+    let dataURL = listUrl;
+    let theOffset = page * `${config.page_rec_number}`;
+    console.log('getMoreRecords - page:', page, 'offset:', theOffset, 'page_rec_number:', config.page_rec_number);
+    
+    const separator = dataURL.includes('?') ? '&' : '?';
+    dataURL = dataURL + separator + 'offset=' + theOffset;
+    console.log('getMoreRecords - final URL:', dataURL);
+    
+    let headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${odoo_user_token}`
+    };
+
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: dataURL,
+        method: 'GET',
+        header: headers,
+        success: res => {
+          if (res.statusCode === 200) {
+            resolve(res.data);
+          } else {
+            reject(res.data || 'Request failed');
+          }
+        },
+        fail: err => {
+          console.error('Error loading records:', err);
+          reject(err);
+        }
+      });
+    });
+  },
+
+  async fetchInventoryForProducts(products) {
+    const odoo_user_token = wx.getStorageSync('odoo_user_erp_token');
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${odoo_user_token}`
+    };
+
+    const productsWithInventory = [];
+    
+    for (const product of products) {
+      const productCode = product.default_code;
+      
+      if (productCode) {
+        try {
+          const inventoryUrl = `${config.fastapiUrl}/inv/quants?product=${encodeURIComponent(productCode)}`;
+          const inventoryData = await this.makeRequest(inventoryUrl, headers);
+          
+          if (inventoryData && inventoryData.records && inventoryData.records.length > 0) {
+            product.inventory = inventoryData.records;
+            product.totalQuantity = inventoryData.records.reduce((sum, rec) => sum + (rec.on_hand_quantity || 0), 0);
+            product.uom = inventoryData.records[0]?.uom || 'pcs';
+          } else {
+            product.inventory = [];
+            product.totalQuantity = product.qty_available || 0;
+            product.uom = 'pcs';
+          }
+        } catch (error) {
+          console.error('Failed to fetch inventory:', error);
+          product.inventory = [];
+          product.totalQuantity = product.qty_available || 0;
+          product.uom = 'pcs';
+        }
+      } else {
+        product.inventory = [];
+        product.totalQuantity = product.qty_available || 0;
+        product.uom = 'pcs';
+      }
+      productsWithInventory.push(product);
+    }
+    
+    return productsWithInventory;
+  },
+
+  makeRequest(url, headers) {
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: url,
+        method: 'GET',
+        header: headers,
+        success: res => {
+          if (res.statusCode === 200) {
+            resolve(res.data);
+          } else {
+            reject(res.data || 'Request failed');
+          }
+        },
+        fail: err => {
+          reject(err);
+        }
+      });
+    });
+  },
+
+  onPageScroll: function (e) {
+    const windowInfo = wx.getWindowInfo();
+    if (e.scrollTop > windowInfo.windowHeight) {
+      this.setData({ showBackToTop: true });
+    } else {
+      this.setData({ showBackToTop: false });
+    }
+  },
+
+  scrollToTop: function () {
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
+    });
+  },
+
+  onReachBottom() {
+    console.log('showBackToTop 2025 --------->', this.data.showBackToTop);
+    let {
+      d_current_page,
+      d_total_pages,
+      products
+    } = this.data;
+
+    // Increment the current page
+    d_current_page += 1;
+
+    console.log('d_current_page Bottom---> 2025', d_current_page, d_total_pages);
+
+    if (d_current_page <= d_total_pages) {
+      this.getMoreRecords(this.data.theUrl, d_current_page).then(bRecords_data => {
+        const bRecords = bRecords_data.records;
+        console.log("products 2025 08 bRecords URL --->>>", this.data.theUrl);
+        console.log("products 2025 08 bRecords --->>>", bRecords_data);
+
+        if (bRecords) {
+          this.fetchInventoryForProducts(bRecords).then(productsWithInventory => {
+            this.setData({
+              d_current_page,
+              products: [...products, ...productsWithInventory]
+            });
+          });
+        }
+      });
+    } else {
+      console.log('already to the Bottom');
+      wx.showToast({
+        title: '已经到底了...',
+        icon: 'success'
+      });
+    }
+  },
+
+  onSampleSearchInput: function (e) {
+    this.setData({
+      searchQuery: e.detail.value
+    });
+  },
+
+  onSampleSearchGo: function () {
+    console.log('hello Search Go');
+    const query = this.data.searchQuery.toLowerCase();
+    this.setData({
+      searchQuery: query,
+    }, () => {
+      console.log('search Changed 2025-08-15--->>>', this.data.searchQuery);
+
+      if (!this.data.searchQuery.trim()) {
+        let oriUrl = this.data.oriUrl;
+        this.setData({
+          theUrl: oriUrl,
+          d_current_page: 0
+        }, () => {
+          console.log('areIndex ---->', this.data.theUrl);
+          this.loadData(this.data.theUrl, this.data.d_current_page);
+        });
+      } else {
+        let filterUrl = this.data.oriUrl;
+
+        if (this.data.searchQuery) {
+          const separator = filterUrl.includes('?') ? '&' : '?';
+          filterUrl = filterUrl + separator + 'keyword=' + this.data.searchQuery;
+        }
+
+        this.setData({
+          filterUrl: filterUrl,
+          theUrl: filterUrl,
+          d_current_page: 0
+        }, () => {
+          console.log('2025-08-16 --->> Filter theUrl--->', this.data.theUrl);
+          this.loadData(this.data.theUrl, this.data.d_current_page);
+        });
+      }
+    });
+  },
+
+  onSampleSearchReset: function () {
+    this.setData({
+      searchQuery: '',
+    }, () => {
+      console.log('search Reset 2025 08 --->>>', this.data.keyword, this.data.searchQuery);
+
+      if (!this.data.searchQuery.trim()) {
+        let oriUrl = this.data.oriUrl;
+        this.setData({
+          theUrl: oriUrl,
+          d_current_page: 0
+        }, () => {
+          console.log('areIndex ---->', this.data.theUrl);
+          this.loadData(this.data.theUrl, this.data.d_current_page);
+        });
+      } else {
+        let filterUrl = this.data.oriUrl;
+
+        if (this.data.searchQuery) {
+          const separator = filterUrl.includes('?') ? '&' : '?';
+          filterUrl = filterUrl + separator + 'keyword=' + this.data.searchQuery;
+        }
+
+        this.setData({
+          filterUrl: filterUrl,
+          theUrl: filterUrl,
+          d_current_page: 0
+        }, () => {
+          console.log('2025-08-16 --->> Filter theUrl--->', this.data.theUrl);
+          this.loadData(this.data.theUrl, this.data.d_current_page);
+        });
+      }
+    });
+  },
+
+  selectProduct(e) {
+    const product = e.currentTarget.dataset.product;
+    console.log('Selected product:', product);
+    wx.showToast({
+      title: `选择产品: ${product.name}`,
+      icon: 'none'
+    });
+  },
+
+  onShareAppMessage: function () {
+    return {
+      title: `${this.data.categoryName} - 产品列表`,
+      path: `/pages/wms/products/products?category_id=${this.data.categoryId}&category_name=${encodeURIComponent(this.data.categoryName)}`,
+    };
+  }
+});

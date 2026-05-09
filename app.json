@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/wms/wms",
+    "pages/wms/products/products",
     "pages/ark_index/ark_index",
     "pages/calendar/calendar",
 

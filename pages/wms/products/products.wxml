@@ -1,0 +1,66 @@
+<view class="products_container">
+  <view class="products-header">
+    <view class="header-content">
+      <text class="header-title">{{categoryName}}</text>
+      <text class="header-subtitle">产品列表</text>
+    </view>
+    <!-- <view class="header-count">
+      <text class="count-badge">{{products.length}}</text>
+      <text class="count-label">产品</text>
+    </view> -->
+  </view>
+  
+  <view class="school-search-container">
+    <view>
+      <input class="school-search-input" type="text" placeholder="Search..." bindinput="onSampleSearchInput" value="{{searchQuery}}" />
+    </view>
+    
+    <view style="display: flex; flex-direction: row; margin-right: 5px;">
+      <view class="school-icon-container">
+        <icon type="search" size="25" bindtap="onSampleSearchGo" />
+        <view style="margin-right: 5px;"></view>
+        <icon type="clear" size="25" bindtap="onSampleSearchReset" />
+      </view>
+    </view>
+  </view>
+  
+  <view class="products-content">
+    <view class="products-list" wx:if="products.length > 0">
+      <view 
+        wx:for="{{products}}" 
+        wx:key="id" 
+        class="product-card"
+        bindtap="selectProduct"
+        data-product="{{item}}"
+      >
+        <view class="card-header">
+          <text class="product-name">{{item.name}}</text>
+        </view>
+        <view class="card-body">
+          <view class="product-code-wrapper">
+            <text class="product-code">{{item.default_code}}</text>
+          </view>
+        </view>
+        <view class="card-footer">
+          <text class="card-arrow">›</text>
+        </view>
+      </view>
+    </view>
+    
+    <view class="empty-state" wx:else>
+      <view class="empty-icon-wrapper">
+        <text class="empty-icon">📦</text>
+      </view>
+      <text class="empty-title">{{loading ? '加载中...' : '暂无产品'}}</text>
+      <text class="empty-desc" wx:if="!loading">当前类别下没有产品</text>
+    </view>
+    
+    <!-- <view class="list-footer">
+      <text class="footer-text" wx:if="!loading && !loadingMore && products.length > 0">已加载全部产品</text>
+    </view> -->
+  </view>
+  
+  <view wx:if="{{showBackToTop}}" class="back-to-top" bindtap="scrollToTop">
+    <image src="/static/images/up-arrow.svg" class="back-to-top"></image>
+  </view>
+</view>
