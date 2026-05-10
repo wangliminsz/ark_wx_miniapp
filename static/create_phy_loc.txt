@@ -1,0 +1,201 @@
+POST http://localhost:8000/physical/locations
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "loc_code": "B1",
+  "loc_name": "3号货架-下层",
+  "remark": "成品区"
+}
+
+Result:
+
+HTTP/1.1 200 OK
+date: Sat, 09 May 2026 06:10:32 GMT
+server: uvicorn
+content-length: 317
+content-type: application/json
+Connection: close
+
+{
+  "status": "success",
+  "record": {
+    "id": 4,
+    "loc_code": "B1",
+    "loc_name": "3号货架-下层",
+    "remark": "成品区",
+    "__last_update": "2026-05-09 06:10:33",
+    "display_name": "physical.location,4",
+    "create_uid": [
+      2,
+      "Administrator"
+    ],
+    "create_date": "2026-05-09 06:10:33",
+    "write_uid": [
+      2,
+      "Administrator"
+    ],
+    "write_date": "2026-05-09 06:10:33"
+  }
+}
+
+
+
+
+
+微信小程序：创建物理库位
+包含：
+表单输入（库位编码、名称、备注）
+请求加载动画
+成功 / 失败提示
+直接调用你的 POST /physical/locations
+1. WXML 页面结构（直接复制）
+pages/xxx/xxx.wxml
+xml
+<!-- 物理库位创建表单 -->
+<view class="form-box">
+  <view class="item">
+    <text>库位编码（如 A1/B1）</text>
+    <input value="{{loc_code}}" bindinput="onLocCodeInput" placeholder="请输入库位编码" />
+  </view>
+
+  <view class="item">
+    <text>库位名称</text>
+    <input value="{{loc_name}}" bindinput="onLocNameInput" placeholder="请输入库位名称" />
+  </view>
+
+  <view class="item">
+    <text>备注（可选）</text>
+    <input value="{{remark}}" bindinput="onRemarkInput" placeholder="请输入备注" />
+  </view>
+
+  <button bindtap="createPhysicalLocation" type="primary" loading="{{loading}}">
+    创建物理库位
+  </button>
+</view>
+2. JS 逻辑（核心！直接复制）
+pages/xxx/xxx.js
+javascript
+运行
+const config = require('../../../config.js'); // 你的配置文件路径
+
+Page({
+  data: {
+    loc_code: '',
+    loc_name: '',
+    remark: '',
+    loading: false,
+  },
+
+  // 输入绑定
+  onLocCodeInput(e) {
+    this.setData({ loc_code: e.detail.value });
+  },
+  onLocNameInput(e) {
+    this.setData({ loc_name: e.detail.value });
+  },
+  onRemarkInput(e) {
+    this.setData({ remark: e.detail.value });
+  },
+
+  // =====================================
+  // ✅ 创建物理库位（对接你FastAPI接口）
+  // =====================================
+  createPhysicalLocation() {
+    const { loc_code, loc_name, remark } = this.data;
+
+    // 简单校验
+    if (!loc_code || !loc_name) {
+      wx.showToast({ title: '编码和名称不能为空', icon: 'none' });
+      return;
+    }
+
+    this.setData({ loading: true });
+    wx.showLoading({ title: '创建中...' });
+
+    // 获取token
+    const token = wx.getStorageSync('odoo_user_erp_token');
+    if (!token) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
+      this.setData({ loading: false });
+      return;
+    }
+
+    // ✅ 调用 FastAPI
+    wx.request({
+      url: config.fastapiUrl + '/physical/locations',
+      method: 'POST',
+      header: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        loc_code: loc_code,
+        loc_name: loc_name,
+        remark: remark || ''
+      },
+      success: (res) => {
+        console.log('创建成功:', res.data);
+        
+        if (res.statusCode === 200) {
+          wx.showToast({ title: '创建成功 ✅', icon: 'success' });
+          
+          // 创建成功后清空表单
+          this.setData({
+            loc_code: '',
+            loc_name: '',
+            remark: ''
+          });
+        } else {
+          wx.showToast({
+            title: res.data.detail || '创建失败',
+            icon: 'none'
+          });
+        }
+      },
+      fail: (err) => {
+        console.error('请求失败', err);
+        wx.showToast({ title: '网络错误', icon: 'none' });
+      },
+      complete: () => {
+        this.setData({ loading: false });
+        wx.hideLoading();
+      }
+    });
+  },
+});
+3. WXSS 样式（可选）
+css
+.form-box {
+  padding: 20rpx;
+}
+.item {
+  margin-bottom: 30rpx;
+}
+.item text {
+  display: block;
+  margin-bottom: 10rpx;
+  font-size: 28rpx;
+}
+.item input {
+  border: 1rpx solid #ddd;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  font-size: 30rpx;
+}
+button {
+  margin-top: 20rpx;
+}
+🚀 这个代码能直接实现什么？
+输入库位编码（如 B1）
+输入名称
+输入备注
+点击按钮 → 创建
+
+
+
+
+
+你刚才测试成功的接口会被完美调用
+有加载动画、错误提示、成功提示
+

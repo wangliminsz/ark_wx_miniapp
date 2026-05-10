@@ -67,6 +67,12 @@ Page({
       });
     }
   },
+  
+  goToLocationManagement: function() {
+    wx.navigateTo({
+      url: '/pages/wms/location/location'
+    });
+  },
 
   makeRequest(url, headers) {
     return new Promise((resolve, reject) => {

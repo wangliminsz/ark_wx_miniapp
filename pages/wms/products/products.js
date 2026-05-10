@@ -129,6 +129,13 @@ Page({
     });
   },
 
+  truncateLocationName(locationName, maxLength = 10) {
+    if (!locationName || locationName.length <= maxLength) {
+      return locationName;
+    }
+    return locationName.substring(0, maxLength) + '...';
+  },
+
   async fetchInventoryForProducts(products) {
     const odoo_user_token = wx.getStorageSync('odoo_user_erp_token');
     const headers = {
@@ -137,38 +144,101 @@ Page({
     };
 
     const productsWithInventory = [];
-    
+
     for (const product of products) {
       const productCode = product.default_code;
-      
+
       if (productCode) {
         try {
-          const inventoryUrl = `${config.fastapiUrl}/inv/quants?product=${encodeURIComponent(productCode)}`;
-          const inventoryData = await this.makeRequest(inventoryUrl, headers);
+          const reconcileUrl = `${config.fastapiUrl}/inventory/reconcile?product_code=${encodeURIComponent(productCode)}`;
+          const physicalUrl = `${config.fastapiUrl}/physical/stock/by_product?code=${encodeURIComponent(productCode)}`;
           
-          if (inventoryData && inventoryData.records && inventoryData.records.length > 0) {
-            product.inventory = inventoryData.records;
-            product.totalQuantity = inventoryData.records.reduce((sum, rec) => sum + (rec.on_hand_quantity || 0), 0);
-            product.uom = inventoryData.records[0]?.uom || 'pcs';
+          const reconcileData = await this.makeRequest(reconcileUrl, headers);
+          const physicalData = await this.makeRequest(physicalUrl, headers);
+
+          if (reconcileData) {
+            product.odoo_total = reconcileData.odoo_total || 0;
+            product.physical_total = reconcileData.physical_total || 0;
+            product.diff = reconcileData.diff || 0;
+            
+            // Process odoo details to truncate location names
+            const processedOdooDetails = [];
+            const originalOdooDetails = reconcileData.odoo_details || [];
+            
+            for (let i = 0; i < originalOdooDetails.length; i++) {
+              const detail = originalOdooDetails[i];
+              const truncatedLocation = this.truncateLocationName(detail.location_id?.[1], 12);
+              
+              processedOdooDetails.push({
+                id: detail.id,
+                product_id: detail.product_id,
+                lot_id: detail.lot_id,
+                location_id: detail.location_id,
+                quantity: detail.quantity,
+                quantity_formatted: (detail.quantity * 1).toFixed(3),
+                location_truncated: truncatedLocation
+              });
+            }
+            
+            // Sort Odoo details by location (ascending)
+            processedOdooDetails.sort((a, b) => {
+              const locA = a.location_id?.[1] || '';
+              const locB = b.location_id?.[1] || '';
+              return locA.localeCompare(locB);
+            });
+            
+            product.odoo_details = processedOdooDetails;
+            
+            // Process physical details
+            const processedPhysicalDetails = (physicalData?.details || []).map(detail => ({
+              ...detail,
+              real_qty_formatted: (detail.real_qty * 1).toFixed(3)
+            }));
+            
+            // Sort physical details by location code (ascending)
+            processedPhysicalDetails.sort((a, b) => {
+              const locA = a.loc_code || '';
+              const locB = b.loc_code || '';
+              return locA.localeCompare(locB);
+            });
+            
+            product.physical_details = processedPhysicalDetails;
+            
+            // Format totals
+            product.odoo_total_formatted = (reconcileData.odoo_total * 1).toFixed(3);
+            product.physical_total_formatted = (reconcileData.physical_total * 1).toFixed(3);
+            product.diff_formatted = ((reconcileData.diff || 0) * 1).toFixed(3);
+            product.diff_sign = (reconcileData.diff || 0) > 0 ? '+' : '';
+            
+            product.uom = 'kg';
           } else {
-            product.inventory = [];
-            product.totalQuantity = product.qty_available || 0;
-            product.uom = 'pcs';
+            product.odoo_total = 0;
+            product.physical_total = 0;
+            product.diff = 0;
+            product.odoo_details = [];
+            product.physical_details = [];
+            product.uom = 'kg';
           }
         } catch (error) {
-          console.error('Failed to fetch inventory:', error);
-          product.inventory = [];
-          product.totalQuantity = product.qty_available || 0;
-          product.uom = 'pcs';
+          console.error('Failed to fetch reconcile or physical stock:', error);
+          product.odoo_total = 0;
+          product.physical_total = 0;
+          product.diff = 0;
+          product.odoo_details = [];
+          product.physical_details = [];
+          product.uom = 'kg';
         }
       } else {
-        product.inventory = [];
-        product.totalQuantity = product.qty_available || 0;
-        product.uom = 'pcs';
+        product.odoo_total = 0;
+        product.physical_total = 0;
+        product.diff = 0;
+        product.odoo_details = [];
+        product.physical_details = [];
+        product.uom = 'kg';
       }
       productsWithInventory.push(product);
     }
-    
+
     return productsWithInventory;
   },
 
@@ -342,13 +412,22 @@ Page({
     });
   },
 
-  selectProduct(e) {
+  goToStockEdit(e) {
     const product = e.currentTarget.dataset.product;
-    console.log('Selected product:', product);
-    wx.showToast({
-      title: `选择产品: ${product.name}`,
-      icon: 'none'
+    console.log('Go to stock edit for product:', product);
+    wx.navigateTo({
+      url: `/pages/wms/inventory/edit_stock?product_id=${product.id}&product_code=${encodeURIComponent(product.default_code)}&product_name=${encodeURIComponent(product.name)}`
     });
+  },
+
+  // 刷新库存数据（从盘点页面返回时调用）
+  refreshInventory() {
+    console.log('Refresh inventory triggered');
+    this.setData({
+      products: [],
+      d_current_page: 0
+    });
+    this.loadData(this.data.theUrl, 0);
   },
 
   onShareAppMessage: function () {

@@ -1,0 +1,100 @@
+<view class="page-container">
+  <!-- 自定义导航栏 -->
+  <view class="custom-navbar">
+    <view class="navbar-wrapper">
+      <view class="navbar-content">
+        <view class="nav-back-btn" bindtap="goBack">
+          <text class="nav-back-icon">←</text>
+          <text class="nav-back-text">返回</text>
+        </view>
+        <text class="nav-title">实物库存盘点</text>
+        <view class="nav-placeholder"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 顶部产品信息区 -->
+  <view class="header-section">
+    <view class="header-content">
+      <text class="prod-name">{{productName}}</text>
+      <text class="prod-code">{{productCode}}</text>
+      <view class="stock-row">
+        <text class="stock-label">账面库存</text>
+        <text class="stock-value">{{totalRealQty}} kg</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作提示 -->
+  <view class="tip-bar">
+    <text class="tip-icon">💡</text>
+    <text class="tip-text">点击库位/批次可选择，数量支持小数</text>
+  </view>
+
+  <!-- 表格区域 -->
+  <view class="table-wrapper">
+    <view class="table">
+      <!-- 表头 -->
+      <view class="thead">
+        <view class="tr">
+          <view class="th col-loc">库位</view>
+          <view class="th col-lot">批次</view>
+          <view class="th col-qty">数量(kg)</view>
+          <view class="th col-op">操作</view>
+        </view>
+      </view>
+
+      <!-- 表体 -->
+      <scroll-view scroll-y class="tbody">
+        <view wx:for="{{stockList}}" wx:key="*this" class="tr">
+          <!-- 库位选择 -->
+          <view class="td col-loc">
+            <picker mode="selector" range="{{locList}}" range-key="loc_code"
+                    bindchange="onLocChange" data-index="{{index}}">
+              <view class="picker-cell">
+                <text class="picker-text">{{item.loc_code || "请选择"}}</text>
+                <text class="picker-arrow">▼</text>
+              </view>
+            </picker>
+          </view>
+
+          <!-- 批次选择 -->
+          <view class="td col-lot">
+            <picker mode="selector" range="{{lotList}}" range-key="name"
+                    bindchange="onLotChange" data-index="{{index}}">
+              <view class="picker-cell">
+                <text class="picker-text">{{item.lot_name || "请选择"}}</text>
+                <text class="picker-arrow">▼</text>
+              </view>
+            </picker>
+          </view>
+
+          <!-- 数量输入 -->
+          <view class="td col-qty">
+            <input class="qty-input" type="digit" placeholder="0.00"
+                   value="{{item.real_qty}}" data-index="{{index}}"
+                   bindinput="onQtyInput" />
+          </view>
+
+          <!-- 删除按钮 -->
+          <view class="td col-op">
+            <view class="del-btn" bindtap="onDelRow" data-index="{{index}}">
+              <text class="del-icon">✕</text>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- 底部操作区 -->
+  <view class="footer-section">
+    <button class="action-btn btn-secondary" bindtap="onAddRow">
+      <text class="btn-icon">+</text>
+      <text>新增行</text>
+    </button>
+    <button class="action-btn btn-primary" bindtap="onSaveAll" loading="{{loading}}">
+      <text>保存全部</text>
+    </button>
+  </view>
+</view>

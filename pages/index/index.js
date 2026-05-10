@@ -2,7 +2,7 @@ const config = require('../../config.js');
 
 Page({
   data: {
-    username: '',
+    username: 'wanglimin.sz@outlook.com',
     password: '',
     showPassword: false
   },

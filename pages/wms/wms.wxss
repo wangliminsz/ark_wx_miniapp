@@ -10,7 +10,7 @@
 
 .wms_header {
   text-align: center;
-  padding: 60rpx 40rpx 40rpx;
+  padding: 60rpx 40rpx 20rpx;
 }
 
 .wms_title {
@@ -26,6 +26,15 @@
   display: block;
   font-size: 28rpx;
   color: #666;
+}
+
+.location-link {
+  display: block;
+  font-size: 26rpx;
+  color: #007AFF;
+  margin-top: 20rpx;
+  text-decoration: underline;
+  text-align: right;
 }
 
 .wms_content {

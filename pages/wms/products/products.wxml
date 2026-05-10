@@ -30,17 +30,71 @@
         wx:for="{{products}}" 
         wx:key="id" 
         class="product-card"
-        bindtap="selectProduct"
+        bindtap="goToStockEdit"
         data-product="{{item}}"
       >
         <view class="card-header">
           <text class="product-name">{{item.name}}</text>
         </view>
+        
         <view class="card-body">
           <view class="product-code-wrapper">
             <text class="product-code">{{item.default_code}}</text>
           </view>
+          
+          <view class="odoo-table" wx:if="{{item.odoo_details.length > 0}}">
+            <view class="odoo-table-header">
+              <text class="table-cell location-cell">Odoo 库位</text>
+              <text class="table-cell lot-cell">批次</text>
+              <text class="table-cell qty-cell">数量</text>
+            </view>
+            <view class="odoo-detail-row" wx:for="{{item.odoo_details}}" wx:for-item="odooItem" wx:key="id">
+              <text class="table-cell location-cell">{{odooItem.location_truncated}}</text>
+              <text class="table-cell lot-cell">{{odooItem.lot_id[1]}}</text>
+              <text class="table-cell qty-cell">{{odooItem.quantity_formatted}} {{item.uom}}</text>
+            </view>
+          </view>
+          
+          <view class="physical-table">
+            <view class="physical-table-header">
+              <text class="table-cell loc-cell">实物库位</text>
+              <text class="table-cell lot-cell">批次</text>
+              <text class="table-cell qty-cell">数量</text>
+            </view>
+            <view wx:if="{{item.physical_details.length > 0}}">
+              <view class="physical-detail-row" wx:for="{{item.physical_details}}" wx:for-item="physicalItem" wx:key="id">
+                <text class="table-cell loc-cell">{{physicalItem.loc_code}}</text>
+                <text class="table-cell lot-cell">{{physicalItem.lot_number}}</text>
+                <text class="table-cell qty-cell">{{physicalItem.real_qty_formatted}} {{item.uom}}</text>
+              </view>
+            </view>
+            <view wx:else>
+              <view class="physical-detail-row empty-row">
+                <text class="table-cell empty-text">暂无实物库存</text>
+              </view>
+            </view>
+          </view>
+
+          <view></view>
+          
+          <view class="inventory-summary">
+            <view class="summary-item">
+              <text class="summary-label">账面</text>
+              <text class="summary-value odoo-value">{{item.odoo_total_formatted}} {{item.uom}}</text>
+            </view>
+            <view class="summary-divider"></view>
+            <view class="summary-item">
+              <text class="summary-label">实物</text>
+              <text class="summary-value physical-value">{{item.physical_total_formatted}} {{item.uom}}</text>
+            </view>
+            <view class="summary-divider"></view>
+            <view class="summary-item">
+              <text class="summary-label">差异</text>
+              <text class="summary-value diff-value {{item.diff > 0 ? 'positive' : item.diff < 0 ? 'negative' : ''}}">{{item.diff_sign}}{{item.diff_formatted}} {{item.uom}}</text>
+            </view>
+          </view>
         </view>
+        
         <view class="card-footer">
           <text class="card-arrow">›</text>
         </view>

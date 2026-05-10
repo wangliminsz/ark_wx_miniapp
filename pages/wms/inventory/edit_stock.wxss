@@ -1,0 +1,304 @@
+page {
+  background: #f5f7fa;
+  font-size: 28rpx;
+  min-height: 100vh;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* 自定义导航栏 */
+.custom-navbar {
+  background: linear-gradient(135deg, #007AFF 0%, #0056b3 100%);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+
+.navbar-wrapper {
+  padding-top: env(safe-area-inset-top);
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 88rpx;
+  padding: 0 24rpx;
+}
+
+.nav-back-btn {
+  display: flex;
+  align-items: center;
+  padding: 8rpx 16rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 24rpx;
+}
+
+.nav-back-icon {
+  font-size: 32rpx;
+  color: #fff;
+  margin-right: 8rpx;
+}
+
+.nav-back-text {
+  font-size: 28rpx;
+  color: #fff;
+}
+
+.nav-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #fff;
+}
+
+.nav-placeholder {
+  width: 100rpx;
+}
+
+/* 顶部产品信息区 */
+.header-section {
+  background: #f8f9fa;
+  padding: 30rpx 32rpx;
+  padding-top: calc(30rpx + env(safe-area-inset-top) + 88rpx);
+  color: #333;
+  border-bottom: 1rpx solid #eee;
+}
+
+.header-content {
+  max-width: 100%;
+}
+
+.prod-name {
+  display: block;
+  font-size: 34rpx;
+  font-weight: 500;
+  margin-bottom: 8rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prod-code {
+  display: block;
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stock-row {
+  display: flex;
+  align-items: center;
+  background: #eef5ff;
+  border-radius: 8rpx;
+  padding: 12rpx 16rpx;
+  width: fit-content;
+}
+
+.stock-label {
+  font-size: 26rpx;
+  color: #444;
+  margin-right: 12rpx;
+}
+
+.stock-value {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #007AFF;
+}
+
+/* 操作提示 */
+.tip-bar {
+  display: flex;
+  align-items: center;
+  padding: 14rpx 32rpx;
+  background: #fffbe6;
+  border-bottom: 1rpx solid #ffe58f;
+}
+
+.tip-icon {
+  font-size: 26rpx;
+  margin-right: 10rpx;
+}
+
+.tip-text {
+  font-size: 24rpx;
+  color: #d4a76a;
+}
+
+/* 表格包装器 */
+.table-wrapper {
+  flex: 1;
+  padding: 20rpx;
+}
+
+.table {
+  background: #fff;
+  border-radius: 12rpx;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 300rpx;
+}
+
+/* 表头 */
+.thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #f8f9fa;
+}
+
+.tr {
+  display: flex;
+  width: 100%;
+}
+
+.th {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 0;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #495057;
+  box-sizing: border-box;
+}
+
+/* 表体 */
+.tbody {
+  flex: 1;
+  max-height: calc(100vh - 400rpx);
+}
+
+.td {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16rpx 8rpx;
+  box-sizing: border-box;
+  border-bottom: 1rpx solid #f0f0f0;
+  min-height: 80rpx;
+}
+
+.tbody .tr:last-child .td {
+  border-bottom: none;
+}
+
+/* 列宽度定义 */
+.col-loc { width: 22%; }
+.col-lot { width: 30%; }
+.col-qty { width: 30%; }
+.col-op { width: 18%; }
+
+/* 选择器单元格 - 高度统一 */
+.picker-cell {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60rpx;
+  padding: 0 14rpx;
+  background: #f8f9fa;
+  border-radius: 8rpx;
+  box-sizing: border-box;
+}
+
+.picker-text {
+  font-size: 26rpx;
+  color: #333;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.picker-arrow {
+  font-size: 20rpx;
+  color: #999;
+  margin-left: 4rpx;
+}
+
+/* 数量输入框 - 彻底修复垂直居中 */
+.qty-input {
+  width: 100%;
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 12rpx;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  text-align: center;
+  background: #fff;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+
+.qty-input:focus {
+  border-color: #007AFF;
+}
+
+/* 删除按钮 */
+.del-btn {
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff5f5;
+  border-radius: 50%;
+}
+
+.del-icon {
+  font-size: 24rpx;
+  color: #ff4d4f;
+}
+
+/* 底部操作区 */
+.footer-section {
+  display: flex;
+  gap: 20rpx;
+  padding: 24rpx 32rpx;
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+  background: #fff;
+  border-top: 1rpx solid #eee;
+}
+
+.action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx 0;
+  border-radius: 10rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  border: none;
+}
+
+.btn-secondary {
+  background: #fff;
+  border: 2rpx solid #007AFF;
+  color: #007AFF;
+}
+
+.btn-primary {
+  flex: 2;
+  background: #07c160;
+  color: #fff;
+}
+
+.btn-icon {
+  font-size: 32rpx;
+  margin-right: 8rpx;
+}

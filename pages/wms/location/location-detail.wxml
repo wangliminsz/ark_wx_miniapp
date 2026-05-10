@@ -1,0 +1,82 @@
+<view class="page-container">
+  <!-- 表单区域 -->
+  <view class="form-card">
+    <view class="form-title">
+      <text class="title-text">{{isCreate ? '新建库位' : '编辑库位'}}</text>
+    </view>
+
+    <!-- 编码输入 -->
+    <view class="form-item">
+      <text class="form-label">库位编码</text>
+      <view class="input-wrapper">
+        <input 
+          class="form-input" 
+          placeholder="请输入库位编码" 
+          value="{{formData.loc_code}}" 
+          bindinput="onCodeInput"
+          disabled="{{!isCreate}}"
+          placeholder-class="input-placeholder"
+        />
+        <text wx:if="!isCreate" class="input-tip">编码不可修改</text>
+      </view>
+    </view>
+
+    <!-- 名称输入 -->
+    <view class="form-item">
+      <text class="form-label">库位名称</text>
+      <input 
+        class="form-input" 
+        placeholder="请输入库位名称" 
+        value="{{formData.loc_name}}" 
+        bindinput="onNameInput"
+        placeholder-class="input-placeholder"
+      />
+    </view>
+
+    <!-- 备注输入 -->
+    <view class="form-item">
+      <text class="form-label">备注</text>
+      <textarea 
+        class="form-textarea" 
+        placeholder="请输入备注信息（可选）" 
+        value="{{formData.remark}}" 
+        bindinput="onRemarkInput"
+        placeholder-class="input-placeholder"
+      />
+    </view>
+  </view>
+
+  <!-- 额外信息（编辑模式显示） -->
+  <view wx:if="!isCreate && locationInfo" class="info-card">
+    <view class="info-title">
+      <text class="title-text">详细信息</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">ID</text>
+      <text class="info-value">{{locationInfo.id}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">创建时间</text>
+      <text class="info-value">{{locationInfo.create_date || '-'}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">更新时间</text>
+      <text class="info-value">{{locationInfo.write_date || '-'}}</text>
+    </view>
+  </view>
+
+  <!-- 底部按钮区 -->
+  <view class="footer-section">
+    <button 
+      wx:if="!isCreate" 
+      class="action-btn btn-danger" 
+      bindtap="confirmDelete"
+      loading="{{loading}}"
+    >
+      <text>删除库位</text>
+    </button>
+    <button class="action-btn btn-primary" bindtap="handleSave" loading="{{loading}}">
+      <text>{{isCreate ? '创建库位' : '保存修改'}}</text>
+    </button>
+  </view>
+</view>

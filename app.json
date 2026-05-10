@@ -2,7 +2,10 @@
   "pages": [
     "pages/index/index",
     "pages/wms/wms",
+    "pages/wms/location/location",
+    "pages/wms/location/location-detail",
     "pages/wms/products/products",
+    "pages/wms/inventory/edit_stock",
     "pages/ark_index/ark_index",
     "pages/calendar/calendar",
 

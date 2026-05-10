@@ -2,6 +2,7 @@
   <view class="wms_header">
     <text class="wms_title">WMS Warehouse System</text>
     <text class="wms_subtitle">仓库管理系统</text>
+    <text class="location-link" bindtap="goToLocationManagement">库位管理</text>
   </view>
   
   <view class="wms_content">
