@@ -253,7 +253,11 @@ Page({
       .then(() => {
         wx.hideLoading();
         wx.showToast({ title: "保存成功", icon: "success" });
-        // 刷新回填
+        
+        // ✅ 关键：设置刷新标记
+        wx.setStorageSync('needRefreshProductList', true);
+        
+        // 刷新当前页面库存数据
         setTimeout(() => {
           this.fetchExistingStock(this.data.productCode);
         }, 1000);

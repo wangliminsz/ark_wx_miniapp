@@ -41,6 +41,15 @@ Page({
 
   onShow() {
     console.log('onShow triggered - d_total_pages:', this.data.d_total_pages, 'd_current_page:', this.data.d_current_page);
+    
+    // ✅ 每次进入list页，都检查一下标记
+    const needRefresh = wx.getStorageSync('needRefreshProductList');
+    if (needRefresh) {
+      // 清除标记，避免重复刷新
+      wx.removeStorageSync('needRefreshProductList');
+      // 重新拉取产品列表数据
+      this.refreshProductList();
+    }
   },
 
   async loadData(loadUrl, current_page) {
@@ -418,6 +427,16 @@ Page({
     wx.navigateTo({
       url: `/pages/wms/inventory/edit_stock?product_id=${product.id}&product_code=${encodeURIComponent(product.default_code)}&product_name=${encodeURIComponent(product.name)}`
     });
+  },
+
+  // 刷新产品列表数据
+  refreshProductList() {
+    console.log('Refresh product list triggered');
+    this.setData({
+      products: [],
+      d_current_page: 0
+    });
+    this.loadData(this.data.theUrl, 0);
   },
 
   // 刷新库存数据（从盘点页面返回时调用）

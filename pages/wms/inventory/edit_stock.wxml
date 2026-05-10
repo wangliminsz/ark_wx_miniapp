@@ -1,100 +1,73 @@
 <view class="page-container">
-  <!-- 自定义导航栏 -->
-  <view class="custom-navbar">
-    <view class="navbar-wrapper">
-      <view class="navbar-content">
-        <view class="nav-back-btn" bindtap="goBack">
-          <text class="nav-back-icon">←</text>
-          <text class="nav-back-text">返回</text>
-        </view>
-        <text class="nav-title">实物库存盘点</text>
-        <view class="nav-placeholder"></view>
-      </view>
+  <!-- <view class="page-header">
+    <view class="back-btn" bindtap="goBack">
+      <text class="back-icon">‹</text>
+      <text class="back-text">返回</text>
+    </view>
+    <view class="page-title">实物库存盘点</view>
+  </view> -->
+
+  <!-- 产品信息 -->
+  <view class="product-info">
+    <text class="product-name">{{productName}}</text>
+    <text class="product-code">{{productCode}}</text>
+    <view class="stock-info">
+      <text class="label">账面库存</text>
+      <text class="value">{{totalRealQty}} kg</text>
     </view>
   </view>
 
-  <!-- 顶部产品信息区 -->
-  <view class="header-section">
-    <view class="header-content">
-      <text class="prod-name">{{productName}}</text>
-      <text class="prod-code">{{productCode}}</text>
-      <view class="stock-row">
-        <text class="stock-label">账面库存</text>
-        <text class="stock-value">{{totalRealQty}} kg</text>
-      </view>
-    </view>
+  <!-- 提示 -->
+  <view class="tip">
+    <text>💡 点击库位/批次可选择，数量支持小数</text>
   </view>
 
-  <!-- 操作提示 -->
-  <view class="tip-bar">
-    <text class="tip-icon">💡</text>
-    <text class="tip-text">点击库位/批次可选择，数量支持小数</text>
-  </view>
-
-  <!-- 表格区域 -->
+  <!-- 表格 -->
   <view class="table-wrapper">
     <view class="table">
-      <!-- 表头 -->
-      <view class="thead">
-        <view class="tr">
-          <view class="th col-loc">库位</view>
-          <view class="th col-lot">批次</view>
-          <view class="th col-qty">数量(kg)</view>
-          <view class="th col-op">操作</view>
-        </view>
+      <view class="table-head">
+        <view class="th loc">库位</view>
+        <view class="th lot">批次</view>
+        <view class="th qty">数量(kg)</view>
+        <view class="th op">操作</view>
       </view>
 
-      <!-- 表体 -->
-      <scroll-view scroll-y class="tbody">
-        <view wx:for="{{stockList}}" wx:key="*this" class="tr">
-          <!-- 库位选择 -->
-          <view class="td col-loc">
-            <picker mode="selector" range="{{locList}}" range-key="loc_code"
-                    bindchange="onLocChange" data-index="{{index}}">
-              <view class="picker-cell">
-                <text class="picker-text">{{item.loc_code || "请选择"}}</text>
-                <text class="picker-arrow">▼</text>
+      <scroll-view scroll-y class="table-body">
+        <view wx:for="{{stockList}}" wx:key="*this" class="table-row">
+          <view class="td loc">
+            <picker mode="selector" range="{{locList}}" range-key="loc_code" bindchange="onLocChange" data-index="{{index}}">
+              <view class="select-box">
+                <text>{{item.loc_code || '请选择'}}</text>
+                <text class="arrow">▼</text>
               </view>
             </picker>
           </view>
 
-          <!-- 批次选择 -->
-          <view class="td col-lot">
-            <picker mode="selector" range="{{lotList}}" range-key="name"
-                    bindchange="onLotChange" data-index="{{index}}">
-              <view class="picker-cell">
-                <text class="picker-text">{{item.lot_name || "请选择"}}</text>
-                <text class="picker-arrow">▼</text>
+          <view class="td lot">
+            <picker mode="selector" range="{{lotList}}" range-key="name" bindchange="onLotChange" data-index="{{index}}">
+              <view class="select-box">
+                <text>{{item.lot_name || '请选择'}}</text>
+                <text class="arrow">▼</text>
               </view>
             </picker>
           </view>
 
-          <!-- 数量输入 -->
-          <view class="td col-qty">
+          <view class="td qty">
             <input class="qty-input" type="digit" placeholder="0.00"
-                   value="{{item.real_qty}}" data-index="{{index}}"
-                   bindinput="onQtyInput" />
+              value="{{item.real_qty}}" data-index="{{index}}" bindinput="onQtyInput" />
           </view>
 
-          <!-- 删除按钮 -->
-          <view class="td col-op">
-            <view class="del-btn" bindtap="onDelRow" data-index="{{index}}">
-              <text class="del-icon">✕</text>
-            </view>
+          <view class="td op">
+            <view class="del-btn" bindtap="onDelRow" data-index="{{index}}">✕</view>
           </view>
         </view>
       </scroll-view>
     </view>
   </view>
 
-  <!-- 底部操作区 -->
-  <view class="footer-section">
-    <button class="action-btn btn-secondary" bindtap="onAddRow">
-      <text class="btn-icon">+</text>
-      <text>新增行</text>
-    </button>
-    <button class="action-btn btn-primary" bindtap="onSaveAll" loading="{{loading}}">
-      <text>保存全部</text>
-    </button>
+  <!-- 底部按钮 -->
+  <view class="footer">
+    <button class="btn-add" bindtap="onAddRow">+ 新增行</button>
+    <button class="btn-save" bindtap="onSaveAll" loading="{{loading}}">保存全部</button>
   </view>
 </view>
