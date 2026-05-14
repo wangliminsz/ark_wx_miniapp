@@ -6,6 +6,9 @@
     "pages/wms/location/location-detail",
     "pages/wms/products/products",
     "pages/wms/inventory/edit_stock",
+    "pages/wms/inventory/select_location",
+    "pages/wms/location-qty/location-qty",
+    "pages/wms/location-detail-qty/location-detail-qty",
     "pages/ark_index/ark_index",
     "pages/calendar/calendar",
 

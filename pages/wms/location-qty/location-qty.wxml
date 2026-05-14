@@ -1,0 +1,48 @@
+<view class="page-container">
+  <view class="school-search-container">
+    <view>
+      <input class="school-search-input" type="text" placeholder="Search..." bindinput="onSearchInput" value="{{keyword}}" />
+    </view>
+    
+    <view style="display: flex; flex-direction: row; margin-right: 5px;">
+      <view class="school-icon-container">
+        <icon type="search" size="25" bindtap="onSearch" />
+        <view style="margin-right: 5px;"></view>
+        <icon type="clear" size="25" bindtap="onReset" />
+      </view>
+    </view>
+  </view>
+
+  <view class="table-wrapper">
+    <view class="table">
+      <view class="table-head">
+        <view class="th loc">库位</view>
+        <view class="th name">名称</view>
+        <view class="th remark">备注</view>
+      </view>
+
+      <scroll-view scroll-y class="table-body">
+
+        <view class="empty-tip" wx:if="{{filteredLocations.length === 0}}">
+          暂无库位数据
+        </view>
+
+        <view wx:for="{{filteredLocations}}" wx:key="id" class="table-row" bindtap="goToLocationDetail" data-loc_code="{{item.loc_code}}">
+          <view class="td loc">
+            <text class="loc-code">{{item.loc_code}}</text>
+          </view>
+          <view class="td name">
+            <text class="loc-name">{{item.loc_name || '-'}}</text> 
+          </view>
+          <view class="td remark">
+            <text class="loc-remark">{{item.remark}}</text>
+            <!-- <view class="qty-badge"> -->
+              <!-- <text class="qty-text">{{item.total_qty || 0}}</text> -->
+              <!-- <text class="qty-text">{{item.remark}}</text> -->
+            <!-- </view> -->
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

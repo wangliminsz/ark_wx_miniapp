@@ -7,13 +7,10 @@
   
   <view class="ark_links-container">
 
-    <navigator url="/pages/home/home" class="ark_link-item" bindtap="wmsTap">
-      <text>WMS 仓库盘点</text>
-    </navigator>
-    <view style="margin-top: 30px;"></view>
     <navigator url="/pages/home/home" class="ark_link-item" bindtap="erpTap">
       <text>ERP 生产信息沟通</text>
     </navigator>
+
     <view style="margin-top: 30px;"></view>
     <navigator url="/pages/about/about" class="ark_link-item"  bindtap="sysTap">
       <text>SYS 打样信息</text>

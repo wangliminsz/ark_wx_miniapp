@@ -38,7 +38,7 @@ Page({
         wx.navigateTo({
           url: '/pages/userlogin/userlogin?db=sys',
           success: function (res) {
-            console.log('Nav from Index to Lgoin successful');
+            console.log('Nav from Index to Login successful');
           },
           fail: function (err) {
             console.error('Nav from Index to Login failed', err);
@@ -51,9 +51,6 @@ Page({
     }
 
   },
-
-
-  // Login ~~~~~~~~~~~~~~~~~~~~~~
 
   erpTap() {
     console.log('Here, Odoo ERP Login 2025 08 18--->');
@@ -90,48 +87,6 @@ Page({
 
       } catch (error) {
         console.log('err --->>>', error);
-      }
-    }
-
-  },
-
-  // Login ~~~~~~~~~~~~~~~~~~~~~~
-
-  wmsTap() {
-    console.log('Here, Odoo WMS Login 2026 05 13--->');
-    const theOdooUserToken_erp = wx.getStorageSync('odoo_user_erp_token')
-    // 如果有 userToken, 跳轉用戶數據頁面； 否則跳轉用戶登錄頁面
-    if (theOdooUserToken_erp) {
-      try {
-
-        wx.navigateTo({
-          url: `/pages/wms/wms`,
-          success: function (res) {
-            console.log('Navigation to WMS successful');
-          },
-          fail: function (err) {
-            console.error('Navigation to WMS failed', err);
-          }
-        });
-      } catch (error) {
-        console.log('wms err --->>>', error);
-      }
-    } else {
-      try {
-        // wx.switchTab({
-        // url: '/pages/userlogin/userlogin',
-        wx.navigateTo({
-          url: '/pages/userlogin/userlogin?db=wms',
-          success: function (res) {
-            console.log('Nav from Index to WMS Login successful');
-          },
-          fail: function (err) {
-            console.error('Nav from Index to WMS Login failed', err);
-          }
-        });
-
-      } catch (error) {
-        console.log('wms err --->>>', error);
       }
     }
 

@@ -1,0 +1,33 @@
+<view class="page-container">
+  <!-- 搜索框 -->
+  <view class="search-container">
+    <input class="search-input" 
+           placeholder="搜索库位编码或名称" 
+           value="{{keyword}}"
+           bindinput="onSearchInput"
+           bindconfirm="onSearch" />
+    <view class="search-btn" bindtap="onSearch">搜索</view>
+    <view class="reset-btn" bindtap="onReset">重置</view>
+  </view>
+
+  <!-- 库位列表 -->
+  <scroll-view scroll-y class="location-list">
+    <view wx:if="{{filteredLocations.length === 0}}" class="empty-tip">
+      暂无匹配的库位
+    </view>
+    <view wx:for="{{filteredLocations}}" 
+          wx:key="id" 
+          class="location-item"
+          bindtap="onSelectLocation"
+          data-item="{{item}}">
+      <view class="loc-code">{{item.loc_code}}</view>
+      <view class="loc-name">{{item.loc_name || ''}}</view>
+      <view class="loc-remark" wx:if="{{item.remark}}">{{item.remark}}</view>
+    </view>
+  </scroll-view>
+
+  <!-- 返回顶部按钮 -->
+  <view class="back-to-top {{showBackToTop ? 'show' : ''}}" bindtap="scrollToTop">
+    <image src="/static/images/up-arrow.svg" class="back-icon"></image>
+  </view>
+</view>

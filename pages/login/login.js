@@ -24,18 +24,46 @@ Page({
   },
 
   onArticleLinkTap() {
-    console.log('Here, Odoo wxarticle 2025 09 25--->');
+    console.log('Navigation to pdkanban');
+
+    // 检查是否已经登录到 ERP
+    const token = wx.getStorageSync("odoo_user_erp_token");
 
     try {
-      wx.navigateTo({
-        url: `/pages/login/wxarticle`,
-        success: function (res) {
-          console.log('Navigation to wxarticle successful');
-        },
-        fail: function (err) {
-          console.error('Navigation to wxarticle failed', err);
+      if (token) {
+        // 已登录，跳转到 pdkanban 页面
+        wx.navigateTo({
+          url: `/pages/pdkanban/pdkanban_cover`,
+          success: function (res) {
+            console.log('Navigation to pdkanban successful');
+          },
+          fail: function (err) {
+            console.error('Navigation to pdkanban failed', err);
+          }
+        });
+      } else {
+        // 未登录，跳转到 index 页面登录
+        try {
+          wx.navigateTo({
+            url: '/pages/userlogin/userlogin?db=erp',
+            success: function (res) {
+              console.log('Navigation from Index to Login successful');
+            },
+            fail: function (err) {
+              console.error('Navigation from Index to Login failed', err);
+              // If navigation fails, try redirectTo as a fallback
+              wx.redirectTo({
+                url: '/pages/userlogin/userlogin?db=erp',
+                fail: function (redirectErr) {
+                  console.error('Redirect to Login also failed', redirectErr);
+                }
+              });
+            }
+          });
+        } catch (error) {
+          console.log('Logout error:', error);
         }
-      });
+      }
     } catch (error) {
       console.log('err --->>>', error);
     }

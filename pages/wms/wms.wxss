@@ -32,7 +32,7 @@
   display: block;
   font-size: 26rpx;
   color: #007AFF;
-  margin-top: 20rpx;
+  margin-top: 25rpx;
   text-decoration: underline;
   text-align: right;
 }
@@ -40,6 +40,18 @@
 .wms_content {
   flex: 1;
   padding: 0 40rpx;
+}
+
+.wms_link {
+  display: flex;               /* 必须有 */
+  flex-direction: row;         /* 横向 */
+  justify-content: space-between; /* 左右分开 */
+  align-items: center;         /* 垂直居中 */
+  /* padding: 20rpx 30rpx; */
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  width: 100%;                 /* 必须占满宽度，否则不生效 */
+  box-sizing: border-box;
 }
 
 .category-section {

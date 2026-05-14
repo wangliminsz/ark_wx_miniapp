@@ -74,6 +74,12 @@ Page({
     });
   },
 
+  goToLocationQty: function() {
+    wx.navigateTo({
+      url: '/pages/wms/location-qty/location-qty'
+    });
+  },
+
   makeRequest(url, headers) {
     return new Promise((resolve, reject) => {
       wx.request({

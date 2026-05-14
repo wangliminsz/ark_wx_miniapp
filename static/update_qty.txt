@@ -1,0 +1,255 @@
+现在可以这样调用（超级自由）
+例 1：只改数量
+json
+{
+    "id": 123,
+    "real_qty": 999.9
+}
+例 2：只改库位
+json
+{
+    "id": 123,
+    "physical_loc_id": 5
+}
+例 3：只改批次
+json
+{
+    "id": 123,
+    "lot_id": 999
+}
+例 4：全部一起改
+json
+{
+    "id": 123,
+    "lot_id": 888,
+    "physical_loc_id": 3,
+    "real_qty": 123.45
+}
+为什么你原来的接口不能改库位 / 批次？
+因为你原来的接口是：
+python
+运行
+('product_id', '=', data.product_id),
+('lot_id', '=', data.lot_id),
+('physical_loc_id', '=', data.physical_loc_id)
+这三个必须完全一样才会更新！
+一旦你改了其中一个 → 系统认为是新的一条 → 新增 ✘
+最终结论（超级重要）
+✔ 新增 / 按三字段更新 → 用旧接口 /physical/stock/update
+✔ 想改 库位 / 批次 / 数量 任意 → 用新接口 /physical/stock/edit_by_id
+
+
+POST http://localhost:8000/physical/stock/edit_by_id
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "id": 1844,
+    "real_qty": 999.9
+}
+
+HTTP/1.1 200 OK
+date: Sun, 10 May 2026 18:44:59 GMT
+server: uvicorn
+content-length: 30
+content-type: application/json
+Connection: close
+
+{
+  "status": "updated",
+  "id": 1844
+}
+
+
+
+
+
+
+
+
+每条数据里都有 id
+json
+{
+  "id": 27,      <--- 👈👈👈 这个就是你要的 physical.stock ID！
+  "product_code": "HATRMPTN50401S150",
+  "lot_number": "2024042222",
+  "loc_code": "A2",
+  "real_qty": 3.0
+}
+不管你从哪个入口进来：
+从产品进来 → 有 id
+从库位进来 → 有 id
+两个入口都拿到 id 了！
+2. 这个 id 就是 Odoo 里 physical.stock 那条记录的 id
+你现在想修改任何一条，直接用这个 id 就行！
+3. 你现在可以这样修改（超级自由）
+比如你要改 id:30
+你想：
+把数量改成 500
+把库位改成 A3
+把批次改成 20250501
+你直接调用我给你写的：
+POST /physical/stock/edit_by_id
+json
+{
+  "id": 30,
+  "real_qty": 500,
+  "physical_loc_id": 3,
+  "lot_id": 1234
+}
+
+
+
+可以这样调用（超级自由）
+例 1：只改数量
+json
+{
+    "id": 123,
+    "real_qty": 999.9
+}
+例 2：只改库位
+json
+{
+    "id": 123,
+    "physical_loc_id": 5
+}
+例 3：只改批次
+json
+{
+    "id": 123,
+    "lot_id": 999
+}
+例 4：全部一起改
+json
+{
+    "id": 123,
+    "lot_id": 888,
+    "physical_loc_id": 3,
+    "real_qty": 123.45
+}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+POST http://localhost:8000/physical/stock/edit_by_id
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "id": 1844,
+    "real_qty": 999.9
+}
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+#########################
+### 读取实物库存 -- 按照产品代码
+
+
+GET http://localhost:8000/physical/stock/by_product?code=HATRMPTN50401S150
+Authorization: Bearer {{token}}
+
+
+HTTP/1.1 200 OK
+date: Mon, 11 May 2026 05:43:17 GMT
+server: uvicorn
+content-length: 708
+content-type: application/json
+Connection: close
+
+{
+  "product_code": "HATRMPTN50401S150",
+  "total_real_qty": 459.1,
+  "details": [
+    {
+      "id": 27,
+      "product_code": "HATRMPTN50401S150",
+      "product_name": "耐燃气抗黄变剂PTN504",
+      "lot_number": "2024042222",
+      "loc_code": "A2",
+      "real_qty": 3.0,
+      "uom": "kg"
+    },
+    {
+      "id": 28,
+      "product_code": "HATRMPTN50401S150",
+      "product_name": "耐燃气抗黄变剂PTN504",
+      "lot_number": "2024042201",
+      "loc_code": "A2",
+      "real_qty": 11.0,
+      "uom": "kg"
+    },
+    {
+      "id": 29,
+      "product_code": "HATRMPTN50401S150",
+      "product_name": "耐燃气抗黄变剂PTN504",
+      "lot_number": "2024042201",
+      "loc_code": "A1",
+      "real_qty": 111.5,
+      "uom": "kg"
+    },
+    {
+      "id": 30,
+      "product_code": "HATRMPTN50401S150",
+      "product_name": "耐燃气抗黄变剂PTN504",
+      "lot_number": "2024042222",
+      "loc_code": "A1",
+      "real_qty": 333.6,
+      "uom": "kg"
+    }
+  ]
+}
+
+
+############################################
+
+
+
+#########################
+### 根据库位 → 查询产品数量
+
+GET http://localhost:8000/physical/stock/by_location?loc_code=A1
+Authorization: Bearer {{token}}
+
+HTTP/1.1 200 OK
+date: Sun, 10 May 2026 18:59:12 GMT
+server: uvicorn
+content-length: 502
+content-type: application/json
+Connection: close
+
+{
+  "location": "A1",
+  "total_qty": 445.2,
+  "details": [
+    {
+      "id": 9,
+      "product_code": "HATFM10396102S035",
+      "product_name": "1-(对甲苯磺酰基)氨基脲(CAS 10396-10-8)",
+      "lot_number": "lot-20220304-001",
+      "real_qty": 0.1,
+      "uom": "kg"
+    },
+    {
+      "id": 29,
+      "product_code": "HATRMPTN50401S150",
+      "product_name": "耐燃气抗黄变剂PTN504",
+      "lot_number": "2024042201",
+      "real_qty": 111.5,
+      "uom": "kg"
+    },
+    {
+      "id": 30,
+      "product_code": "HATRMPTN50401S150",
+      "product_name": "耐燃气抗黄变剂PTN504",
+      "lot_number": "2024042222",
+      "real_qty": 333.6,
+      "uom": "kg"
+    }
+  ]
+}

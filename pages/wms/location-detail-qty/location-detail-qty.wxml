@@ -1,0 +1,117 @@
+<view class="page-container">
+  <!-- 顶部库位信息 -->
+  <view class="header-info">
+    <view class="loc-code-badge">{{location}}</view>
+    <!-- 已删除总数量 -->
+  </view>
+
+  <!-- 表格区域 -->
+  <view class="table-wrapper">
+    <view class="table">
+      <view class="table-head">
+        <view class="th product">产品代码</view>
+        <view class="th lot">批次</view>
+        <view class="th qty">数量(kg)</view>
+      </view>
+
+      <scroll-view scroll-y class="table-body">
+        <view class="empty-tip" wx:if="{{details.length === 0}}">
+          该库位暂无库存数据
+        </view>
+
+        <view wx:for="{{details}}" wx:key="id" class="table-row" bindtap="goToProductDetail" data-product_id="{{item.product_id}}" data-product_code="{{item.product_code}}" data-product_name="{{item.product_name}}">
+          <view class="td product">
+            <text class="product-code">{{item.product_code}}</text>
+            <text class="product-name">{{item.product_name}}</text>
+          </view>
+          <view class="td lot">
+            <text>{{item.lot_number || '-'}}</text>
+          </view>
+          <view class="td qty">
+            <text class="qty-value">{{item.real_qty || 0}}</text>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="footer">
+    <button class="btn-add" bindtap="onAddNewStock">+ 新增物料</button>
+  </view>
+
+  <!-- 新增物料弹窗 -->
+  <view class="modal-mask" wx:if="{{showAddModal}}" bindtap="onCloseAddModal">
+    <view class="modal-content" catchtap="onModalContentTap">
+      <view class="modal-header">
+        <text class="modal-title">新增物料</text>
+      </view>
+
+      <view class="modal-body">
+        <!-- 产品选择 -->
+        <view class="form-item">
+          <text class="form-label">选择产品</text>
+          <view class="select-box" bindtap="onSelectProduct">
+            <text>{{selectedProduct ? selectedProduct.name : '请选择产品'}}</text>
+            <text class="arrow">▼</text>
+          </view>
+        </view>
+
+        <!-- 批次选择 -->
+        <view class="form-item" wx:if="{{selectedProduct}}">
+          <text class="form-label">选择批次</text>
+          <picker mode="selector" range="{{productLots}}" range-key="name" bindchange="onLotSelect">
+            <view class="select-box">
+              <text>{{selectedLot ? selectedLot.name : '请选择批次'}}</text>
+              <text class="arrow">▼</text>
+            </view>
+          </picker>
+        </view>
+
+        <!-- 数量输入 -->
+        <view class="form-item">
+          <text class="form-label">数量(kg)</text>
+          <input class="qty-input" type="digit" placeholder="请输入数量" value="{{newQty}}" bindinput="onNewQtyInput" />
+        </view>
+      </view>
+
+      <view class="modal-footer">
+        <button class="btn-cancel" bindtap="onCloseAddModal">取消</button>
+        <button class="btn-confirm" bindtap="onConfirmAdd">确定</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 产品选择弹窗 -->
+  <view class="modal-mask" wx:if="{{showProductPicker}}" bindtap="onCloseProductPicker">
+    <view class="product-picker-content" catchtap="onModalContentTap">
+      <view class="picker-header">
+        <text class="picker-title">选择产品</text>
+        <text class="picker-close" bindtap="onCloseProductPicker">✕</text>
+      </view>
+
+      <!-- 搜索框 -->
+      <view class="search-wrapper">
+        <input class="search-input" placeholder="搜索产品" value="{{productKeyword}}" bindinput="onProductKeywordInput" confirm-type="search" bindconfirm="onSearchProduct" />
+        <text class="search-icon" bindtap="onSearchProduct">🔍</text>
+      </view>
+
+      <!-- 产品列表 -->
+      <scroll-view scroll-y class="product-list">
+        <view class="product-item" wx:for="{{filteredProducts}}" wx:key="id" bindtap="onProductSelect" data-item="{{item}}">
+          <text class="product-name">{{item.name}}</text>
+          <text class="product-code">{{item.default_code}}</text>
+        </view>
+        <view class="empty-tip" wx:if="{{filteredProducts.length === 0 && !productLoading && productKeyword}}">
+          请输入产品代码或名称搜索
+        </view>
+        <view class="empty-tip" wx:if="{{filteredProducts.length === 0 && !productLoading && !productKeyword}}">
+          请输入产品代码或名称搜索
+        </view>
+        <view class="loading-tip" wx:if="{{productLoading}}">
+          搜索中...
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

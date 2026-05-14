@@ -42,7 +42,7 @@
       <navigator url="/pages/privacyPolicy/privacyPolicy" class="link">隐私政策</navigator>
       <view style="margin-top:10px;"></view>
       <view class="link" bindtap="onArticleLinkTap">
-        Article Link
+        Link
       </view>
     </view>
 

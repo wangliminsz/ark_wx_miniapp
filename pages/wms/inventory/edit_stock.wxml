@@ -1,25 +1,80 @@
 <view class="page-container">
-  <!-- <view class="page-header">
-    <view class="back-btn" bindtap="goBack">
-      <text class="back-icon">‹</text>
-      <text class="back-text">返回</text>
-    </view>
-    <view class="page-title">实物库存盘点</view>
-  </view> -->
-
   <!-- 产品信息 -->
   <view class="product-info">
     <text class="product-name">{{productName}}</text>
-    <text class="product-code">{{productCode}}</text>
-    <view class="stock-info">
-      <text class="label">账面库存</text>
-      <text class="value">{{totalRealQty}} kg</text>
+    <view class="product-code-wrapper">
+      <text class="product-code">{{productCode}}</text>
+    </view>
+  </view>
+
+  <!-- Odoo库存详情 -->
+  <view class="odoo-table">
+    <view class="odoo-table-header">
+      <text class="table-cell location-cell">Odoo 库位</text>
+      <text class="table-cell lot-cell">批次</text>
+      <text class="table-cell qty-cell">数量</text>
+    </view>
+    <view wx:if="{{odooDetails.length > 0}}">
+      <view class="odoo-detail-row" wx:for="{{odooDetails}}" wx:key="id">
+        <text class="table-cell location-cell">{{item.location_truncated}}</text>
+        <text class="table-cell lot-cell">{{item.lot_number}}</text>
+        <text class="table-cell qty-cell">{{item.quantity}} kg</text>
+      </view>
+    </view>
+    <view wx:else>
+      <view class="odoo-detail-row empty-row">
+        <text class="table-cell empty-text">没有 Odoo 账面库存</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 实物库存详情 -->
+  <view class="physical-table">
+    <view class="physical-table-header">
+      <text class="table-cell loc-cell">实物库位</text>
+      <text class="table-cell lot-cell">批次</text>
+      <text class="table-cell qty-cell">数量</text>
+    </view>
+    <view wx:if="{{physicalDetails.length > 0}}">
+      <view class="physical-detail-row" wx:for="{{physicalDetails}}" wx:key="id">
+        <text class="table-cell loc-cell">{{item.loc_code}}</text>
+        <text class="table-cell lot-cell">{{item.lot_number}}</text>
+        <text class="table-cell qty-cell">{{item.real_qty}} kg</text>
+      </view>
+    </view>
+    <view wx:else>
+      <view class="physical-detail-row empty-row">
+        <text class="table-cell empty-text">暂无实物库存</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 汇总 -->
+  <view class="inventory-summary">
+    <view class="summary-item">
+      <text class="summary-label">账面</text>
+      <text class="summary-value odoo-value">{{odooQty}} kg</text>
+    </view>
+    <view class="summary-divider"></view>
+    <view class="summary-item">
+      <text class="summary-label">实物</text>
+      <text class="summary-value physical-value">{{totalRealQty}} kg</text>
+    </view>
+    <view class="summary-divider"></view>
+    <view class="summary-item">
+      <text class="summary-label">差异</text>
+      <text class="summary-value diff-value {{diffQty > 0 ? 'positive' : diffQty < 0 ? 'negative' : ''}}">{{diffQty > 0 ? '+' : ''}}{{diffQtyDisplay}} kg</text>
     </view>
   </view>
 
   <!-- 提示 -->
   <view class="tip">
     <text>💡 点击库位/批次可选择，数量支持小数</text>
+  </view>
+
+  <!-- 分隔线 -->
+  <view class="section-divider">
+    <text class="divider-text">库存编辑</text>
   </view>
 
   <!-- 表格 -->
@@ -34,15 +89,15 @@
 
       <scroll-view scroll-y class="table-body">
         <view wx:for="{{stockList}}" wx:key="*this" class="table-row">
+          <!-- 库位：点击跳转到选择页面 -->
           <view class="td loc">
-            <picker mode="selector" range="{{locList}}" range-key="loc_code" bindchange="onLocChange" data-index="{{index}}">
-              <view class="select-box">
-                <text>{{item.loc_code || '请选择'}}</text>
-                <text class="arrow">▼</text>
-              </view>
-            </picker>
+            <view class="select-box" bindtap="onSelectLocation" data-index="{{index}}">
+              <text>{{item.loc_code || '请选择'}}</text>
+              <text class="arrow">▼</text>
+            </view>
           </view>
 
+          <!-- 批次：保持原有的picker -->
           <view class="td lot">
             <picker mode="selector" range="{{lotList}}" range-key="name" bindchange="onLotChange" data-index="{{index}}">
               <view class="select-box">

@@ -2,34 +2,35 @@
   <view class="wms_header">
     <text class="wms_title">WMS Warehouse System</text>
     <text class="wms_subtitle">仓库管理系统</text>
-    <text class="location-link" bindtap="goToLocationManagement">库位管理</text>
+    <view class="wms_link">
+      <view>
+        <text class="location-link" bindtap="goToLocationQty">库位数量</text>
+      </view>
+      <view>
+        <text class="location-link" bindtap="goToLocationManagement">库位管理</text>
+      </view>
+    </view>
   </view>
-  
+
   <view class="wms_content">
     <view class="category-section">
       <view class="category-header">
-        <text class="category-title">产品类别</text>
+        <text class="category-title">Odoo 产品类别</text>
         <text class="category-count">{{categories.length}} 个类别</text>
       </view>
-      
+
       <view class="category-tabs">
-        <view 
-          wx:for="{{categories}}" 
-          wx:key="id"
-          class="category-tab"
-          bindtap="selectCategory"
-          data-id="{{item.id}}"
-        >
+        <view wx:for="{{categories}}" wx:key="id" class="category-tab" bindtap="selectCategory" data-id="{{item.id}}">
           <text class="tab-name">{{item.name}}</text>
         </view>
       </view>
-      
+
       <!-- <view class="loading-state" wx:if="loading">
         <text class="loading-text">加载中...</text>
       </view> -->
     </view>
   </view>
-  
+
   <view class="wms_footer">
     <text>© 2025 Miracleark</text>
   </view>

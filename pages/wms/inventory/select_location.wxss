@@ -1,0 +1,122 @@
+page {
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+.page-container {
+  padding-bottom: 40rpx;
+}
+
+/* 搜索框 */
+.search-container {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 32rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.search-input {
+  flex: 1;
+  height: 70rpx;
+  padding: 0 24rpx;
+  background: #f5f7fa;
+  border-radius: 35rpx;
+  font-size: 28rpx;
+}
+
+.search-btn,
+.reset-btn {
+  margin-left: 16rpx;
+  padding: 14rpx 28rpx;
+  border-radius: 35rpx;
+  font-size: 26rpx;
+  white-space: nowrap;
+}
+
+.search-btn {
+  background: #007AFF;
+  color: #fff;
+}
+
+.reset-btn {
+  background: #f5f5f5;
+  color: #666;
+}
+
+/* 库位列表 */
+.location-list {
+  padding: 20rpx 32rpx;
+  max-height: calc(100vh - 130rpx);
+}
+
+.location-item {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 28rpx 32rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+  transition: all 0.3s;
+}
+
+.location-item:active {
+  transform: scale(0.98);
+  background: #f8f9fa;
+}
+
+.loc-code {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #007AFF;
+  margin-bottom: 12rpx;
+}
+
+.loc-name {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.loc-remark {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+.empty-tip {
+  text-align: center;
+  padding: 100rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* 返回顶部 */
+.back-to-top {
+  position: fixed;
+  right: 32rpx;
+  bottom: 100rpx;
+  width: 80rpx;
+  height: 80rpx;
+  background: rgba(0, 122, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 20rpx rgba(0, 122, 255, 0.3);
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s;
+}
+
+.back-to-top.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.back-icon {
+  width: 40rpx;
+  height: 40rpx;
+}

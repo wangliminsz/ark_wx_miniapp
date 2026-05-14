@@ -7,7 +7,6 @@ Page({
     username: '',
     password: '',
     which_db: 'sys', //sys or erp
-    which_app: '',
     activeTab: 0
   },
 
@@ -20,7 +19,6 @@ Page({
       if(options.db == 'sys'){
         this.setData({
           which_db: 'sys',
-          which_app: 'sys',
           activeTab: 0
         }, () => {
           // console.log("login page options----->", options.db, this.data.which_db, this.data.activeTab)
@@ -30,25 +28,11 @@ Page({
       if(options.db == 'erp'){
         this.setData({
           which_db: 'erp',
-          which_app: 'erp',
           activeTab: 1
         }, () => {
           // console.log("login page options----->", options.db, this.data.which_db, this.data.activeTab)
         })
       }
-
-
-      if(options.db == 'wms'){
-        this.setData({
-          which_db: 'erp',
-          which_app: 'wms',
-          activeTab: 1
-        }, () => {
-          // console.log("login page options----->", options.db, this.data.which_db, this.data.activeTab)
-        })
-      }
-
-
 
 
     }
@@ -131,7 +115,13 @@ Page({
             console.log('this.data.which_db ---->>>', this.data.which_db);
             wx.setStorageSync('odoo_user_token', res.data.access_token);
             wx.setStorageSync('odoo_sys_uid', res.data.uid);
+          }
 
+          if (this.data.which_db == 'erp') {
+            wx.setStorageSync('odoo_user_erp_token', res.data.access_token);
+          }
+
+          if (this.data.which_db == 'sys') {
             wx.navigateTo({
               url: '/pages/pdsample/pdsample_cover',
               success: function (res) {
@@ -141,12 +131,9 @@ Page({
                 console.error('Nav from Login to index failed', err);
               }
             });
-
           }
 
-
-          if (this.data.which_db == 'erp' && this.data.which_app == 'erp') {
-            wx.setStorageSync('odoo_user_erp_token', res.data.access_token);
+          if (this.data.which_db == 'erp') {
             wx.navigateTo({
               url: '/pages/pdkanban/pdkanban_cover',
               success: function (res) {
@@ -154,19 +141,6 @@ Page({
               },
               fail: function (err) {
                 console.error('Nav from Login to index failed', err);
-              }
-            });
-          }
-
-          if (this.data.which_db == 'erp' && this.data.which_app == 'wms') {
-            wx.setStorageSync('odoo_user_erp_token', res.data.access_token);
-            wx.navigateTo({
-              url: '/pages/wms/wms',
-              success: function (res) {
-                console.log('Nav from Login to wms index successful');
-              },
-              fail: function (err) {
-                console.error('Nav from Login to wms index failed', err);
               }
             });
           }
