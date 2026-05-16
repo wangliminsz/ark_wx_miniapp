@@ -93,6 +93,10 @@ page {
   padding-left: 20rpx;
 }
 
+.product-info {
+  width: 100%;
+}
+
 .product-code {
   font-size: 26rpx;
   font-weight: 500;
@@ -100,9 +104,26 @@ page {
 }
 
 .product-name {
+  font-size: 24rpx;
+  color: #222;
+  margin-top: 4rpx;
+}
+
+.product-diff {
+  display: flex;
+  align-items: center;
+  margin-top: 18rpx;
+}
+
+.diff-label {
   font-size: 22rpx;
-  color: #666;
-  margin-top: 6rpx;
+  color: #999;
+  margin-right: 8rpx;
+}
+
+.diff-value {
+  font-size: 24rpx;
+  font-weight: 500;
 }
 
 .td.lot {
@@ -122,6 +143,8 @@ page {
   font-weight: 500;
   color: #333;
 }
+
+
 
 .loading-state,
 .empty-tip {

@@ -62,7 +62,6 @@ Page({
         "Content-Type": "application/json"
       },
       success: (res) => {
-        wx.hideLoading();
         if (res.statusCode === 200 && res.data) {
           console.log('API返回的数据:', res.data);
           const details = res.data.details.map(item => ({
@@ -72,13 +71,19 @@ Page({
             product_name: item.product_name,
             lot_number: item.lot_number,
             real_qty: Number(item.real_qty).toFixed(3),
-            uom: item.uom
+            uom: item.uom,
+            odoo_qty: '0.000',
+            diff_qty: '0.000',
+            diff_color: '#6c757d'
           }));
           console.log('处理后的 details:', details);
           this.setData({
             totalQty: Number(res.data.total_qty).toFixed(3),
             details: details
           });
+          
+          // 获取每个产品的差异数据
+          this.fetchDiffDataForProducts(details);
         }
       },
       fail: (error) => {
@@ -90,6 +95,61 @@ Page({
         });
       }
     });
+  },
+
+  fetchDiffDataForProducts: function(products) {
+    const token = wx.getStorageSync("odoo_user_erp_token");
+    const productCodes = [...new Set(products.map(p => p.product_code))];
+    
+    productCodes.forEach(productCode => {
+      wx.request({
+        url: `${config.fastapiUrl}/inventory/reconcile?product_code=${productCode}`,
+        method: "GET",
+        header: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json"
+        },
+        success: (res) => {
+          if (res.statusCode === 200 && res.data) {
+            const odooTotal = Number(res.data.odoo_total || 0).toFixed(3);
+            const physicalTotal = Number(res.data.physical_total || 0).toFixed(3);
+            const diff = Number(res.data.diff || 0);
+            const diffFixed = Math.abs(diff).toFixed(3);
+            
+            // 判断差异颜色和符号
+            let diffColor = '#6c757d'; // 灰色
+            let diffSign = '';
+            if (diff > 0) {
+              diffColor = '#6f42c1'; // 紫色
+              diffSign = '+';
+            } else if (diff < 0) {
+              diffColor = '#dc3545'; // 红色
+              diffSign = '-';
+            }
+            
+            // 更新对应产品的差异数据
+            this.setData({
+              details: this.data.details.map(item => {
+                if (item.product_code === productCode) {
+                  return {
+                    ...item,
+                    odoo_qty: odooTotal,
+                    diff_qty: diffSign + diffFixed,
+                    diff_color: diffColor
+                  };
+                }
+                return item;
+              })
+            });
+          }
+        },
+        fail: () => {
+          // 如果获取差异数据失败，保持默认值
+        }
+      });
+    });
+    
+    wx.hideLoading();
   },
 
   fetchLocations: function() {

@@ -21,8 +21,16 @@
 
         <view wx:for="{{details}}" wx:key="id" class="table-row" bindtap="goToProductDetail" data-product_id="{{item.product_id}}" data-product_code="{{item.product_code}}" data-product_name="{{item.product_name}}">
           <view class="td product">
-            <text class="product-code">{{item.product_code}}</text>
-            <text class="product-name">{{item.product_name}}</text>
+            <view class="product-info">
+              <text class="product-code">{{item.product_code}}</text>
+            </view>
+            <view class="product-info">
+              <text class="product-name">{{item.product_name}}</text>
+            </view>
+            <view class="product-diff">
+              <!-- <text class="diff-label">差异:</text> -->
+              <text class="diff-value" style="color: {{item.diff_color}}">{{item.diff_qty || 0}} kg</text>
+            </view>
           </view>
           <view class="td lot">
             <text>{{item.lot_number || '-'}}</text>
