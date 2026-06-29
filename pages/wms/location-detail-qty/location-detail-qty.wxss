@@ -112,7 +112,8 @@ page {
 .product-diff {
   display: flex;
   align-items: center;
-  margin-top: 18rpx;
+  margin-top: 8rpx;
+  height: 40rpx; /* 固定高度，避免页面跳动 */
 }
 
 .diff-label {
@@ -124,6 +125,10 @@ page {
 .diff-value {
   font-size: 24rpx;
   font-weight: 500;
+}
+
+.diff-placeholder {
+  width: 180rpx; /* 预留差异值的空间 */
 }
 
 .td.lot {

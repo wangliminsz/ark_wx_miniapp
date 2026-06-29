@@ -13,7 +13,8 @@ Page({
     odooDetails: [],  // Odoo库存详情
     physicalDetails: [], // 实物库存详情
     diffQty: 0,    // 差异数量（数值，用于比较）
-    diffQtyDisplay: "0.000" // 差异数量（格式化字符串，用于显示）
+    diffQtyDisplay: "0.000", // 差异数量（格式化字符串，用于显示）
+    loadingCount: 0 // 加载计数器
   },
 
   // 返回上一页并触发刷新
@@ -42,6 +43,10 @@ Page({
 
   onLoad(options) {
     console.log('onLoad options:', options);
+    
+    // 显示加载状态
+    wx.showLoading({ title: '加载中...' });
+    
     const { product_id, product_code, product_name } = options;
     const decodedProductCode = decodeURIComponent(product_code || '');
     console.log('product_id:', product_id, 'type:', typeof product_id);
@@ -95,6 +100,9 @@ Page({
 
   // 加载所有数据
   loadAllData(code) {
+    // 设置加载计数器（有两个并行请求）
+    this.setData({ loadingCount: 2 });
+    
     // 确保库位和批次加载完成后再加载库存
     this.fetchLocations(() => {
       this.fetchProductLots(code, () => {
@@ -102,6 +110,16 @@ Page({
         this.fetchOdooStock(code);
       });
     });
+  },
+  
+  // 检查是否所有数据都加载完成
+  checkLoadingComplete() {
+    const newCount = this.data.loadingCount - 1;
+    this.setData({ loadingCount: newCount });
+    
+    if (newCount <= 0) {
+      wx.hideLoading();
+    }
   },
 
   // 1. 获取所有库位
@@ -194,7 +212,14 @@ Page({
             stockList: list,
             totalRealQty: formattedTotal
           });
+          
+          // 检查是否所有数据都加载完成
+          this.checkLoadingComplete();
         }
+      },
+      fail: () => {
+        // 失败也需要检查加载状态
+        this.checkLoadingComplete();
       }
     });
   },
@@ -236,7 +261,14 @@ Page({
             odooDetails: odooDetails,
             physicalDetails: physicalDetails
           });
+          
+          // 检查是否所有数据都加载完成
+          this.checkLoadingComplete();
         }
+      },
+      fail: () => {
+        // 失败也需要检查加载状态
+        this.checkLoadingComplete();
       }
     });
   },

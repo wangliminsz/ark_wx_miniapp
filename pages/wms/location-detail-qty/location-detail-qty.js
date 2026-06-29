@@ -72,9 +72,9 @@ Page({
             lot_number: item.lot_number,
             real_qty: Number(item.real_qty).toFixed(3),
             uom: item.uom,
-            odoo_qty: '0.000',
-            diff_qty: '0.000',
-            diff_color: '#6c757d'
+            odoo_qty: '',
+            diff_qty: '',
+            diff_color: ''
           }));
           console.log('处理后的 details:', details);
           this.setData({

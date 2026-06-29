@@ -7,26 +7,21 @@
   
   <view class="ark_links-container">
 
-    <navigator url="/pages/home/home" class="ark_link-item" bindtap="wmsTap">
+    <navigator class="ark_link-item" bindtap="wmsTap">
       <text>WMS 仓库盘点</text>
     </navigator>
     <view style="margin-top: 30px;"></view>
-    <navigator url="/pages/home/home" class="ark_link-item" bindtap="erpTap">
+    <navigator class="ark_link-item" bindtap="erpTap">
       <text>ERP 生产信息沟通</text>
     </navigator>
     <view style="margin-top: 30px;"></view>
-    <navigator url="/pages/about/about" class="ark_link-item"  bindtap="sysTap">
+    <navigator class="ark_link-item"  bindtap="sysTap">
       <text>SYS 打样信息</text>
     </navigator>
-    <!-- <navigator url="/pages/services/services" class="ark_link-item">
-      <text>Services</text>
-    </navigator> -->
-    <!-- <navigator url="/pages/contact/contact" class="ark_link-item">
-      <text>Contact</text>
-    </navigator> -->
+
   </view>
   
   <view class="ark_footer">
-    <text>© 2025 Miracleark</text>
+    <text>© 2025-2026 Miracleark</text>
   </view>
 </view>

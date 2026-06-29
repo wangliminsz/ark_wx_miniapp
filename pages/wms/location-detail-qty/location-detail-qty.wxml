@@ -29,7 +29,8 @@
             </view>
             <view class="product-diff">
               <!-- <text class="diff-label">差异:</text> -->
-              <text class="diff-value" style="color: {{item.diff_color}}">{{item.diff_qty || 0}} kg</text>
+              <text class="diff-value" style="color: {{item.diff_color}}" wx:if="{{item.diff_qty}}">{{item.diff_qty}} kg</text>
+              <view class="diff-placeholder" wx:else></view>
             </view>
           </view>
           <view class="td lot">

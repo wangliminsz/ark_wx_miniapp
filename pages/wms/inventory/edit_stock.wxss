@@ -12,6 +12,33 @@ page {
   padding: 12rpx;
 }
 
+.upper-part {
+  display: flex;
+  flex-direction: column;
+  padding-top: env(safe-area-inset-top);
+  margin-left:5px;
+  margin-right:5px;
+  margin-top: 6px;
+  margin-bottom: 40px;
+  border: 2px solid #87CEEB;
+  border-radius: 2%;
+   /* Add margin to sides to create space between border and parent */
+}
+
+.order-line-border {
+  border: 2px solid #87CEEB;
+  border-radius: 2%;
+  margin: 0 10px; /* Add margin to sides to create space between border and parent */
+}
+
+.lower-part {
+  display: flex;
+  flex-direction: column;
+  padding-top: env(safe-area-inset-top);
+  padding: 12rpx;
+  margin-bottom: 40px;
+}
+
 /* 产品信息 */
 .product-info {
   background-color: #fff;
