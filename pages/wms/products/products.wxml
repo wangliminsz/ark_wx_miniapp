@@ -1,20 +1,35 @@
 <view class="products_container">
   <view class="products-header">
-    <view class="header-content">
-      <text class="header-title">{{categoryName}}</text>
-      <text class="header-subtitle">产品列表</text>
+    <view class="header-left">
+      <view class="header-content">
+        <text class="header-title">{{categoryName}}</text>
+        <text class="header-subtitle">产品列表</text>
+      </view>
+      <!-- 筛选标记（小图标，odoo>0 模式） -->
+      <!-- <view wx:if="{{withQtyOnly}}" class="header-stats"> -->
+      <!-- <text class="filter-chip-icon">●</text> -->
+      <!-- <text class="filter-chip-text">Qty</text> -->
+      <!-- </view> -->
     </view>
-    <!-- <view class="header-count">
-      <text class="count-badge">{{products.length}}</text>
-      <text class="count-label">产品</text>
-    </view> -->
+    <!-- 右上角：记录统计（与 header 同色系） -->
+    <view wx:if="{{d_total_records > 0}}" class="header-stats">
+      <text class="header-stats-records">{{d_total_records}} 条</text>
+      <view style="display:flex; gap:12rpx;">
+        <!-- <view> -->
+        <text class="header-stats-pages">{{d_current_page_display}} / {{d_total_pages}} 页</text>
+        <!-- </view> -->
+        <!-- <view> -->
+        <text class="header-stats-pages" wx:if="{{withQtyOnly}}">Qty</text>
+        <!-- </view> -->
+      </view>
+    </view>
   </view>
-  
+
   <view class="school-search-container">
     <view>
       <input class="school-search-input" type="text" placeholder="Search..." bindinput="onSampleSearchInput" value="{{searchQuery}}" />
     </view>
-    
+
     <view style="display: flex; flex-direction: row; margin-right: 5px;">
       <view class="school-icon-container">
         <icon type="search" size="25" bindtap="onSampleSearchGo" />
@@ -23,38 +38,46 @@
       </view>
     </view>
   </view>
-  
+
   <view class="products-content">
     <view class="products-list" wx:if="products.length > 0">
-      <view 
-        wx:for="{{products}}" 
-        wx:key="id" 
-        class="product-card"
-        bindtap="goToStockEdit"
-        data-product="{{item}}"
-      >
+      <view wx:for="{{products}}" wx:key="id" class="product-card" bindtap="goToStockEdit" data-product="{{item}}">
+
         <view class="card-header">
           <text class="product-name">{{item.name}}</text>
         </view>
-        
+
         <view class="card-body">
-          <view class="product-code-wrapper">
-            <text class="product-code">{{item.default_code}}</text>
+
+          <view style="display:flex; flex-direction:row; justify-content: space-between;">
+            <view class="product-code-wrapper">
+              <text class="product-code">{{item.default_code}}</text>
+            </view>
+
+            <view style="margin-right: 30rpx; color:#bcbcbc; font-size: 26rpx;"> {{item.categ_id[0]}} {{item.categ_id[1]}}</view>
+
           </view>
-          
-          <view class="odoo-table" wx:if="{{item.odoo_details.length > 0}}">
+
+          <view class="odoo-table">
             <view class="odoo-table-header">
               <text class="table-cell location-cell">Odoo 库位</text>
               <text class="table-cell lot-cell">批次</text>
               <text class="table-cell qty-cell">数量</text>
             </view>
-            <view class="odoo-detail-row" wx:for="{{item.odoo_details}}" wx:for-item="odooItem" wx:key="id">
-              <text class="table-cell location-cell">{{odooItem.location_truncated}}</text>
-              <text class="table-cell lot-cell">{{odooItem.lot_id[1]}}</text>
-              <text class="table-cell qty-cell">{{odooItem.quantity_formatted}} {{item.uom}}</text>
+            <view wx:if="{{item.odoo_details.length > 0}}">
+              <view class="odoo-detail-row" wx:for="{{item.odoo_details}}" wx:for-item="odooItem" wx:key="id">
+                <text class="table-cell location-cell">{{odooItem.location_truncated}}</text>
+                <text class="table-cell lot-cell">{{odooItem.lot_id[1]}}</text>
+                <text class="table-cell qty-cell">{{odooItem.quantity_formatted}} {{item.uom}}</text>
+              </view>
+            </view>
+            <view wx:else>
+              <view class="odoo-detail-row empty-row">
+                <text class="table-cell empty-text">暂无 Odoo 库存</text>
+              </view>
             </view>
           </view>
-          
+
           <view class="physical-table">
             <view class="physical-table-header">
               <text class="table-cell loc-cell">实物库位</text>
@@ -76,7 +99,7 @@
           </view>
 
           <view></view>
-          
+
           <view class="inventory-summary">
             <view class="summary-item">
               <text class="summary-label">账面</text>
@@ -94,13 +117,13 @@
             </view>
           </view>
         </view>
-        
+
         <view class="card-footer">
           <text class="card-arrow">›</text>
         </view>
       </view>
     </view>
-    
+
     <view class="empty-state" wx:else>
       <view class="empty-icon-wrapper">
         <text class="empty-icon">📦</text>
@@ -108,12 +131,12 @@
       <text class="empty-title">{{loading ? '加载中...' : '暂无产品'}}</text>
       <text class="empty-desc" wx:if="!loading">当前类别下没有产品</text>
     </view>
-    
+
     <!-- <view class="list-footer">
       <text class="footer-text" wx:if="!loading && !loadingMore && products.length > 0">已加载全部产品</text>
     </view> -->
   </view>
-  
+
   <view wx:if="{{showBackToTop}}" class="back-to-top" bindtap="scrollToTop">
     <image src="/static/images/up-arrow.svg" class="back-to-top"></image>
   </view>

@@ -69,12 +69,28 @@
         <!-- 批次选择 -->
         <view class="form-item" wx:if="{{selectedProduct}}">
           <text class="form-label">选择批次</text>
-          <picker mode="selector" range="{{productLots}}" range-key="name" bindchange="onLotSelect">
-            <view class="select-box">
-              <text>{{selectedLot ? selectedLot.name : '请选择批次'}}</text>
-              <text class="arrow">▼</text>
+          <!-- 有可选批次 & 非手动模式：显示 picker -->
+          <block wx:if="{{productLots.length > 0 && !manualLotMode}}">
+            <picker mode="selector" range="{{productLots}}" range-key="name" bindchange="onLotSelect">
+              <view class="select-box">
+                <text>{{selectedLot ? selectedLot.name : '请选择批次'}}</text>
+                <text class="arrow">▼</text>
+              </view>
+            </picker>
+            <view class="lot-toggle" bindtap="onToggleManualLot">
+              <text>+ 手动输入批次</text>
             </view>
-          </picker>
+          </block>
+          <!-- 无可选批次 或 手动模式：显示输入框 -->
+          <block wx:else>
+            <input class="qty-input" placeholder="请输入批次号" value="{{manualLotName}}" bindinput="onManualLotInput" />
+            <view class="lot-toggle" wx:if="{{productLots.length > 0}}" bindtap="onToggleManualLot">
+              <text>← 返回选择已有批次</text>
+            </view>
+            <view class="lot-hint" wx:if="{{productLots.length === 0}}">
+              <text>该产品暂无批次，请手动输入</text>
+            </view>
+          </block>
         </view>
 
         <!-- 数量输入 -->

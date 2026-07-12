@@ -1,0 +1,20 @@
+for this 2 endpoint: | 12 | POST | `/physical/stock/update` | `update_physical_stock` | Create or update a `physical.stock` record by product_id + physical_loc_id + lot; supports both Odoo lot_id and manual lot_name 
+
+| | 13 | POST | `/physical/stock/edit_by_id` | `edit_physical_stock_by_id` | Edit a specific `physical.stock` record by its Odoo ID; supports partial updates to lot_id, lot_name, physical_loc_id, real_qty | 
+
+
+I add a field in my backend odoo model, the field name is "product_memo", and it's a string (char), 已为两个 endpoint 加入 product_memo 字段支持：
+
+1. 模型层
+   
+   - PhysicalStockUpdate 增加 product_memo: Optional[str] = None
+   - PhysicalStockEditByID 增加 product_memo: Optional[str] = None
+2. POST /physical/stock/update
+   
+   - 更新已存在记录时，若传入 product_memo 则写入
+   - 创建新记录时，若传入 product_memo 则写入
+3. POST /physical/stock/edit_by_id
+   
+   - 若传入 product_memo ，则加入 update_vals 写入 Odoo
+   
+由于字段声明为 Optional[str] = None ，不传时保持原有行为不变，向后兼容。

@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "差异对账",
+  "navigationStyle": "custom",
+  "disableScroll": false,
+  "usingComponents": {
+    "CustomNavBar": "/components/CustomNavBar/CustomNavBar"
+  }
+}

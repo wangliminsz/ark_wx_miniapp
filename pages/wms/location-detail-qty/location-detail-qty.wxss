@@ -255,6 +255,25 @@ page {
   box-sizing: border-box;
 }
 
+.lot-toggle {
+  margin-top: 16rpx;
+  text-align: right;
+}
+
+.lot-toggle text {
+  font-size: 24rpx;
+  color: #007AFF;
+}
+
+.lot-hint {
+  margin-top: 12rpx;
+}
+
+.lot-hint text {
+  font-size: 22rpx;
+  color: #999;
+}
+
 .modal-footer {
   display: flex;
   border-top: 1rpx solid #f0f0f0;

@@ -1,22 +1,26 @@
 <view class="wms_container">
-  <view class="wms_header">
-    <text class="wms_title">WMS Warehouse System</text>
-    <text class="wms_subtitle">仓库管理系统</text>
-    <view class="wms_link">
-      <view>
-        <text class="location-link" bindtap="goToLocationQty">库位数量</text>
-      </view>
-      <view>
-        <text class="location-link" bindtap="goToLocationManagement">库位管理</text>
-      </view>
-    </view>
-  </view>
 
-  <view class="wms_content">
+  <!-- 上半部分：Odoo 库存类别 -->
+  <!-- <view style="height: 0rpx;"></view> -->
+  
+  <view class="wms_half wms_half_bottom">
     <view class="category-section">
       <view class="category-header">
-        <text class="category-title">Odoo 产品类别</text>
+        <text class="category-title">Odoo 库存类别</text>
         <text class="category-count">{{categories.length}} 个类别</text>
+      </view>
+
+      <!-- 筛选 Tab: odoo>0 / diff>0 / 全部 -->
+      <view class="filter-tabs">
+        <view
+          wx:for="{{filterTabs}}"
+          wx:key="key"
+          class="filter-tab {{activeFilterTab === item.key ? 'filter-tab-active' : ''}}"
+          bindtap="onFilterTab"
+          data-key="{{item.key}}"
+        >
+          <text class="filter-tab-text">{{item.label}}</text>
+        </view>
       </view>
 
       <view class="category-tabs">
@@ -24,14 +28,41 @@
           <text class="tab-name">{{item.name}}</text>
         </view>
       </view>
-
-      <!-- <view class="loading-state" wx:if="loading">
-        <text class="loading-text">加载中...</text>
-      </view> -->
     </view>
   </view>
 
-  <view class="wms_footer">
-    <text>© 2025 Miracleark</text>
+
+  <!-- 分隔线 -->
+  <!-- <view class="wms_divider"></view> -->
+
+  <!-- 下半部分：实际库位 -->
+  <view class="wms_half wms_half_top">
+
+    <!-- <view class="section-header">
+      <text class="section-title">实际库位</text>
+      <text class="section-subtitle">WMS Warehouse System</text>
+    </view> -->
+
+    <!-- <view style="height: 120rpx;"></view> -->
+    <!-- location-actions -->
+    <view class="">
+      
+      <view class="location-card" bindtap="goToLocationQty">
+        <text class="location-card-title">库存数量 (按实际库位)</text>
+        <text class="location-card-desc">查看库位库存数量</text>
+      </view>
+
+      <view style="height: 40rpx;"></view>
+      
+      <view class="location-card" bindtap="goToLocationManagement">
+        <text class="location-card-title">库位管理</text>
+        <text class="location-card-desc">管理库位信息</text>
+      </view>
+    </view>
+
   </view>
+
+  <!-- <view class="wms_footer">
+    <text>© 2025 Miracleark</text>
+  </view> -->
 </view>

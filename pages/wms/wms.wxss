@@ -8,65 +8,114 @@
   background: linear-gradient(180deg, #f5f7fa 0%, #e4e8ec 100%);
 }
 
-.wms_header {
-  text-align: center;
-  padding: 60rpx 40rpx 20rpx;
+/* 上下各占50% */
+.wms_half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  /* overflow-y: auto; */
 }
 
-.wms_title {
+.wms_half_top {
+  /* padding: 60rpx 40rpx 20rpx; */
+  /* padding-top: 80rpx; */
+  padding-bottom: 80rpx;
+  padding-left: 60rpx;
+  padding-right: 60rpx;
+}
+
+.wms_half_bottom {
+  padding: 40rpx 40rpx;
+}
+
+/* 分隔线 */
+.wms_divider {
+  height: 1rpx;
+  background-color: #d0d0d0;
+  margin: 0 30rpx;
+  flex-shrink: 0;
+}
+
+/* 上半部分：实际库位 */
+.section-header {
+  text-align: center;
+  /* margin-bottom: 30rpx; */
+}
+
+.section-title {
   display: block;
   font-size: 40rpx;
-  /* font-weight: bold; */
+  font-weight: bold;
   color: #333;
-  margin-top: 20rpx;
-  margin-bottom: 20rpx;
+  margin-bottom: 10rpx;
 }
 
-.wms_subtitle {
-  display: block;
-  font-size: 28rpx;
-  color: #666;
-}
-
-.location-link {
+.section-subtitle {
   display: block;
   font-size: 26rpx;
-  color: #007AFF;
-  margin-top: 25rpx;
-  text-decoration: underline;
-  text-align: right;
+  color: #999;
 }
 
-.wms_content {
+/* 库位操作卡片 */
+.location-actions {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-around; */
+  align-items: center;
   flex: 1;
-  padding: 0 40rpx;
+  padding-left: 60rpx;
+  padding-right: 60rpx;
+  margin-left: 60rpx;
+  margin-right: 60rpx;
+  gap: 20rpx;
 }
 
-.wms_link {
-  display: flex;               /* 必须有 */
-  flex-direction: row;         /* 横向 */
-  justify-content: space-between; /* 左右分开 */
-  align-items: center;         /* 垂直居中 */
-  /* padding: 20rpx 30rpx; */
-  padding-left: 20rpx;
-  padding-right: 20rpx;
-  width: 100%;                 /* 必须占满宽度，否则不生效 */
-  box-sizing: border-box;
+.location-card {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 40rpx 50rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+  text-align: center;
+  min-width: 260rpx;
+  margin-left: 10rpx;
+  margin-right: 10rpx;
 }
 
+.location-card-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #007AFF;
+  margin-bottom: 12rpx;
+}
+
+.location-card-desc {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 下半部分：Odoo 库存类别 */
 .category-section {
   background-color: #fff;
   border-radius: 20rpx;
-  padding: 30rpx;
+  padding-top: 50rpx;
+  padding-bottom: 50rpx;
+  padding-left: 60rpx;
+  padding-right: 60rpx;
   box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .category-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 50rpx;
-  padding-bottom: 50rpx;
+  margin-bottom: 20rpx;
+  padding-bottom: 20rpx;
   border-bottom: 1rpx solid #f0f0f0;
 }
 
@@ -81,20 +130,52 @@
   color: #999;
 }
 
+/* 筛选 Tab: odoo>0 / diff>0 / 全部 */
+.filter-tabs {
+  display: flex;
+  flex-direction: row;
+  gap: 16rpx;
+  margin-bottom: 30rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.filter-tab {
+  flex: 1;
+  padding: 18rpx 0;
+  background-color: #f5f7fa;
+  border-radius: 12rpx;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.filter-tab-active {
+  background-color: #007AFF;
+}
+
+.filter-tab-text {
+  font-size: 26rpx;
+  color: #666;
+  font-weight: 500;
+}
+
+.filter-tab-active .filter-tab-text {
+  color: #fff;
+}
+
 .category-tabs {
   display: flex;
   flex-wrap: wrap;
   gap: 28rpx;
-  row-gap: 80rpx;
-  margin-bottom: 100rpx;
+  row-gap: 40rpx;
+  flex: 1;
+  align-content: flex-start;
 }
 
 .category-tab {
   padding: 28rpx 45rpx;
   background-color: #f5f7fa;
   border-radius: 36rpx;
-  cursor: pointer;
-  transition: all 0.3s ease;
   min-width: 160rpx;
   text-align: center;
 }
@@ -113,56 +194,10 @@
   font-weight: 500;
 }
 
-.category-detail {
-  padding: 25rpx;
-  background-color: #f8f9fa;
-  border-radius: 16rpx;
-}
-
-.selected-info,
-.category-desc {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15rpx;
-}
-
-.selected-info:last-child,
-.category-desc:last-child {
-  margin-bottom: 0;
-}
-
-.info-label,
-.desc-label {
-  font-size: 26rpx;
-  color: #999;
-  margin-right: 15rpx;
-  min-width: 100rpx;
-}
-
-.info-value {
-  font-size: 30rpx;
-  font-weight: bold;
-  color: #007AFF;
-}
-
-.desc-value {
-  font-size: 28rpx;
-  color: #333;
-}
-
-.loading-state {
-  text-align: center;
-  padding: 40rpx;
-}
-
-.loading-text {
-  font-size: 28rpx;
-  color: #999;
-}
-
 .wms_footer {
   text-align: center;
-  padding: 40rpx;
+  padding: 20rpx;
   font-size: 24rpx;
   color: #999;
+  flex-shrink: 0;
 }

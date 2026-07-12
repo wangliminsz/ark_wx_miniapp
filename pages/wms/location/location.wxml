@@ -6,9 +6,9 @@
     </view>
   </view>
 
-  <view class="action-bar">
+  <!-- <view class="action-bar">
     <button class="create-btn" bindtap="goToCreate">+ 新建库位</button>
-  </view>
+  </view> -->
 
   <view class="school-search-container">
     <view>
@@ -38,11 +38,11 @@
   </view>
 
   <view class="empty-state" wx:if="{{locations.length === 0 && !loading}}">
-    <view class="empty-icon-wrapper">
-      <text class="empty-icon">📍</text>
-    </view>
+    <!-- <view class="empty-icon-wrapper"> -->
+      <!-- <text class="empty-icon">📍</text> -->
+    <!-- </view> -->
     <text class="empty-title">暂无库位</text>
-    <text class="empty-desc">点击上方按钮创建新库位</text>
+    <!-- <text class="empty-desc">点击上方按钮创建新库位</text> -->
   </view>
   
   <view wx:if="{{showBackToTop}}" class="back-to-top" bindtap="scrollToTop">

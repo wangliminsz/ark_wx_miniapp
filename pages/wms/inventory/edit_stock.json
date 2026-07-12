@@ -1,4 +1,7 @@
 {
-  "usingComponents": {},
-  "navigationBarTitleText": "实物库存盘点"
+  "usingComponents": {
+    "CustomNavBar": "/components/CustomNavBar/CustomNavBar"
+  },
+  "navigationBarTitleText": "实物库存盘点",
+  "navigationStyle": "custom"
 }

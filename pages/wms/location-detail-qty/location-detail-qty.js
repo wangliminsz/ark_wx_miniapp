@@ -14,6 +14,10 @@ Page({
     selectedProduct: null,
     selectedLot: null,
     newQty: '',
+
+    // 手动输入批次
+    manualLotMode: false,
+    manualLotName: '',
     
     // 产品选择相关
     filteredProducts: [],
@@ -221,7 +225,9 @@ Page({
       selectedProduct: null,
       selectedLot: null,
       newQty: '',
-      productLots: []
+      productLots: [],
+      manualLotMode: false,
+      manualLotName: ''
     });
   },
 
@@ -271,9 +277,11 @@ Page({
       selectedProduct: product,
       showProductPicker: false,
       selectedLot: null,
-      productLots: []
+      productLots: [],
+      manualLotMode: false,
+      manualLotName: ''
     });
-    
+
     // 获取该产品的批次
     this.fetchProductLots(product.default_code);
   },
@@ -287,8 +295,17 @@ Page({
       header: { Authorization: "Bearer " + token },
       success: (res) => {
         if (res.statusCode === 200 && res.data && res.data.lots) {
-          this.setData({ productLots: res.data.lots });
+          // 按批次名称降序排序（最近的批次排在最前面，方便用户选择）
+          const sortedLots = [...res.data.lots].sort((a, b) => {
+            return (b.name || '').localeCompare(a.name || '', 'zh-CN');
+          });
+          this.setData({ productLots: sortedLots });
+        } else {
+          this.setData({ productLots: [] });
         }
+      },
+      fail: () => {
+        this.setData({ productLots: [] });
       }
     });
   },
@@ -300,6 +317,20 @@ Page({
     this.setData({ selectedLot: lot });
   },
 
+  // 切换手动输入批次模式
+  onToggleManualLot: function() {
+    this.setData({
+      manualLotMode: !this.data.manualLotMode,
+      selectedLot: null,
+      manualLotName: ''
+    });
+  },
+
+  // 手动输入批次号
+  onManualLotInput: function(e) {
+    this.setData({ manualLotName: e.detail.value });
+  },
+
   // 数量输入
   onNewQtyInput: function(e) {
     this.setData({ newQty: e.detail.value });
@@ -307,33 +338,50 @@ Page({
 
   // 确认新增
   onConfirmAdd: function() {
-    const { selectedProduct, selectedLot, newQty, location, locList } = this.data;
-    
+    const { selectedProduct, selectedLot, manualLotMode, manualLotName, newQty, location, locList } = this.data;
+
     if (!selectedProduct) {
       wx.showToast({ title: '请选择产品', icon: 'none' });
       return;
     }
-    
-    if (!selectedLot) {
+
+    // 批次校验：选择模式必须有 selectedLot；手动模式必须有 manualLotName
+    if (manualLotMode) {
+      if (!manualLotName || !manualLotName.trim()) {
+        wx.showToast({ title: '请输入批次号', icon: 'none' });
+        return;
+      }
+    } else if (!selectedLot) {
       wx.showToast({ title: '请选择批次', icon: 'none' });
       return;
     }
-    
+
     if (!newQty || Number(newQty) <= 0) {
       wx.showToast({ title: '请输入有效数量', icon: 'none' });
       return;
     }
-    
+
     // 查找当前库位的ID
     const currentLoc = locList.find(l => l.loc_code === location);
     if (!currentLoc) {
       wx.showToast({ title: '库位信息错误', icon: 'none' });
       return;
     }
-    
+
     const token = wx.getStorageSync("odoo_user_erp_token");
     wx.showLoading({ title: '保存中...' });
-    
+
+    // 手动输入时，lot_id 为 null，同时带上 lot_name 由后端处理
+    const payload = {
+      product_id: selectedProduct.id,
+      lot_id: manualLotMode ? null : selectedLot.id,
+      physical_loc_id: currentLoc.id,
+      real_qty: Number(newQty)
+    };
+    if (manualLotMode) {
+      payload.lot_name = manualLotName.trim();
+    }
+
     wx.request({
       url: `${config.fastapiUrl}/physical/stock/update`,
       method: "POST",
@@ -341,21 +389,16 @@ Page({
         Authorization: "Bearer " + token,
         "Content-Type": "application/json"
       },
-      data: {
-        product_id: selectedProduct.id,
-        lot_id: selectedLot.id,
-        physical_loc_id: currentLoc.id,
-        real_qty: Number(newQty)
-      },
+      data: payload,
       success: (res) => {
         wx.hideLoading();
         if (res.statusCode === 200) {
           wx.showToast({ title: '保存成功', icon: 'success' });
           this.setData({ showAddModal: false });
-          
+
           // 刷新列表
           this.fetchLocationStock(this.data.location);
-          
+
           // 设置产品列表页刷新标记
           wx.setStorageSync('needRefreshProductList', true);
         } else {

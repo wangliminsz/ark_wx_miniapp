@@ -1,0 +1,389 @@
+.rd_container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f5f7fa 0%, #e4e8ec 100%);
+}
+
+.rd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx 40rpx;
+  background: linear-gradient(135deg, #007AFF 0%, #0056b3 100%);
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #fff;
+}
+
+.header-subtitle {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 4rpx;
+}
+
+/* 右上角：记录统计（与 products 页同款） */
+
+.header-right{
+  display: flex;
+  gap: 30rpx;
+}
+
+.header-report-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background-color: rgba(255, 255, 255, 0.18);
+  padding: 14rpx 24rpx;
+  border-radius: 16rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-size: 32rpx;
+  /* font-weight: bold; */
+}
+
+.header-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background-color: rgba(255, 255, 255, 0.18);
+  padding: 14rpx 24rpx;
+  border-radius: 16rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.25);
+}
+
+.header-stats-records {
+  font-size: 32rpx;
+  /* font-weight: bold; */
+  color: #fff;
+  line-height: 1.2;
+}
+
+.header-stats-pages {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 4rpx;
+}
+
+.rd-content {
+  padding: 24rpx;
+}
+
+/* 搜索框（与 products 页同款） */
+.school-search-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.school-search-input {
+  flex: 1;
+  font-size: 34rpx;
+  width: 72vw;
+  max-width: 100%;
+  height: 30px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.school-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.rd-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.rd-card {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+  /* 可点击提示 */
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.rd-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.08);
+  background-color: #f5f7fa;
+}
+
+.rd-card-header {
+  margin-bottom: 6rpx;
+}
+
+.rd-product-code {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #0024f0;
+  word-break: break-all;
+}
+
+.rd-card-subtitle {
+  margin-bottom: 20rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.rd-product-name {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.4;
+}
+
+.rd-stats {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f0f7ff;
+  padding: 18rpx 20rpx;
+  border-radius: 10rpx;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: #666;
+  margin-bottom: 8rpx;
+}
+
+.stat-value {
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.odoo-value {
+  color: #007AFF;
+}
+
+.physical-value {
+  color: #28a745;
+}
+
+.diff-value {
+  color: #6c757d;
+}
+
+.diff-value.positive {
+  color: #6f42c1;
+}
+
+.diff-value.negative {
+  color: #dc3545;
+}
+
+.stat-divider {
+  width: 1rpx;
+  height: 50rpx;
+  background-color: #d0d7de;
+}
+
+.rd-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100rpx 0;
+}
+
+.empty-icon-wrapper {
+  width: 160rpx;
+  height: 160rpx;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30rpx;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+}
+
+.empty-title {
+  font-size: 32rpx;
+  color: #666;
+  margin-bottom: 15rpx;
+}
+
+.empty-desc {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.rd-list-footer {
+  text-align: center;
+  padding: 40rpx 30rpx;
+}
+
+.footer-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.back-to-top {
+  aspect-ratio: 1 / 1;
+  position: fixed;
+  bottom: 50px;
+  right: 30px;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+/* ============== 报表 / 邮箱 Modal ============== */
+
+.email-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-start;        /* 改为顶部对齐，让 modal 偏上 */
+  justify-content: center;
+  padding: 400rpx 40rpx 40rpx;    /* 上方留 120rpx，下方留 40rpx */
+}
+
+.email-modal {
+  width: 100%;
+  max-width: 640rpx;
+  background-color: #ffffff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 12rpx 40rpx rgba(0, 0, 0, 0.25);
+}
+
+.email-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 32rpx;
+  background: linear-gradient(135deg, #007AFF 0%, #0056b3 100%);
+  color: #ffffff;
+}
+
+.email-modal-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.email-modal-close {
+  font-size: 44rpx;
+  line-height: 1;
+  color: #ffffff;
+  padding: 0 8rpx;
+  font-weight: 300;
+}
+
+.email-modal-body {
+  padding: 32rpx;
+}
+
+.email-modal-desc {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 20rpx;
+  line-height: 1.5;
+}
+
+.email-input {
+  width: 100%;
+  height: 80rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  border: 2rpx solid #d9d9d9;
+  border-radius: 12rpx;
+  box-sizing: border-box;
+  background-color: #fafafa;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.email-input:focus {
+  border-color: #007AFF;
+  background-color: #ffffff;
+}
+
+.email-input-invalid {
+  border-color: #FF4D4F;
+  background-color: #FFF1F0;
+}
+
+.email-warning {
+  margin-top: 12rpx;
+  padding: 12rpx 16rpx;
+  font-size: 24rpx;
+  color: #FF4D4F;
+  background-color: #FFF1F0;
+  border-left: 4rpx solid #FF4D4F;
+  border-radius: 6rpx;
+}
+
+.email-modal-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 20rpx;
+  margin-top: 32rpx;
+}
+
+.email-btn {
+  flex: 1;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  font-size: 28rpx;
+  border-radius: 12rpx;
+  font-weight: 500;
+}
+
+.email-btn-cancel {
+  background-color: #f0f0f0;
+  color: #555;
+}
+
+.email-btn-send {
+  background: linear-gradient(135deg, #007AFF 0%, #0056b3 100%);
+  color: #ffffff;
+}
+
+.email-btn-disabled {
+  background: #b5d4ff;
+  color: #ffffff;
+  pointer-events: none;
+}

@@ -1,5 +1,12 @@
 <view class="page-container">
 
+  <!-- 自定义导航栏：返回按钮根据来源决定去 wms 还是上一级 -->
+  <CustomNavBar
+    title="实物库存盘点"
+    showBack="{{true}}"
+    bind:back="onNavBack"
+  />
+
   <view class="upper-part">
     <!-- 提示 -->
     <view class="tip">
@@ -26,19 +33,29 @@
             <!-- 库位：点击跳转到选择页面 -->
             <view class="td loc">
               <view class="select-box" bindtap="onSelectLocation" data-index="{{index}}">
-                <text>{{item.loc_code || '请选择'}}</text>
+                <text>{{item.loc_code || '库位'}}</text>
                 <text class="arrow">▼</text>
               </view>
             </view>
 
-            <!-- 批次：保持原有的picker -->
+            <!-- 批次：picker / 手动输入 二选一 + 切换按钮（内联） -->
             <view class="td lot">
-              <picker mode="selector" range="{{lotList}}" range-key="name" bindchange="onLotChange" data-index="{{index}}">
-                <view class="select-box">
-                  <text>{{item.lot_name || '请选择'}}</text>
-                  <text class="arrow">▼</text>
+              <view class="lot-row">
+                <block wx:if="{{item.manual_mode}}">
+                  <input class="lot-input" placeholder="手动输入批次" value="{{item.lot_name}}" data-index="{{index}}" bindinput="onLotManualInput" />
+                </block>
+                <block wx:else>
+                  <picker mode="selector" range="{{lotList}}" range-key="name" bindchange="onLotChange" data-index="{{index}}">
+                    <view class="select-box">
+                      <text>{{item.lot_name || '选择批次'}}</text>
+                      <text class="arrow">▼</text>
+                    </view>
+                  </picker>
+                </block>
+                <view class="lot-toggle" bindtap="onToggleManualLot" data-index="{{index}}">
+                  <text>{{item.manual_mode ? '↩' : '✎'}}</text>
                 </view>
-              </picker>
+              </view>
             </view>
 
             <view class="td qty">

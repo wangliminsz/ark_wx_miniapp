@@ -1,0 +1,131 @@
+<view class="rd_container">
+  <!-- 自定义导航栏：返回按钮直接到 wms（避免返回时 diff 数据陈旧） -->
+  <CustomNavBar
+    title="差异对账"
+    showBack="{{true}}"
+    bind:back="onNavBack"
+  />
+
+  <view class="rd-header">
+    <view class="header-content">
+      <text class="header-title">{{categoryName}}</text>
+      <text class="header-subtitle">差异对账 (diff ≠ 0)</text>
+    </view>
+    <!-- 右上角：记录统计（与 products 页同款） -->
+    <view class="header-right">
+      <view class="header-report-btn" bindtap="onReportClick">报表</view>
+      <view wx:if="{{totalRecords > 0}}" class="header-stats">
+        <text class="header-stats-records">{{totalRecords}} 条</text>
+        <text class="header-stats-pages">{{currentPageDisplay}} / {{totalPages}} 页</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 搜索框（与 products 页同款） -->
+  <view class="school-search-container">
+    <view>
+      <input class="school-search-input" type="text" placeholder="Search..." bindinput="onSampleSearchInput" value="{{searchQuery}}" />
+    </view>
+
+    <view style="display: flex; flex-direction: row; margin-right: 5px;">
+      <view class="school-icon-container">
+        <icon type="search" size="25" bindtap="onSampleSearchGo" />
+        <view style="margin-right: 5px;"></view>
+        <icon type="clear" size="25" bindtap="onSampleSearchReset" />
+      </view>
+    </view>
+  </view>
+
+  <view class="rd-content">
+
+    <view class="rd-list" wx:if="{{records.length > 0}}">
+      <view wx:for="{{records}}" wx:key="product_code" class="rd-card" bindtap="goToStockEdit" data-product="{{item}}">
+        <view class="rd-card-header">
+          <text class="rd-product-code">{{item.product_code}}</text>
+        </view>
+        <view class="rd-card-subtitle">
+          <text class="rd-product-name">{{item.product_name}}</text>
+        </view>
+
+        <view class="rd-stats">
+          <view class="stat-item">
+            <text class="stat-label">账面</text>
+            <text class="stat-value odoo-value">{{item.odoo_total_formatted}}</text>
+          </view>
+          <view class="stat-divider"></view>
+          <view class="stat-item">
+            <text class="stat-label">实物</text>
+            <text class="stat-value physical-value">{{item.physical_total_formatted}}</text>
+          </view>
+          <view class="stat-divider"></view>
+          <view class="stat-item">
+            <text class="stat-label">差异</text>
+            <text class="stat-value diff-value {{item.diff > 0 ? 'positive' : item.diff < 0 ? 'negative' : ''}}">{{item.diff_sign}}{{item.diff_formatted}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="rd-empty" wx:elif="{{!loading}}">
+      <!-- <view class="empty-icon-wrapper">
+        <text class="empty-icon">✅</text>
+      </view> -->
+      <text class="empty-title">无差异</text>
+      <text class="empty-desc">该类别下账面与实物一致</text>
+    </view>
+
+    <view class="rd-empty" wx:elif="{{loading && records.length === 0}}">
+      <!-- <view class="empty-icon-wrapper">
+        <text class="empty-icon">⏳</text>
+      </view>
+      <text class="empty-title">加载中...</text> -->
+    </view>
+
+    <view class="rd-list-footer">
+      <text class="footer-text" wx:if="{{noMorePages && records.length > 0}}">已加载全部 ({{totalRecords}} 条)</text>
+      <text class="footer-text" wx:elif="{{loadingMore}}">加载中...</text>
+    </view>
+    
+  </view>
+
+  <view wx:if="{{showBackToTop}}" class="back-to-top" bindtap="scrollToTop">
+    <image src="/static/images/up-arrow.svg" class="back-to-top"></image>
+  </view>
+
+  <!-- ============== 报表 / 邮箱 Modal ============== -->
+  <view wx:if="{{showEmailModal}}" class="email-modal-mask" bindtap="onCloseEmailModal">
+    <view class="email-modal" catchtap="noop">
+      <view class="email-modal-header">
+        <text class="email-modal-title">发送差异对账报表</text>
+        <text class="email-modal-close" bindtap="onCloseEmailModal">×</text>
+      </view>
+
+      <view class="email-modal-body">
+        <view class="email-modal-desc">
+          将当前类别 ({{categoryName}}) 的差异数据发送到以下邮箱：
+        </view>
+
+        <input
+          class="email-input {{userEmail && !isEmailValid ? 'email-input-invalid' : ''}}"
+          type="text"
+          placeholder="请输入邮箱地址"
+          value="{{userEmail}}"
+          bindinput="onEmailInput"
+          confirm-type="done"
+          disabled="{{isSending}}"
+        />
+
+        <view wx:if="{{userEmail && !isEmailValid}}" class="email-warning">
+          ⚠ 邮箱格式不正确，请检查
+        </view>
+
+        <view class="email-modal-actions">
+          <view class="email-btn email-btn-cancel" bindtap="onCloseEmailModal">取消</view>
+          <view class="email-btn email-btn-send {{isSending || !isEmailValid ? 'email-btn-disabled' : ''}}" bindtap="onSendEmail">
+            {{isSending ? '发送中...' : '发送'}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

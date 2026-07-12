@@ -5,6 +5,7 @@
     "pages/wms/location/location",
     "pages/wms/location/location-detail",
     "pages/wms/products/products",
+    "pages/wms/reconcile-diff/reconcile-diff",
     "pages/wms/inventory/edit_stock",
     "pages/wms/inventory/select_location",
     "pages/wms/location-qty/location-qty",

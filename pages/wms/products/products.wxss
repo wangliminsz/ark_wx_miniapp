@@ -11,6 +11,67 @@
   background: linear-gradient(135deg, #007AFF 0%, #0056b3 100%);
 }
 
+/* 右上角：记录统计 */
+.header-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.18);
+  padding: 14rpx 24rpx;
+  border-radius: 16rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.25);
+}
+
+.header-stats-records {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #fff;
+  line-height: 1.2;
+  align-items: center;
+}
+
+.header-stats-pages {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 4rpx;
+}
+
+/* header 左侧容器（标题 + 筛选 chip） */
+.header-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16rpx;
+  flex: 1;
+  min-width: 0;
+}
+
+/* 筛选 chip（odoo>0 模式） */
+.filter-chip {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #FF9500;
+  padding: 30rpx 30rpx;
+  border-radius: 24rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+
+.filter-chip-icon {
+  font-size: 18rpx;
+  color: #fff;
+  margin-right: 6rpx;
+  line-height: 1;
+}
+
+.filter-chip-text {
+  font-size: 22rpx;
+  color: #fff;
+  font-weight: 600;
+  line-height: 1;
+}
+
 .header-content {
   display: flex;
   flex-direction: column;
@@ -245,9 +306,17 @@
   justify-content: center;
 }
 
+.odoo-detail-row.empty-row {
+  justify-content: center;
+  text-align: center;
+  background-color: #f5f5f5;
+}
+
 .empty-text {
   color: #999;
   font-style: italic;
+  text-align: center;
+  width: 100%;
 }
 
 .inventory-summary {

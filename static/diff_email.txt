@@ -1,0 +1,57 @@
+Agent
+
+思考过程
+
+完成！让我做最终总结：
+
+## 改动总结
+### 1. 新增 isValidEmail helper (reconcile-diff.js:14-17)
+采用宽松但可靠的正则：
+
+- 用户名： a-zA-Z0-9._%+-
+- @ 符号
+- 域名： a-zA-Z0-9.-
+- 顶级域：至少 2 个字母
+### 2. onReportClick 智能提示 (reconcile-diff.js:200-235)
+之前 ：不管邮箱是否合法都直接打开 modal
+
+现在 ：
+
+- 从 token 拿到的邮箱 不合法 → toast 提示"从账号获取的邮箱格式不正确，请手动输入"，然后 仍打开 modal （让用户输入）
+- 从 token 拿到的邮箱 合法 → 静默打开 modal（不打扰用户）
+### 3. onSendEmail 强制校验 (reconcile-diff.js:237-260)
+3 层校验 ：
+
+1. userEmail 不能为空
+2. isValidEmail(userEmail) 必须为 true
+3. 任一不通过 → toast 警告 + 不调 API + 保留 modal （让用户继续修改）
+### 4. WXML 新增警告样式 (reconcile-diff.wxml:96-98)
+- 实时反馈：用户输入即校验，合法时警告自动消失
+- 红底警示
+### 5. WXSS 新增 .email-warning (reconcile-diff.wxss:307-316)
+红底（ #FFF1F0 ）+ 红字（ #FF4D4F ）+ 红左边框（ #FF4D4F ）
+
+### 6. onEmailInput 增加校验状态 (reconcile-diff.js:262-266)
+每次输入时同步计算 isEmailValid ，WXML 实时显示警告。
+
+## 用户体验流程
+### 场景 1：token 中是合法邮箱
+### 场景 2：token 中是用户名（不合法）
+### 场景 3：用户输入格式错误
+```
+1. 点"报表" → modal 打开
+2. 输入 "abc" → 红底警告: "⚠ 邮箱格式不正确，请检查"
+3. 点"发送" → toast: "邮箱格式不正确，请输入有效的邮箱地址"
+4. modal 保持打开，用户继续修改
+5. 输入 "abc@example.com" → 警告消失
+6. 点"发送" → 成功
+```
+## 关键设计
+校验点 行为 打开 modal 前 token 邮箱不合法 → toast 提示，但仍打开 modal 发送按钮 任一校验失败 → 不调 API + toast 警告 + 保持 modal 输入框下 实时显示红底警告，格式正确时自动消失 onEmailInput 同步更新 isEmailValid ，WXML 自动响应
+
+## 下一步
+前端 无需重启 （自动热重载）。测试场景：
+
+1. token 中是合法邮箱 → 点"报表" → 静默打开 → 发送成功
+2. token 中是用户名 → 点"报表" → toast 提示 + modal 打开 → 手动输入 → 发送成功
+3. 故意输入 "abc" → 警告提示 + 发送按钮无效

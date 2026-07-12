@@ -1,0 +1,14 @@
+<view class="nav-bar" style="background:{{bgColor}}" wx:if="{{visible}}">
+  <view class="nav-bar__inner {{ios ? 'ios' : 'android'}}" style="padding-top:{{statusBarHeight-12}}px;height:{{totalHeight}}px;{{innerPaddingRight}}">
+    <view class="nav-bar__left" style="{{leftWidth}}">
+      <view wx:if="{{showBack}}" class="nav-bar__btn_goback_wrapper" bindtap="onBack" hover-class="nav-bar__btn_active">
+        <view class="nav-bar__btn_goback"></view>
+      </view>
+    </view>
+    <view class="nav-bar__center">
+      <text style="color:{{titleColor || 'rgba(0,0,0,0.9)'}}">{{title}}</text>
+    </view>
+    <view class="nav-bar__right"></view>
+  </view>
+</view>
+<view style="height:{{totalHeight}}px;background:{{bgColor}}"></view>
